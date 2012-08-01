@@ -1,0 +1,44 @@
+<? $this->view('head') ?>
+<title>添加收款渠道</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.payment.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'skqd', 'set' => 'jbsz')) ?>
+
+    <div class="form-create">
+        <form id="form-create-payment" action="/master/payment/do-create" method="post">
+            <div class="form-block">
+                <h2 class="title">基本信息</h2>
+                <p>
+                    收款渠道
+                    <input id="name" name="name" type="text" class="ftt-input-text short-text {required:true, maxlength:30, remote:'/master/payment/valid-pname.do'}"/>
+                    <span class="annotation">确认后不可修改，请认真输入</span>
+                </p>
+                <p>
+                    简要说明
+                    <textarea id="memo" class="intro" name="memo"></textarea>
+                </p>
+            </div>
+            <div class="form-block">
+                <h2 class="title">使用状态</h2>
+                <p>
+                    启用状态
+                    <label><input id="stat" type="radio" name="stat" value="0" checked="checked" />停用</label>
+                    <label><input type="radio" name="stat" value="1" />启用</label>
+                </p>
+            </div>
+            <div class="button-block">
+                <input type="submit" class="button white" value="确认创建">
+                <input type="reset" class="button white" value="取消">
+            </div>
+        </form>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.payment.create.init)</script>
+<? $this->view('foot') ?>

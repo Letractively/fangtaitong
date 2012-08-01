@@ -1,0 +1,24 @@
+<? $this->view('head') ?>
+<title>帐号激活</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/index.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.index.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('default/header') ?>
+        <div class="content-wrapper">
+            <div class="form_block form_block-simple">
+                <fieldset>
+                    <legend><?= $this->escape($this->user['u_realname']) ?> (<?= $this->escape($this->user['u_email']) ?>)</legend>
+                    <p>请输入您的登录密码，完成激活帐号操作。</p>
+                    <form action="<?= $this->forward ?>" method="post" id="form-activate-account">
+                        <p><label for="form-activate-account-password">新密码</label><input type="password" name="password" id="form-activate-account-password" class="text required" /></p>
+                        <p><label for="form-activate-account-password-repeated">确认密码</label><input type="password" name="password-repeated" id="form-activate-account-password-repeated" class="text {required:true,minlength:6,equalTo:'#form-activate-account-password'}" /></p>
+                        <p><label class="indent"><input type="checkbox" name="agreement" value="1" id="form-activate-account-agreement" class="checkbox required" />已阅读并接受</label> <a href="<?= $this->www('serviceagreement.html') ?>" target="_blank">用户协议</a></p>
+                        <p><input type="submit" value="激活帐号" class="button green" /></p>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+<? $this->view('default/footer') ?>
+<script type="text/javascript">$(Z.Module.master.index.activateAccount.init)</script>
+<? $this->view('foot') ?>

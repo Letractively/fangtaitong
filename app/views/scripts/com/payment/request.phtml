@@ -1,0 +1,35 @@
+<? $this->view('head') ?>
+<title>充值提示 - 房态通</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/index.css') ?>" type="text/css" media="screen"/>
+
+<? $this->view('body') ?>
+<? $this->view('default/header') ?>
+<div id="home-container-wrapper" class="clearfix">
+    <div id="recharge-confirmation">
+        <div class="text">
+            <p><?= $this->escape($this->request['pr_tag']) ?></p>
+        </div>
+        <table id="recharge-bill">
+            <thead>
+                <tr>
+                    <th>充值订单</th>
+                    <th>支付渠道</th>
+                    <th>金额（元）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?= $this->escape($this->request['pr_id']) ?></td>
+                    <td><?= $this->escape($this->request['pr_pnm']) ?></td>
+                    <td><?= $this->escape($this->request['pr_sum']/100) ?></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="notice">
+            <p><?= nl2br($this->escape($this->payment['p_memo'])) ?></p>
+        </div>
+        <div class="action"><?= $this->reqcode ?></div>
+    </div>
+</div>
+<? $this->view('default/footer') ?>
+<? $this->view('foot') ?>

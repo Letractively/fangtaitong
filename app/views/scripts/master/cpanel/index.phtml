@@ -1,0 +1,40 @@
+<? $this->view('head') ?>
+<title>控制面板</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" />
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">控制面板</h2>
+    </div>
+    <div class="cpanel-index">
+		<div class="cpanel-sort clearfix">
+			<div class="cpanel-item">
+				<div class="cpanel-icon"><div class="icon" id="jbsz"></div>基</div>
+				<h2 class="cpanel-title"><a href="/master/hostel/">基本设置</a></h2>
+				<a class="cpanel-link" href="/master/hostel/">旅店信息</a>
+				<a class="cpanel-link" href="/master/typedef/">预订类型</a>
+				<a class="cpanel-link" href="/master/channel/">预订渠道</a>
+				<a class="cpanel-link" href="/master/payment/">收款渠道</a>
+				<a class="cpanel-link" href="/master/settlem/">结算方式</a>
+			</div>
+			<div class="cpanel-item">
+				<div class="cpanel-icon"><div class="icon" id="gzsz"></div>规</div>
+				<h2 class="cpanel-title"><a href="/master/hostel/update-rule/">规则设置</a></h2>
+				<a class="cpanel-link" href="/master/hostel/update-rule/">房态规则</a>
+				<a class="cpanel-link" href="/master/room/update-rule/">价格规则</a>
+			</div>
+			<div class="cpanel-item">
+				<div class="cpanel-icon"><div class="icon" id="zhsz"></div>账</div>
+				<h2 class="cpanel-title"><a href="/master/profile/">账户设置</a></h2>
+				<a class="cpanel-link" href="/master/profile/">个人中心</a>
+				<a class="cpanel-link" href="/master/account/">员工帐号</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<? $this->view('master/footer') ?>
+<? $this->view('foot') ?>

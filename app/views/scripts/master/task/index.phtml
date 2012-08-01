@@ -1,0 +1,8 @@
+<ul class="items">
+    <? foreach ($this->task['data'] as $key => $task): ?>
+    <li>
+    <p><?= $this->escape($task['info']) ?></p>
+    <a target="_blank" href="<?= $task['href'] ?>" alt="<?= $key ?>">去处理</a>
+    </li>
+    <? endforeach; ?>
+</ul>

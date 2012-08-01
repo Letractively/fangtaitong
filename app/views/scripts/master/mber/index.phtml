@@ -1,0 +1,116 @@
+<? $this->view('head') ?>
+<title>会员管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/mber.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.mber.js') ?>"></script>
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'hygl')) ?>
+<div class="ftt-container" style="border-bottom:none;">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">会员管理</h2>
+        <input type="button" value="添加会员" class="button white column-right" onclick="location.href='/master/mber/create'" />
+    </div>
+    <div class="ftt-list-query">
+        <div class="wrapper">
+            <form id="form-mber-filter" action="/master/mber/" method="get">
+                <span>查询会员</span>
+                <input type="text" name="name" value="<?= isset($this->query['name']) ? $this->escape($this->query['name']) : '' ?>" class="ftt-input-text short-text" />
+                <select class="ftt-select" name="type">
+                    <option value="uqno"<?= isset($this->query['type']) && $this->query['type'] == 'uqno' ? ' selected="selected"' : '' ?>>按会员编号查询</option>
+                    <option value="call"<?= isset($this->query['type']) && $this->query['type'] == 'call' ? ' selected="selected"' : '' ?>>按电话号码查询</option>
+                    <option value="idno"<?= isset($this->query['type']) && $this->query['type'] == 'idno' ? ' selected="selected"' : '' ?>>按证件号码查询</option>
+                    <option value="name"<?= isset($this->query['type']) && $this->query['type'] == 'name' ? ' selected="selected"' : '' ?>>按会员姓名查询</option>
+                    <option value="mail"<?= isset($this->query['type']) && $this->query['type'] == 'mail' ? ' selected="selected"' : '' ?>>按会员邮箱查询</option>
+                </select>
+                <input type="submit" value="查询会员" class="button white" id="member-query-button" />
+            </form>
+        </div>
+    </div>
+    <div class="ftt-list-filter">
+        <table>
+            <tr>
+                <td class="left-col">
+                    <span>会员类型</span>
+                    <? $query = $this->query; unset($query['types']); ?>
+                    <a href="<?= $this->link($query, '/master/mber/') ?>" class="all<?= empty($this->query['types']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? if (!empty($this->types)): ?>
+                    <? foreach ($this->types as $type): ?>
+                    <?
+                    $query = $this->query;
+                    if (in_array($type, $query['types'], true)):
+                        unset($query['types'][array_search($type, $query['types'], true)]);
+                    else:
+                        $query['types'][] = $type;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($query, '/master/mber/') ?>"<?= in_array($type, $this->query['types'], true) ? ' class="now"' : '' ?>><?= $this->escape($type) . (in_array($type, $this->query['types'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="left-col">
+                    <span>帐号状态</span>
+                    <? $query = $this->query; unset($query['state']); ?>
+                    <a href="<?= $this->link($query, '/master/mber/') ?>" class="all<?= empty($this->query['state']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? foreach (array(array('code' => '0', 'name' => '停用'), array('code' => '1', 'name' => '启用')) as $state): ?>
+                    <?
+                    $query = $this->query;
+                    $code = $state['code'];
+                    $name = $state['name'];
+                    if (in_array($code, $query['state'], true)):
+                        unset($query['state'][array_search($code, $query['state'], true)]);
+                    else:
+                        $query['state'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($query, '/master/mber/') ?>"<?= in_array($code, $this->query['state'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->query['state'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table class="ftt-list-table data">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>类型</th>
+                <th>姓名</th>
+                <th>证件号码</th>
+                <th>电话号码</th>
+                <th>邮箱</th>
+                <th>状态</th>
+                <th>详情</th>
+            </tr>
+        </thead>
+        <tbody>
+            <? if (empty($this->mbers)): ?>
+            <tr><td colspan="8">还没有会员！<a href="/master/mber/create">点击这里添加会员</a></td></tr>
+            <? else: ?>
+            <? foreach ($this->mbers as $mber): ?>
+            <tr>
+                <td><?= $this->escape($mber['m_no']) ?></td>
+                <td><?= $this->escape($mber['m_type']) ?></td>
+                <td><?= $this->escape($mber['m_name']) ?></td>
+                <td><?= $this->escape($mber['m_idno']) ?></td>
+                <td><?= $this->escape($mber['m_phone']) ?></td>
+                <td><?= $this->escape($mber['m_email']) ?></td>
+                <td><?= $mber['m_status'] ? '启用' : '停用' ?></td>
+                <td>
+                    <a href="/master/mber/update?mid=<?= $mber['m_id'] ?>">详情</a>
+                    <a href="/master/order/?state[0]=16&type=omno&name=<?= urlencode($mber['m_no']) ?>">订单历史</a>
+                </td>
+            </tr>
+            <? endforeach; ?>
+            <? endif; ?>
+        </tbody>
+    </table>
+    <? $this->view('master/pager', array('pager' => $this->pager)) ?>
+</div>
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.mber.index.init);</script>
+<? $this->view('foot') ?>

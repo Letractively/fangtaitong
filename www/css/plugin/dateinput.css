@@ -1,0 +1,105 @@
+/* Some resets for compatibility with existing CSS */
+.date_selector, .date_selector * {
+    width: 180px;
+    height: auto;
+    border: none;
+    background: none;
+    text-align: center;
+	vertical-align: middle;
+    text-decoration: none;
+}
+.date_selector {
+    background: #F2F2F2;
+    border: 1px solid #bbb;
+    padding: 5px;
+    margin: -1px 0 0 0;
+    position: absolute;
+    z-index: 100000;
+    display: none;
+}
+.date_selector_ieframe {
+    position: absolute;
+    z-index: 99999;
+    display: none;
+}
+.date_selector .nav {
+	width: 180px;
+    height: 20px;
+	margin-bottom:5px;
+}
+.date_selector .month_nav, .date_selector .year_nav {
+	width: 85px;
+	height: 18px;
+	border: 1px solid #ccc;
+	background:#fff;
+	padding: 0;
+}
+.date_selector .month_nav {
+	float: right;
+}
+.date_selector .year_nav {
+	float: left;
+}
+.date_selector .nav span{
+	font-weight: bold;
+	float: left;
+	display: block;
+	height: 18px;
+	line-height:18px;
+	vertical-align: baseline;
+}
+.date_selector .month_name, .date_selector .year_name {
+	width: 45px;
+}
+.date_selector .arrow {
+    width: 18px;
+    color: #0B8262;
+    font-size: 150%;
+    
+}
+.date_selector .arrow:hover, .date_selector .arrow.hover {
+    background: none;
+    color: #0B8262;
+    cursor: pointer;
+    border-color: #ccc;
+}
+.date_selector table {
+	width:180px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    clear: both;
+}
+.date_selector td , .date_selector th{
+    width: 25px;
+    height: 25px;
+	line-height: 17px;
+    padding: 0;
+    color: black;
+}
+
+.date_selector td {
+    border: 1px solid #ccc;
+    line-height: 17px;
+    white-space: nowrap;
+    color: #0B8262;
+    background: #fff;
+}
+.date_selector td.today {
+    background: #89CAE0;
+	color:#fff;
+}
+.date_selector td.unselected_month {
+    color: #ccc;
+}
+.date_selector td.selectable_day {
+    cursor: pointer;
+}
+.date_selector td.selected {
+    background: #bed7d1;
+	color:#fff;
+    font-weight: bold;
+}
+.date_selector td.selectable_day:hover, .date_selector td.selectable_day.hover {
+    background: #0B8262;
+    color: #fff;
+}

@@ -1,0 +1,75 @@
+<? $this->view('head') ?>
+<title>结算报表 - 预订渠道对账明细</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">结算报表 - 预订渠道对账明细</h2>
+    </div>
+    <div class="reports-wrapper">
+        <div class="reports-form">
+            <form id="form-reports-realtime" action="/master/stat/jsbb-ydqddzmx" method="get">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="reports-channel">预订渠道</label>
+                            </td>
+                            <td>
+                                <select id="reports-channel" name="cnid" class="ftt-select" style="width:136px;">
+                                    <? foreach ($this->channels as $val): ?>
+                                    <option value="<?= $val['hc_id'] ?>"><?= $this->escape($val['hc_name']) ?></option>
+                                    <? endforeach; ?>
+                                </select>
+                            </td>
+                            <td>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="reports-bdate">起始日期</label>
+                            </td>
+                            <td>
+                                <input type="text" id="reports-bdate" class="ftt-input-text short-text input-datepicker" name="date[0]" />
+                            </td>
+                            <td>
+                                <span class="note">选择报表起始日期</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="reports-edate">结束日期</label>
+                            </td>
+                            <td>
+                                <input type="text" id="reports-edate" class="ftt-input-text short-text input-datepicker" name="date[1]" />
+                            </td>
+                            <td>
+                                <span class="note">选择报表结束日期</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="">查询范围</label></td>
+                            <td id="reports-range">-</td>
+                            <td><span class="note"><span class="note">不能超过31天</span></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align:center;">
+                                <input type="submit" class="button white" value="查询" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <p class="copyright">——由房态通提供的报表</p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.jsbbYdqddzmxForm.init)</script>
+<? $this->view('foot') ?>

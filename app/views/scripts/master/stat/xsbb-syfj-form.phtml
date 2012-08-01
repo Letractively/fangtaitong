@@ -1,0 +1,63 @@
+<? $this->view('head') ?>
+<title>销售报表 - 所有房间</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">销售报表 - 所有房间</h2>
+    </div>
+    <div class="reports-wrapper">
+        <div class="reports-form">
+			<form action="/master/stat/xsbb-syfj" method="get">
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<label for="reports-period">查询周期</label>
+							</td>
+							<td>
+								<select id="reports-period" name="lgth" class="ftt-select" style="width:136px;">
+									<? foreach ($this->periods as $key => $val): ?>
+									<option value="<?= $key ?>"<?= $key == $this->lgth ? ' selected="selected"' : '' ?>><?= $this->escape($val) ?></option>
+									<? endforeach; ?>
+								</select>
+							</td>
+							<td>
+								<span class="note">选择需要查看的报表自然周期，例如：<br />日、周、月、季度、年。</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="reports-date">查询日期</label>
+							</td>
+							<td>
+								<input type="text" id="reports-date" class="ftt-input-text short-text input-datepicker" name="date" />
+							</td>
+							<td>
+								<span class="note">选择周期所在范围的日期，例如：<br />查看12月份报表，可选择12月的任意一天，报表日期范围是12月1日至12月31日。</span>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="">查询范围</label></td>
+							<td colspan="2" id="reports-range">-</td>
+						</tr>
+						<tr>
+							<td colspan="3" style="text-align:center;">
+								<input type="submit" class="button white" value="查询" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+        <p class="copyright">——由房态通提供的报表</p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.xsbbSyfjForm.init)</script>
+<? $this->view('foot') ?>

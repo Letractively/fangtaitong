@@ -1,0 +1,68 @@
+<? $this->view('head') ?>
+<title>销售报表 - 其它费用</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.tablesorter.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">销售报表 - 其它费用 [ <?= date('Y-m-d', $this->tmln[0]) ?> 至 <?= date('Y-m-d', $this->tmln[1]) ?> ]</h2>
+        <input id="print-button" class="column-right button white" type="button" value="打印报表" onclick="window.print();" />
+        <input id="force-button" class="column-right button white" type="button" value="导出报表" title="将当前报表导出为CSV格式下载" onclick="location.href=location.pathname+'.csv'+location.search;" />
+    </div>
+    <div class="reports-query">
+        <form action="/master/stat/xsbb-qtfy" method="get">
+            <label for="reports-period">周期</label>
+            <select name="lgth" class="ftt-select" style="width:69px;">
+                <? foreach ($this->periods as $key => $val): ?>
+                <option value="<?= $key ?>"<?= $key == $this->lgth ? ' selected="selected"' : '' ?>><?= $this->escape($val) ?></option>
+                <? endforeach; ?>
+            </select>
+            <label for="reports-date">日期</label>
+            <input type="text" name="date" id="reports-date" class="ftt-input-text short-text input-datepicker" value="<?= $this->date ?>" />
+            <input type="submit" class="button white" value="查询" />
+        </form>
+    </div>
+    <div class="reports-wrapper">
+        <p class="utime">
+            当前列表数据更新时间：<span class="update-T"><?= date('Y-m-d H:i:s', $this->time) ?></span>
+        </p>
+        <table class="report">
+            <thead>
+                <tr>
+                    <th>内容</th>
+                    <th>金额（元）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <? $sum = 0 ?>
+                <? if(empty($this->qtfy)): ?>
+                <tr>
+                    <td colspan="10" class="none">无记录</td>
+                </tr>
+                <? else: ?>
+                <? foreach ($this->qtfy as $data): ?>
+                <tr>
+                    <td><?= $this->escape($data['name']) ?></td>
+                    <td><? $sum+=$data['sum'] ?><?= $data['sum']/100 ?></td>
+                </tr>
+                <? endforeach; ?>
+                <? endif; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>合计</td>
+                    <td><?= $sum/100 ?></td>
+                </tr>
+            </tfoot>
+        </table>
+        <p class="copyright">——由房态通提供的报表</p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.xsbbQtfy.init)</script>
+<? $this->view('foot') ?>

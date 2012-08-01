@@ -1,0 +1,109 @@
+<? $this->view('head') ?>
+<title>收款流水</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">收款流水 [ <?= $this->date ?> ]</h2>
+        <input id="print-button" class="column-right button white" type="button" value="打印报表" onclick="window.print();" />
+        <input id="force-button" class="column-right button white" type="button" value="导出报表" title="将当前报表导出为CSV格式下载" onclick="location.href=location.pathname+'.csv'+location.search;" />
+        <input class="column-right button white" type="button" value="查看退房记录" onclick="location.href='/master/stat/tfjl?date=<?= $this->date ?>'" />
+        <input class="column-right button white" type="button" value="查看入住记录" onclick="location.href='/master/stat/rzjl?date=<?= $this->date ?>'" />
+    </div>
+    <div class="reports-query">
+        <form action="/master/stat/skls" method="get">
+            <label for="reports-date">选择日期</label>
+            <input type="text" name="date" id="reports-date" class="ftt-input-text short-text input-datepicker" value="<?= $this->date ?>" />
+            <input type="submit" class="button white" value="查询" />
+        </form>
+    </div>
+    <div class="reports-wrapper">
+        <p class="utime">
+            当前列表数据更新时间：<span class="update-T"><?= date('Y-m-d H:i:s', $this->time) ?></span>
+        </p>
+        <table id="total" class="report" style="margin-bottom:20px;">
+            <thead>
+                <tr>
+                    <th colspan="2">当前日期范围收款渠道汇总</th>
+                </tr>
+                <tr>
+                    <th>名称</th>
+                    <th>金额(元)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <? $total_sum = 0 ?>
+                <? if (empty($this->qdhz)): ?>
+                <tr>
+                    <td colspan="2" class="none">无记录</td>
+                </tr>
+                <? else: ?>
+                <? foreach ($this->qdhz as $data): ?>
+                <? $total_sum = $total_sum + $data['sum'] ?>
+                <tr>
+                    <td><?= $this->escape($data['name']) ?></td>
+                    <td><?= $data['sum']/100 ?></td>
+                </tr>
+                <? endforeach; ?>
+                <? endif; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="width:50%;">合计</td>
+                    <td style="width:50%;"><?= $total_sum/100 ?></td>
+                </tr>
+            </tfoot>
+        </table>
+        <table id="flow" class="report">
+            <thead>
+                <tr>
+                    <th>流水编号</th>
+                    <th>账单编号</th>
+                    <th>时间</th>
+                    <th>金额(元)</th>
+                    <th>收款渠道</th>
+                    <th>备注</th>
+                    <th>操作人</th>
+                </tr>
+            </thead>
+            <tbody>
+                <? $total_sum = 0 ?>
+                <? if (empty($this->skls)): ?>
+                <tr>
+                    <td colspan="7" class="none">无记录</td>
+                </tr>
+                <? else: ?>
+                <? foreach ($this->skls as $data): ?>
+                <? $total_sum = $total_sum + $data['bj_sum'] ?>
+                <tr>
+                    <td><?= $data['bj_id'] ?></td>
+                    <td><a target="_blank" title="账单详情" href="/master/bill/detail?bid=<?= $data['bj_bid'] ?>"><?= $data['bj_bid'] ?></a></td>
+                    <td><?= date("Y-m-d", $data['bj_time']) ?></td>
+                    <td><?= $data['bj_sum']/100 ?></td>
+                    <td><?= $this->escape($data['bj_pynm']) ?></td>
+                    <td><?= $this->escape($data['bj_memo']) ?></td>
+                    <td><?= $this->escape($data['bj_user']) ?></td>
+                </tr>
+                <? endforeach; ?>
+                <? endif; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" align="right">共有&nbsp;<?= count($this->skls) ?>&nbsp;条记录，合计：</td>
+                    <td><?= $total_sum/100 ?></td>
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
+        <p class="copyright">——由房态通提供的报表</p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.skls.init)</script>
+<? $this->view('foot') ?>

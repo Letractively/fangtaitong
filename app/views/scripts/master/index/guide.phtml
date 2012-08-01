@@ -1,0 +1,39 @@
+<? $this->view('head') ?>
+<title>新手指引</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 'xszy')) ?>
+<div class="ftt-container">
+	<div class="ftt-title clearfix">
+		<h2 class="column-left">新手指引</h2>
+	</div>
+	<div id="guide">
+		<p class="welcome">
+			欢迎您成为房态通的用户！
+		</p>
+		<p>
+			在正式使用房态通之前，建议您完成以下几个步骤：
+		</p>
+		<ul>
+			<li>① <a href="/master/hostel/update-rule" target="_blank">设置您的房态规则</a></li>
+			<li>② <a href="/master/payment/" target="_blank">设置您的收款渠道</a></li>
+			<li>③ <a href="/master/room/create" target="_blank">添加房间</a></li>
+		</ul>
+		<p>
+			完成以上3个步骤，就可以开始工作了。
+		</p>
+		<p>
+			如果您希望多人共享，只需要<a href="/master/account/" target="_blank">设置其他帐号</a>，完成添加员工和权限设置即可。
+		</p>
+		<p class="close">
+			关闭新手指南后，您可以在底部导航条随时再次查看。</span>
+		</p>
+		<p id="begin-ftt">
+			<a href="/master/" class="button white">开始使用房态通</a>
+		</p>
+	</div>
+</div>
+
+<? $this->view('master/footer') ?>
+<? $this->view('foot') ?>

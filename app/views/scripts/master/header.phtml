@@ -1,0 +1,41 @@
+<div id="main-wrapper">
+    <div id="ftt-topbar" class="clearfix">
+        <div class="wrapper">
+            <div class="ftt-logo"><p><a href="/" target="_blank">房态通</a></p></div>
+			<ul class="account">
+                <li><a href="/master/profile/"><?= $this->escape($this->master['u_email']) ?></a></li>
+				<li class="<? if (isset($mgr) && ($mgr === 1 || $mgr === 'kzmb')): ?>now<? endif; ?>">
+					<a href="/master/cpanel/">控制面板</a>
+				</li>
+				<li><a href="/master/index/do-logout">退出</a></li>
+			</ul>
+        </div>
+    </div>
+
+    <div class="ftt-header clearfix">
+        <div class="ftt-navi">
+            <ul class="ftt-navi-list">
+                <li class="<?= isset($tab) && $tab==='ftgl' ? "now " : '' ?>first"><a href="/master/rosta/">房态管理</a></li>
+                <li class="<?= isset($tab) && $tab==='ddgl' ? "now" : '' ?>"><a href="/master/order/">订单管理</a></li>
+                <li class="<?= isset($tab) && $tab==='zdgl' ? "now" : '' ?>"><a href="/master/bill/">账单管理</a></li>
+                <li class="<?= isset($tab) && $tab==='fjgl' ? "now" : '' ?>"><a href="/master/room/">房间管理</a></li>
+                <li class="<?= isset($tab) && $tab==='hygl' ? "now" : '' ?>"><a href="/master/mber/">会员管理</a></li>
+                <li class="<?= isset($tab) && $tab==='bbtj' ? "now " : '' ?>last"><a href="/master/stat/">报表统计</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner-top">
+        <div class="ftt">系统公告：</div>
+        <div class="ad-wrapper">
+            <? $this->view('master/adline') ?>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+    $(function(){
+        Z.Global.method.adRandomLoop('.ad-line');
+        $('.ftt-container').append('<div class="scrollfeedback" title="意见反馈"><a href="http://blog.fangtaitong.com/?page_id=7" target="_blank">意见反馈</a></div>');
+    });
+    </script>

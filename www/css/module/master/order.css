@@ -1,0 +1,1167 @@
+@charset "utf-8";
+
+/*-------------room-price begin--------------*/
+
+.rprice
+{
+    background:#fff;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.rprice caption
+{
+    text-align:left;
+    padding:7px 0;
+    font-size:14px;
+}
+
+.rprice th
+{
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:12px;
+    line-height:18px;
+    height:28px;
+    padding:3px 5px;
+    border:1px #ccc solid;
+    color:#686868;
+    background:#EEEEEE;
+}
+
+.rprice td
+{
+    vertical-align:middle;
+    border:1px #ccc solid;
+    background:#F6F6F6;
+    font-size:12px;
+    line-height:18px;
+}
+
+.rprice td .empty
+{
+    width:60px;
+    height:80px;
+    background:#F6F6F6;
+}
+
+.rprice td .date
+{
+    padding:3px 0;
+    border-bottom:1px #ccc solid;
+    background:#eee;
+}
+
+.rprice td .value
+{
+    text-align:center;
+}
+
+.rprice td .value input
+{
+    display:block;
+    text-align:center;
+    cursor:pointer;
+    width:60px;
+    padding:0;
+    margin:0;
+    border:0;
+    height:28px;
+    line-height:28px;
+    font-size:16px;
+    font-weight:bold;
+    background:#fff;
+}
+
+.rprice td .value input.price
+{
+    border-top:1px #ccc solid;
+}
+
+.rprice td .value input:focus
+{
+    cursor:auto;
+    color:#000;
+}
+
+.rprice td .value input.changed
+{
+    background:#FFDEDE;
+}
+
+.rprice tfoot td
+{
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:12px;
+    line-height:18px;
+    height:28px;
+    padding:3px 5px;
+    border:1px #ccc solid;
+    color:#686868;
+    background:#EEEEEE;
+}
+
+.rprice tfoot td span
+{
+    color:#189271;
+}
+
+.rprice tfoot .total
+{
+    text-align:right;
+    border-left:none;
+}
+
+.rprice tfoot .action
+{
+    text-align:left;
+    border-right:none;
+}
+
+.rprice tfoot .action a
+{
+    /*margin-right:8px;*/
+}
+
+.rprice .even
+{
+    background:#f6f6f6;
+}
+
+.rprice .odd
+{
+    background:#fff;
+}
+
+.rprice .over
+{
+    background:#d2f1e8;
+}
+
+.rprice .saved
+{
+    color:red;
+    text-decoration:line-through;
+}
+
+.rprice-note .update-all-price
+{
+    margin:0 12px;
+}
+
+.rprice-dialog
+{
+    font-size:12px;
+    /*height:168px;*/
+}
+
+.rprice-dialog p
+{
+    padding:8px;
+    text-align:center;
+}
+
+.rprice-dialog p span.note
+{
+    color:#999;
+    margin-left:7px;
+}
+
+.rprice-dialog p span.note span
+{
+    color:#f00;
+}
+
+.rprice-dialog input
+{
+    vertical-align:middle;
+}
+
+.rprice-dialog label
+{
+    font-size:14px;
+    vertical-align:middle;
+    margin-right:10px;
+}
+
+.rprice-dialog .submit .button
+{
+    margin-top:20px;
+}
+
+.rprice-dialog .calculate
+{
+    margin-right:20px;
+}
+
+.rprice .price,
+.rprice-dialog .price
+{
+    color:#F1A038;
+}
+
+.rprice .brice,
+.rprice-dialog .brice
+{
+    color:#0B8262;
+}
+
+/*-------------room-price end--------------*/
+
+/*----------order-index begin-----------*/
+
+#order-query-select
+{
+    width:135px;
+}
+
+/*----------order-index end-----------*/
+
+/*----------order-detail begin-----------*/
+
+#order-detail
+{
+    width:100%;
+    background:#F1F1F1;
+}
+
+/*----------order-detail-main begin-----------*/
+
+#order-detail-main .wrapper 
+{ 
+    padding:14px;
+}
+
+.tab-list
+{ 
+    width:100%;
+    border:1px solid #bdbdbd;
+    border-bottom:2px solid #8BCCBA;
+    background:#F8F8F8;
+}
+
+.tab-list li
+{
+    float:left;
+    text-align:center;
+    cursor:pointer;
+    padding:7px 0;
+    color:#000;
+    width:236px;
+    font-size:16px;
+    line-height:20px;
+    height:20px;
+    background:#F8F8F8;
+    border-right:1px solid #D8D8D8;
+    border-top:3px solid #F8F8F8;
+    border-bottom:3px solid #F8F8F8;
+}
+
+.tab-list li.now 
+{
+    border-bottom:3px solid #8BCCBA;
+}
+
+.tab-list li.last 
+{
+    border-right:none;
+    width:235px;
+}
+
+.tab-block
+{
+    background:#fff;
+    border:1px solid #bdbdbd;
+    border-top:none;
+    width:100%;
+}
+
+.tab-content
+{ 
+    padding:44px 0 0 0;
+}
+
+.tab-content label
+{
+    font-size:14px;
+    width:66px;
+}
+
+.tab-content.hide
+{
+    display:none;
+}
+
+#block-jbxx p
+{
+    padding-left:89px;
+}
+
+
+#block-jbxx label
+{
+    font-size:14px;
+    width:66px;
+}
+
+#block-jbxx .ftt-input-text
+{
+    width:250px;
+    margin-right:12px;
+}
+
+#block-jbxx .single-text
+{
+    width:20px;
+    margin-right:0;
+}
+
+#o-remark
+{
+    height:100px;
+    width:360px;
+    margin-bottom:15px;
+    vertical-align:top;
+}
+
+#block-ffmx p
+{
+    font-size:14px;
+    padding:7px 0 7px 87px;
+}
+
+#o-bdate,
+#o-edate
+{
+    color:#189271;
+    font-weight:bold;
+    margin:0 20px 0 10px;
+    font-size:16px;
+}
+
+#block-ffmx p span.note
+{
+    color:#999;
+    margin-left:12px;
+    font-size:12px;
+    display:none;
+}
+
+#block-ffmx p span.note span
+{
+    color:#f00;
+}
+
+.order-price-list
+{
+    width:522px;
+    padding:7px 0 20px 87px;
+    min-height:234px;
+    height:auto !important;
+    height:234px;
+}
+
+.order-price-list p.waitting
+{
+    text-align:center;
+    color:#999;
+    width:200px;
+    height:41px;
+    line-height:41px;
+    padding:0;
+    margin:78px auto 0;
+    background:url(../../../img/loading.gif) no-repeat left center;
+}
+
+.order-price-list .rprice
+{
+    width:100%;
+}
+
+.order-price-list span
+{
+    margin:0 5px;
+}
+
+.order-price-list .single-text
+{
+    margin:0 5px;
+    padding:2px;
+    font-size:12px;
+    line-height:14px;
+    height:14px;
+}
+
+.order-price-list .rprice .value input
+{
+    width:100%;
+}
+
+.order-price-list .rprice .value input.price
+{
+    border:none;
+}
+
+.order-price-list .rprice tfoot td
+{
+    text-align:center;
+}
+
+.order-price-list .rprice tfoot .price,
+.order-price-list .rprice tfoot .brice
+{
+    font-size:16px;
+}
+
+.order-button
+{
+    height:40px;
+    margin-top:20px;
+    padding:20px 0;
+    background-color:#D0D4D3;
+    border-top:1px #ccc solid;
+    text-align:center;
+}
+
+.order-button input
+{
+    margin:0 40px;
+}
+
+#block-lkxx
+{
+    /*padding:20px;*/
+}
+
+.order-guest
+{
+    padding: 0 70px 20px;
+}
+
+.order-guest p
+{
+    padding:8px 0 8px 30px;
+}
+
+.order-guest p.submit
+{
+    text-align:center;
+}
+
+.order-guest label
+{
+    width:86px;
+    padding:7px 0 7px 4px;
+    margin-right: 5px;
+}
+
+.order-guest .ftt-select
+{
+    width:90px;
+    margin-right: 5px;
+}
+
+.order-guest .ftt-input-text
+{
+    width:240px;
+}
+
+.order-guest .title
+{
+    font-size:14px;
+    font-weight:bold;
+    border-bottom:1px #ccc solid;
+    margin-bottom:20px;
+    padding:8px 4px;
+}
+
+/*----------order-detail-main end-----------*/
+
+/*----------order-detail-summary begin-----------*/
+
+.order-summary
+{
+    width:240px;
+    border-left:1px solid #ccc;
+    vertical-align:top;
+}
+
+.order-summary p
+{
+    padding:5px 14px 7px;
+    font-size:12px;
+}
+
+.order-summary h3
+{
+    margin-bottom:14px;
+    padding:10px 14px;
+    color:#fff;
+    border-bottom:1px #ccc solid;
+    border-bottom:1px #fff solid;
+    background:#8BCCBA;
+    display:block;
+}
+
+.order-summary .handles
+{
+    padding-bottom:72px;
+}
+
+.order-summary .handles li
+{
+    height:20px;
+    padding:0 20px 20px ;
+    /*text-align:right;*/
+}
+
+.order-summary .handles li a
+{
+    font-family:"Microsoft Yahei", "黑体";
+    font-size:16px;
+    line-height:18px;
+}
+
+.order-summary .handles li a:hover
+{
+    text-decoration:underline;
+    color:#0B8262;
+}
+
+/*----------order-detail-summary end-----------*/
+
+/*----------order-detail-handle begin-----------*/
+
+.form-in-dialog p
+{
+    font-size:14px;
+    padding:0;
+    margin-bottom:10px;
+}
+
+.form-in-dialog label
+{
+    font-weight:bold;
+    width:100px;
+    vertical-align:middle;
+}
+
+.form-in-dialog label.checkbox
+{
+    font-size:12px;
+    font-weight:normal;
+}
+
+.form-in-dialog label.checkbox input
+{
+    margin:0 5px 0 0;
+    vertical-align:middle;
+}
+
+.form-in-dialog .note
+{
+    font-size:12px;
+    color:#999;
+}
+
+.form-in-dialog .ftt-input-text
+{
+    vertical-align:middle;
+}
+
+.form-in-dialog .ftt-textarea
+{
+    height:70px;
+    width:370px;
+    margin:0;
+    vertical-align:top;
+}
+
+.form-in-dialog .text
+{
+    margin-bottom:20px;
+}
+
+.form-in-dialog .warning
+{
+    color:red;
+    font-size:12px;
+}
+
+.form-in-dialog .submit
+{
+    text-align:right;
+}
+
+.order-tip
+{
+    background:#FEF7DA;
+    padding:20px 70px;
+    border-bottom:1px #ccc solid;
+    display:none;
+}
+
+.order-tip p
+{
+    font-size:14px;
+    padding:0;
+    margin-bottom:10px;
+}
+
+.order-tip label
+{
+    font-size:12px;
+    font-weight:bold;
+    width:auto;
+}
+
+.order-tip textarea
+{
+    height:70px;
+    width:340px;
+    font-size:12px;
+    vertical-align:top;
+}
+
+.order-tip .warning
+{
+    color:red;
+    font-size:12px;
+}
+
+.order-tip .submit 
+{
+    padding-left:34px;
+}
+
+.order-tip .text 
+{
+    text-align:center;
+}
+
+/*----------order-detail-handle end-----------*/
+
+/*----------order-detail end-----------*/
+
+/*----------order-create begin-----------*/
+
+.order-option
+{
+    padding:24px 27px 0;
+}
+
+.order-option label.option
+{
+    font-weight:bold;
+    text-align:right;
+    width:auto;
+}
+
+.order-option-top
+{
+    margin-bottom:10px;
+}
+
+.hostel-member
+{
+    padding-bottom:10px;
+    border-bottom:1px #ccc solid;
+}
+
+#o-member
+{
+    margin-right:10px;
+}
+
+.hostel-member .option
+{
+    float:left;
+    width:100px;
+    height:16px;
+}
+
+.hostel-member .detail
+{
+    float:right;
+    padding-left:20px;
+    width:800px;
+    height:30px;
+    line-height:16px;
+    font-size:14px;
+}
+
+.hostel-member .waitting
+{
+    background:url(../../../img/loading-small.gif) no-repeat left center;
+}
+
+.hostel-member .detail li
+{
+    float:left;
+    height:30px;
+}
+
+.hostel-member .detail li.link
+{
+    float:right;
+    margin-left:10px;
+}
+
+.hostel-member .detail li label
+{
+   width:auto;
+}
+
+.hostel-member .detail span
+{
+    display:inline-block;
+    padding:7px 0;
+    height:16px;
+    color:#0B8262;
+    vertical-align:middle;
+    overflow:hidden;
+}
+
+label.member-option
+{
+    width:60px;
+    text-align:right
+}
+
+.member-dialog
+{
+    font-size:12px;
+}
+
+.member-dialog p
+{
+    padding:8px;
+}
+
+.member-dialog label,
+.member-dialog input,
+.member-dialog span
+{
+    margin-right:5px;
+    font-size:14px;
+    vertical-align:middle;
+}
+
+.member-dialog .note
+{
+    color:#999;
+    font-size:12px;
+}
+
+.member-dialog .submit
+{
+    text-align:right;
+}
+
+.order-option-left,
+.order-option-middle
+{
+    float:left;
+    width:246px;
+    margin-right:6px;
+}
+
+.order-option-right
+{
+    float:left;
+    width:419px;
+}
+
+#c-name,
+#c-call
+{
+    width:116px;
+}
+
+#o-account,
+#o-channel,
+#o-typedef
+{
+    width:130px;
+}
+
+label.o-sta
+{
+    margin-right:5px;
+}
+
+label.o-sta,
+label#copy-guest
+{
+    width:auto;
+}
+
+label.o-sta input,
+label#copy-guest input,
+label#o-bill-new input,
+label#o-bill-old input
+{
+    margin:0 8px 0 0;
+}
+
+label.bill-option
+{
+    width:60px;
+    text-align:right
+}
+
+label.bill-option input
+{
+    margin-right:5px;
+}
+
+#o-settlem
+{
+    width:100px;
+    margin-right:7px;
+}
+
+label#o-lft
+{
+    width:85px;
+    margin-left:70px;
+    *margin-left:83px;
+    margin-left:76px\0;
+}
+
+#o-lhour,
+#o-lminu
+{
+    width:26px;
+}
+
+#o-ldate,
+#o-bid
+{
+    width:86px;
+    margin-right:7px;
+}
+
+#get-bill
+{
+    /*margin-right:5px;*/
+}
+
+.order-container
+{
+    padding:0 27px 20px;
+    border-bottom:1px solid #ccc;
+}
+
+.order-container .order
+{
+    position:relative;
+    margin-top:14px;
+    min-height:234px;
+    height:auto !important;
+    height:234px;
+    overflow:hidden;
+}
+
+.order-container .order .header
+{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100px;
+    height:100%;
+    background:#79B1A1 url(../../../img/bg-room-title.gif) repeat;
+}
+
+.order-container .order .header .close
+{
+    height:46px;
+    width:46px;
+    background:#000 url(../../../img/icon-room-close.gif) no-repeat 10px 10px;
+    opacity:0.6;
+    border-radius:0 0 46px 0;
+    cursor:pointer;
+    /*ie6,7,8 hack*/
+    height:24px\9;
+    width:24px\9;
+    background:#000 url(../../../img/icon-room-close.gif) no-repeat 50% 50%\9;
+    filter:alpha(opacity=60)\9;
+}
+
+/*ie9 cover ie6,7,8 hack*/
+:root .order-container .order .header .close 
+{
+    height:46px;
+    width:46px;
+    background:#000 url(../../../img/icon-room-close.gif) no-repeat 10px 10px;
+}
+
+.order-container .order .header .close:hover
+{
+    opacity:0.75;
+    filter:alpha(opacity=75);
+    border-radius:0 0 46px 0;
+}
+
+.order-container .order .header h3.title
+{
+    color:#fff;
+    border-bottom:1px #fff solid;
+    text-align:right;
+    margin:12px 11px 0 16px;
+}
+
+.order-container .kept .header h3.title
+{
+    color:#f00;
+    cursor:pointer;
+}
+
+.order-container .order .info
+{
+    position:relative;
+    margin-left:100px;
+    border:1px solid #bbb;
+    border-left:none;
+    min-height:300px;
+    height:auto !important;
+    height:300px;
+    overflow:hidden;
+    background:#F6F6F6;
+}
+
+.order-container .order .main-info
+{
+    width:432px;
+    min-height:280px;
+    height:auto !important;
+    height:280px;
+    overflow:visible;
+    padding:10px 35px;
+}
+
+.order-container .order .main-info p
+{
+    padding:3px 0 4px;
+    font-size:14px;
+}
+
+.order-container .order .main-info a.rnm
+{
+    text-decoration:underline;
+}
+
+.order-container .order .main-info label.rhf
+{
+    color:#999;
+    font-size:12px;
+    width:auto;
+}
+
+.order-container .order .main-info span.bdate,
+.order-container .order .main-info span.edate,
+.order-container .order .main-info span.btime,
+.order-container .order .main-info span.etime
+{
+    color:#0B8262;
+    font-weight:bold;
+    margin:0 10px 0 0;
+    width:92px;
+    display:inline-block;
+}
+
+.order-container .order .main-info .price-table
+{
+    padding-top:10px;
+    padding-bottom:20px;
+}
+
+.order-container .order .guest-info
+{
+    position:absolute;
+    top:0;
+    left:502px;
+    width:281px;
+    padding:10px 20px;
+}
+
+.order-container .order .guest-info p
+{
+    padding:3px 0 4px;
+}
+
+.order-container .order .guest-info p.memo
+{
+    border-top:1px solid #ccc;
+    margin-top:20px;
+    padding-top:20px;
+}
+
+.order-container .order .guest-info .title
+{
+    font-weight:bold;
+    font-size:14px;
+    width:auto;
+}
+
+.order-container .order .guest-info label
+{
+    display:inline-block;
+    width:40px;
+    vertical-align:top;
+}
+
+.order-container .order .guest-info label em
+{
+    /*color:#f00;*/
+    left:38px;
+}
+
+.order-container .order .guest-info input.ftt-input-text
+{
+    width:200px;
+    border:1px solid #aaa;
+}
+
+.order-container .order .guest-info textarea
+{
+    width:194px;
+    height:54px;
+    border:1px solid #aaa;
+}
+
+.order-container .order .guest-info label.copy-guest
+{
+    color:#999;
+    width:auto;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.order-container .order .guest-info label.copy-guest input
+{
+    margin:0 5px 0 0;
+    vertical-align:middle;
+}
+
+.order-footer
+{
+    border-top:1px solid #fff;
+    background:#EBEBEB;
+    padding:10px 30px;
+    text-align:right;
+}
+
+.order-footer .button
+{
+    margin-left:20px;
+}
+
+#total-price
+{
+    color:#F1A038;
+    font-size:22px;
+    margin:0 5px;
+}
+
+#total-brice
+{
+    color:#189271;
+    font-size:22px;
+    margin:0 5px;
+}
+
+.discount-dialog p
+{
+    text-align:left;
+    padding-left:20px;
+    font-size:14px;
+}
+
+
+.discount-dialog p.submit
+{
+    text-align:center;
+}
+
+.discount-dialog label input
+{
+    margin:0 10px 0 0;
+}
+
+/*----------order-create end-----------*/
+
+/*----------order-detail-print begin-----------*/
+
+.print-wrapper
+{
+    display:none;
+}
+
+@media print
+{
+
+    #main-wrapper,
+    #footer
+    {
+        display:none;
+    }
+
+    .print-wrapper
+    {
+        display:block;
+        font-size:12px;
+    }
+
+    .print-order td
+    {
+        padding-right:20px;
+    }
+
+    .print-price,
+    .print-guests
+    {
+        width:74%;
+        margin-top:7px;
+    }
+
+    .print-hostel
+    {
+        margin-top:12px;
+    }
+
+    .print-copyright
+    {
+        text-align:right;
+        font-size:12px;
+    }
+
+    .print-wrapper table
+    {
+        font-size:12px;
+    }
+    
+    .print-wrapper table.rprice
+    {
+        border-collapse:collapse;
+        border-spacing:0;
+    }
+    
+    .print-wrapper table.rprice caption
+    {
+        font-size:12px;
+        padding-left:3px;
+    }
+
+    .print-wrapper table.rprice th,
+    .print-wrapper table.rprice td
+    {
+        height:16px;
+        padding:2px 2px!important;
+        text-align:left;
+        color:#000;
+    }
+}
+
+/*----------order-detail-print end-----------*/

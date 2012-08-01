@@ -1,0 +1,84 @@
+<? $this->view('head') ?>
+<title>退房记录</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">退房记录 [ <?= $this->date ?> ]</h2>
+        <input id="print-button" class="column-right button white" type="button" value="打印报表" onclick="window.print();" />
+        <input id="force-button" class="column-right button white" type="button" value="导出报表" title="将当前报表导出为CSV格式下载" onclick="location.href=location.pathname+'.csv'+location.search;" />
+        <input class="column-right button white" type="button" value="查看收款流水" onclick="location.href='/master/stat/skls?date=<?= $this->date ?>'" />
+        <input class="column-right button white" type="button" value="查看入住记录" onclick="location.href='/master/stat/rzjl?date=<?= $this->date ?>'" />
+    </div>
+    <div class="reports-query">
+        <form action="/master/stat/tfjl" method="get">
+            <label for="reports-date">选择日期</label>
+            <input type="text" name="date" id="reports-date" class="ftt-input-text short-text input-datepicker" value="<?= $this->date ?>" />
+            <input type="submit" class="button white" value="查询" />
+        </form>
+    </div>
+    <div class="reports-wrapper">
+        <p class="utime">
+            当前列表数据更新时间：<span class="update-T"><?= date('Y-m-d H:i:s', $this->time) ?></span>
+        </p>
+        <table class="report">
+            <thead>
+                <tr>
+                    <th>订单<br />编号</th>
+                    <th>房间</th>
+                    <th>预订<br />渠道</th>
+                    <th>入住客人<br />姓名</th>
+                    <th>入住客人<br />手机</th>
+                    <th>预计<br />入住</th>
+                    <th>预计<br />退房</th>
+                    <th>间夜</th>
+                    <th>成交<br />房费(元)</th>
+                    <th>账单<br />房费(元)</th>
+                    <th>账单<br />编号</th>
+                </tr>
+            </thead>
+            <tbody>
+                <? $live_sum = $pval_sum = $bval_sum = 0 ?>
+                <? if(empty($this->tfjl)): ?>
+                <tr>
+                    <td colspan="11" class="none">无记录</td>
+                </tr>
+                <? else: ?>
+                <? foreach ($this->tfjl as $data): ?>
+                <tr>
+                    <td><a target="_blank" title="订单详情" href="/master/order/detail?oid=<?= $data['o_id'] ?>"><?= $data['o_id'] ?></a></td>
+                    <td><?= $this->escape($data['o_room']) ?></td>
+                    <td><?= $this->escape($data['o_cnm']) ?></td>
+                    <td><?= $this->escape($data['o_glver_name']) ?></td>
+                    <td><?= $this->escape($data['o_glver_phone']) ?></td>
+                    <td><?= nl2br(date("Y-m-d\nH:i", $data['o_btime'])) ?></td>
+                    <td><?= nl2br(date("Y-m-d\nH:i", $data['o_etime'])) ?></td>
+                    <td><?= ($live = ($data['o_edatm']-$data['o_bdatm'])/86400) ?><? $live_sum += $live ?></td>
+                    <td><?= $data['o_price']/100 ?><? $pval_sum += $data['o_price'] ?></td>
+                    <td><?= $data['o_brice']/100 ?><? $bval_sum += $data['o_brice'] ?></td>
+                    <td><a title="账单详情" target="_blank" href="/master/bill/detail?bid=<?= $data['o_bid'] ?>"><?= $data['o_bid'] ?></a></td>
+                </tr>
+                <? endforeach; ?>
+                <? endif; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" align="right">共有&nbsp;<?= count($this->tfjl) ?>&nbsp;条记录，合计：</td>
+                    <td><?= $live_sum ?></td>
+                    <td><?= $pval_sum/100 ?></td>
+                    <td><?= $bval_sum/100 ?></td>
+                    <td colspan="2"></td>
+                </tr>
+            </tfoot>
+        </table>
+        <p class="copyright">——由房态通提供的报表</p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.tfjl.init)</script>
+<? $this->view('foot') ?>

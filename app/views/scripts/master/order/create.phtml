@@ -1,0 +1,239 @@
+<? $this->view('head') ?>
+<title>创建订单</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/order.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.order.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'ddgl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2>创建订单</h2>
+    </div>
+    <div id="create-order-wrapper">
+        <form id="form-create-order" method="post" action="/master/order/do-create?ctime=<?= $this->ctime; ?>">
+            <div id="order-option" class="order-option clearfix">
+                <div class="order-option-top">
+                    <div class="hostel-member clearfix">
+                        <label class="option"><input type="checkbox" id="o-member" />关联会员</label>
+                        <ul class="detail"></ul>
+                    </div>
+                </div>
+                <div class="order-option-left">
+                    <p class="booker-name">
+                        <label for="c-name" class="option">预订客人姓名</label>
+                        <input type="text" maxlength="14" name="gbker[name]" id="c-name" class="ftt-input-text required" value="" />
+                    </p>
+                    <p class="booker-call">
+                        <label for="c-call" class="option">预订客人电话</label>
+                        <input type="text" maxlength="20" name="gbker[call]" id="c-call" class="ftt-input-text required digits" value="" />
+                    </p>
+                    <p class="status">
+                        <label class="option">订单状态</label><label class="o-sta"><input type="radio" name="sta" value="<?= ORDER_STATUS_BL ?>" checked="checked" />保留</label><label class="o-sta"><input type="radio" name="sta" value="<?= ORDER_STATUS_YD ?>" />预订</label><a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#14" target="_blank">?</a>
+                    </p>
+                </div>
+                <div class="order-option-middle">
+                    <p class="account">
+                        <label for="o-account" class="option">销售人员</label>
+                        <select id="o-account" name="uid" class="ftt-select">
+                            <? foreach ($this->sales as $sales): ?>
+                            <option value="<?= $sales['u_id'] ?>"><?= $this->escape($sales['u_realname']) ?></option>
+                            <? endforeach; ?>
+                        </select>
+                        <a target="_blank" href="/master/account/create" id="create-account" alt="account" class="handle-option" title="销售人员">[+]</a>
+                    </p>
+                    <p class="typedef">
+                        <label for="o-typedef" class="option">预订类型</label>
+                        <select id="o-typedef" name="tid" class="ftt-select">
+                            <? foreach ($this->type as $type): ?>
+                            <option value="<?= $type['ht_id'] ?>"><?= $this->escape($type['ht_name']) ?></option>
+                            <? endforeach; ?>
+                        </select>
+                        <a target="_blank" href="/master/typedef/create" id="create-typedef" alt="typedef" class="handle-option" title="预订类型">[+]</a>
+                    </p>
+                    <p class="channel">
+                        <label for="o-channel" class="option">预订渠道</label>
+                        <select id="o-channel" name="cid" class="ftt-select">
+                            <? foreach ($this->cnns as $cnn): ?>
+                            <option value="<?= $cnn['hc_id'] ?>"><?= $this->escape($cnn['hc_name']) ?></option>
+                            <? endforeach; ?>
+                        </select>
+                        <a target="_blank" href="/master/channel/create" id="create-channel" alt="channel" class="handle-option" title="预订渠道">[+]</a>
+                    </p>
+                </div>
+                <div class="order-option-right">
+                    <? $ltime = $this->hostel['h_obill_keptime'] + time() ?>
+                    <p class="bill-new">
+                        <label class="option" id="o-bill-new"><input type="radio" name="bill" value="0" checked="checked" />创建账单</label>
+                        <label class="bill-option">结算方式</label>
+                        <select id="o-settlem" name="sid" class="ftt-select">
+                            <? foreach ($this->setm as $setm): ?>
+                            <option value="<?= $setm['hs_id'] ?>"><?= $this->escape($setm['hs_name']) ?></option>
+                            <? endforeach; ?>
+                        </select>
+                        <a target="_blank" href="/master/settlem/create" id="create-settlem" alt="settlem" class="handle-option" title="结算方式">[+]</a>
+                    </p>
+                    <p class="bill-new">
+                        <label class="bill-option" id="o-lft"><input type="checkbox" name="lft" value="1"<?= $this->hostel['h_attr'] & (int)HOTEL_ATTR_ZDGQ ? ' checked="checked"' : '' ?> />过期时间</label>
+                        <input type="text" name="ldate" id="o-ldate" class="ftt-input-text input-datepicker dateISO required"<?= $this->hostel['h_attr'] & (int)HOTEL_ATTR_ZDGQ ? '' : ' disabled="disabled"' ?> value="<?= date('Y-m-d', $ltime)?>" />
+                        <input type="text" name="lhour" id="o-lhour" class="ftt-input-text single-text {required:true, range:[0,23]} required"<?= $this->hostel['h_attr'] & (int)HOTEL_ATTR_ZDGQ ? '' : ' disabled="disabled"' ?> value="<?= date('H', $ltime) ?>" />
+                        ：
+                        <input type="text" name="lminu" id="o-lminu" class="ftt-input-text single-text {required:true, range:[0,59]} required"<?= $this->hostel['h_attr'] & (int)HOTEL_ATTR_ZDGQ ? '' : ' disabled="disabled"' ?> value="<?= date('i', $ltime) ?>" />
+                    </p>
+                    <p class="bill-old">
+                        <label class="option" id="o-bill-old"><input type="radio" name="bill" value="1" />关联账单</label>
+                        <label class="bill-option">账单编号</label>
+                        <input type="text" name="bid" id="o-bid" name="bid" class="ftt-input-text required" value="" disabled="disabled" />
+                        <input id="get-bill" type="button" value="查看账单" class="button white medium" disabled="disabled" />
+                        <a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#32" target="_blank">?</a>
+                    </p>
+                </div>
+            </div>
+            <ul id="order-container" class="order-container">
+                <? $itime = $this->hostel['h_checkin_time']; ?>
+                <? $otime = $this->hostel['h_checkout_time']; ?>
+                <? $count = 1; ?>
+                <? foreach ($this->order as $rid => $room): ?>
+                <? foreach ($room as $oidx => $order): ?>
+                <? $btime = $order['datm'] + ($itime < $order['time'][0] ? $order['time'][0] : $itime); ?>
+                <? $etime = $order['datm'] + 86400 * $order['lgth'] + ($otime > $order['time'][1] ? $order['time'][1] : $otime); ?>
+
+                <li class="clearfix order" id="order-<?= $oidx ?>" alt="<?= $oidx ?>,<?= $rid ?>">
+                <div class="header">
+                    <div class="close" title="点击删除"></div>
+                    <h3 class="title">订单 <span class="number"><?= $count ?></span></h3>
+                </div>
+                <div class="info">
+                    <div class="main-info">
+                        <p>
+                        <input type="hidden" name="order[<?= $oidx ?>][room]" value="<?= $rid ?>" />
+                        房间名称：<a class="rnm" href="/master/room/detail?rid=<?= $rid ?>" target="_blank"><?= $this->escape($this->rooms[$rid]['r_name']) ?></a>
+                         <label class="rhf"><input type="checkbox" name="order[<?= $oidx ?>][attr][]" value="<?= getOrderAttrNameByCode(ORDER_ATTR_YXHF) ?>" checked="checked" /><span><?= getOrderAttrNameByCode(ORDER_ATTR_YXHF) ?></span></label><a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#24" target="_blank">?</a>
+                        </p>
+                        <p>
+                            入住日期：<span class="bdate" alt="<?= $order['datm'] * 1000 ?>"><?= date('Y-m-d', $btime) ?></span>
+                            离店日期：<span class="edate" alt="<?= $order['datm'] * 1000 + $order['lgth'] * 86400000 ?>"><?= date('Y-m-d', $etime) ?></span>
+                            <input type="button" class="button white medium change-date" value="修改日期" />
+                            <input type="hidden" class="o-bdate" name="order[<?= $oidx ?>][date][0]" value="<?= date('Y-m-d', $btime) ?>" />
+                            <input type="hidden" class="o-edate" name="order[<?= $oidx ?>][date][1]" value="<?= date('Y-m-d', $etime) ?>" />
+                        </p>
+                        <p>
+                            入住时间：<span class="btime" alt="<?= $order['time'][0] * 1000 ?>"><?= date('H:i', $btime) ?></span>
+                            离店时间：<span class="etime" alt="<?= $order['time'][1] * 1000 ?>"><?= date('H:i', $etime) ?></span>
+                            <input type="button" class="button white medium change-time" value="修改时间" />
+                            <input type="hidden" class="o-bhour" name="order[<?= $oidx ?>][hour][0]" value="<?= date('H', $btime) ?>" />
+                            <input type="hidden" class="o-ehour" name="order[<?= $oidx ?>][hour][1]" value="<?= date('H', $etime) ?>" />
+                            <input type="hidden" class="o-bminu" name="order[<?= $oidx ?>][minu][0]" value="<?= date('i', $btime) ?>" />
+                            <input type="hidden" class="o-eminu" name="order[<?= $oidx ?>][minu][1]" value="<?= date('i', $etime) ?>" />
+                        </p>
+                        <div class="price-table"></div>
+                    </div>
+                    <div class="guest-info">
+                        <p>
+                            <label class="title">入住客人</label><label class="copy-guest"><input type="checkbox" <?= $count == 1 ? 'checked="checked "' : ''?>/>入住客人信息跟预订客人信息相同</label>
+                        </p>
+                        <p>
+                            <label for="o-gname-<?= $oidx ?>">姓名<em>*</em></label><input type="text" id="o-gname-<?= $oidx ?>" maxlength="14" name="order[<?= $oidx ?>][lver][name]" class="ftt-input-text g-name required" />
+                        </p>
+                        <p>
+                            <label for="o-gcall-<?= $oidx ?>">电话<em>*</em></label><input type="text" id="o-gcall-<?= $oidx ?>" maxlength="20" name="order[<?= $oidx ?>][lver][call]" class="ftt-input-text g-call required digits" />
+                        </p>
+                        <p class="memo">
+                            <label for="o-memo-<?= $oidx ?>">订单备注</label><textarea id="o-memo-<?= $oidx ?>" maxlength="500" name="order[<?= $oidx ?>][memo]"></textarea>
+                        </p>
+                    </div>
+                </div>
+                </li>
+                <? $count++ ?>
+                <? endforeach ?>
+                <? endforeach ?>
+            </ul>
+            <div id="order-footer" class="order-footer">
+                <p>
+                    总成交房费 <span id="total-price">0</span> 元，
+                    总账单房费 <span id="total-brice">0</span> 元
+                    <input type="submit" class="button white" value="提交订单" />
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="rprice-tmp-wrapper" style="display:none;">
+    <div class="member-tmp">
+        <p>
+            <label>会员编号</label>
+            <input type="text" name="uqno" class="ftt-input-text short-text uqno" />
+            <span class="note"><a href="/master/mber/" target="_blank">点击这里</a>，按条件查找会员。</span>
+        </p>
+        <p>
+            <label><input type="checkbox" name="sync" class="sync" checked="checked" /> 更新会员信息至预定客人信息</label>
+        </p>
+    </div>
+    <div class="order-time-tmp">
+        <p>
+            <label>入住时间</label>
+            <input type="text" class="o-bhour ftt-input-text single-text" value="" />
+            ：
+            <input type="text" class="o-bminu ftt-input-text single-text" value="" />
+            <span class="note">只能在 <span class="btime"></span> 之后</span>
+        </p>
+        <p>
+            <label>离店时间</label>
+            <input type="text" class="o-ehour ftt-input-text single-text" value="" />
+            ：
+            <input type="text" class="o-eminu ftt-input-text single-text" value="" />
+            <span class="note">只能在 <span class="etime"></span> 之前</span>
+        </p>
+        <p class="submit">
+            <input type="button" class="button white get-time" value="修改时间" />
+        </p>
+    </div>
+    <div class="order-date-tmp">
+        <p>
+            <label>入住日期</label>
+            <input type="text" class="o-bdate ftt-input-text short-text input-datepicker" value="" />
+        </p>
+        <p>
+            <label>离店日期</label>
+            <input type="text" class="o-edate ftt-input-text short-text input-datepicker" value="" />
+        </p>
+        <p class="submit">
+            <input type="button" class="button white get-price" value="刷新房费" />
+        </p>
+    </div>
+    <div class="discount-tmp">
+        <p>
+            <label><input type="radio" name="discount" value="yuan" checked="checked" />房费减少</label><input type="text" class="ftt-input-text single-text val yuan" /> 元
+        </p>
+        <p>
+            <label><input type="radio" name="discount" value="pecent" />房费折扣</label><input type="text" class="ftt-input-text single-text val pecent" disabled="disabled" /> %
+        </p>
+        <p class="submit">
+            <input type="button" class="button white calculate brice" alt="brice" value="修改账单价" />
+            <input type="button" class="button white calculate price" alt="price" value="修改成交价" />
+        </p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">
+$(function(){
+    var hotel = {
+        'h_checkin_time' : <?= $this->hostel['h_checkin_time'] ?>,
+        'h_checkout_time': <?= $this->hostel['h_checkout_time'] ?>,
+        'h_order_minlens': <?= $this->hostel['h_order_minlens'] ?>,
+        'h_order_maxlens': <?= $this->hostel['h_order_maxlens'] ?>,
+        'h_order_enddays': <?= $this->hostel['h_order_enddays'] ?>
+    };
+    Z.Module.master.order.create.init(
+        hotel,
+        {
+            'price': <?= json_encode($this->price) ?>,
+            'brice': <?= json_encode($this->brice) ?>
+        },
+        <?= json_encode($this->saved) ?>
+    );
+});
+</script>
+<? $this->view('foot') ?>

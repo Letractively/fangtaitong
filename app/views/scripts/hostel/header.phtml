@@ -1,0 +1,28 @@
+    <div id="header">
+        <div class="wrapper">
+            <h1 id="hostel-logo">
+                <a href="/hostel/rosta?hid=<?= $this->hotel['h_id'] ?>" title="返回 <?= $this->escape($this->hotel['h_name']) ?>" class="title"><?= $this->escape($this->hotel['h_name']) ?></a>
+                <? if (!empty($this->hotel['h_title'])): ?>
+                    <span class="describe"><?= $this->escape($this->hotel['h_title']) ?></span>
+                <? else: ?>
+                    <a href="/" class="describe" target="_blank">自豪地采用房态通</a>
+                <? endif ?>
+                
+            </h1>
+            <div class="info">
+                <p class="address">
+                    <span class="focal">地址：</span>
+                    <?= $this->escape($this->hotel['h_province']) ?> <?= $this->escape($this->hotel['h_city']) ?> <?= $this->escape($this->hotel['h_address']) ?>
+                </p>
+                <p class="phone">
+                    <span class="focal">电话：</span>
+                    <?= $this->escape($this->hotel['h_phone']) ?>
+                </p>
+                <p class="website">
+                    <span class="focal">网站：</span>
+                    <a target="_blank" href="<?= $this->escape($this->hotel['h_website']) ?>"><?= $this->escape($this->hotel['h_website']) ?></a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="container">

@@ -1,0 +1,108 @@
+@charset "utf-8";
+
+/*----------member manage page begin-----------*/
+
+#member-query-button
+{
+    margin-left: 5px;
+}
+
+/*----------member manage page end-----------*/
+
+/*----------create member page end-----------*/
+
+.ftt-mber-basic p
+{
+    padding:10px 0px;
+}
+
+.ftt-mber-basic label
+{
+    width:70px;
+}
+
+.ftt-mber-basic .ftt-input-text
+{
+    width:340px;
+    margin-right:10px;
+}
+
+.ftt-mber-basic .note
+{
+    color:#999;
+}
+
+.ftt-mber-basic .main
+{
+    margin:0 70px;
+    padding:10px 30px;
+    border-bottom:1px solid #ccc;
+}
+
+.ftt-mber-basic .main p
+{
+    padding:8px 0px;
+}
+
+.ftt-mber-basic .main .note
+{
+    margin-left:84px;
+}
+
+.ftt-mber-basic .sub
+{
+    margin:0 70px;
+    padding:10px 30px;
+}
+
+.ftt-mber-basic .status input
+{
+    margin:0 5px 0 0;
+}
+
+.ftt-mber-basic .id .ftt-select
+{
+    width:90px;
+    margin-right:10px;
+}
+
+.ftt-mber-basic .id .ftt-input-text
+{
+    width:240px;
+}
+
+.ftt-mber-basic .memo textarea
+{
+    width:334px;
+    height:100px;
+    margin:0 10px 0 0;
+}
+
+.ftt-mber-basic .memo label,
+.ftt-mber-basic .memo .note
+{
+    vertical-align: top;
+}
+
+.ftt-mber-basic .submit
+{
+    height:40px;
+    margin-top:20px;
+    padding:10px 0;
+    background:#d0d4d3;
+    border-top:1px #ccc solid;
+    text-align:center;
+}
+
+.ftt-mber-basic .submit .button
+{
+    margin-left:20px;
+}
+
+/*----------create member page end-----------*/
+
+/*----------update room page begin-----------*/
+
+
+
+/*----------update room page end-----------*/

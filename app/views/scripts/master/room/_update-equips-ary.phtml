@@ -1,0 +1,85 @@
+<?
+$equips = array(
+    '床型' => array('2米床', '1.8米床', '1.5米床'),
+    '电器' => array('电视', '洗衣机', '空调'),
+    '厨具' => array('煤气炉', '电磁炉', '微波炉'),
+    '家具' => array('沙发', '衣柜', '餐桌'),
+    '其他' => array('浴室', '卫生间', '阳台'),
+);
+?>
+
+<form id="form-update-equip" method="post" action="/master/room/do-create-equips?rid=<?= $this->room['r_id'] ?>">
+    <div class="room-info-fa">
+
+        <? foreach ($equips as $key => $val): ?>
+        <label><?= $key ?>：</label>
+        <ul class="clearfix">
+            <? foreach ($val as $val): ?>
+            <? $idx = md5($val) ?>
+            <li>
+            <input type="checkbox" name="equips[a][<?= $this->escape($key) ?>][@<?= $idx ?>]" value="1" />
+            <input type="hidden" name="equips[t][<?= $this->escape($key) ?>][@<?= $idx ?>]" value="<?= $this->escape($val) ?>" /><?= $this->escape($val) ?> ×
+            <input type="text" name="equips[q][<?= $this->escape($key) ?>][@<?= $idx ?>]" class="ftt-input-text int-text" value="1" />
+            </li>
+            <? endforeach; ?>
+            <li class="last">
+            <input type="button" value="添加其他<?= $key == '其他' ? '设施' : $key ?>" class="button white creator" alt="<?= $this->escape($key) ?>" />
+            </li>
+        </ul>
+        <? endforeach; ?>
+        <div class="fa-div-border">
+            <label>网络：</label>
+            <span class="radio"><input type="checkbox" name="addons[其他][wlan]" value="无线网络" />无线网络</span>
+            <span class="radio"><input type="checkbox" name="addons[其他][elan]" value="有线网络" />有线网络</span>
+        </div>
+        <div class="fa-div-border">
+            <label for="f-addbed">可加床：</label>
+            <span class="radio"><input type="radio" name="addons[其他][addbed]" id="f-addbed" value="可加床" />是</span>
+            <span class="radio"><input type="radio" name="addons[其他][addbed]" value="" />否</span>
+        </div>
+        <div class="fa-div-border" style="border:0;">
+            <label for="f-24hotw">24小时供应热水：</label>
+            <span class="radio"><input type="radio" name="addons[其他][24hotw]" id="f-24hotw" value="24小时供应热水" />是</span>
+            <span class="radio"><input type="radio" name="addons[其他][24hotw]" value="" />否</span>
+        </div>
+    </div>
+
+    <div class="room-info-save">
+        <input type="submit" value="保存" class="button white" />
+        <input type="reset" value="取消" class="button white" onclick="location.href='/master/room/'" />
+    </div>
+</form>
+
+
+<script type="text/javascript">
+$(function(){
+    var last = '_-';
+
+    $('input[name^="equips[q"]').live('mouseover', function(){
+        $(this).select();
+    });
+
+    $('input.creator').click(function(){
+        last = last + '-';
+
+        var type = $(this).attr('alt');
+        var item='<li><input name="equips[a][' + type + '][' + last + ']" type="checkbox" value="1" checked="checked"/>'
+            + '<input type="text" class="ftt-input-text short-text" name="equips[t][' + type + '][' + last + ']" value="" />'
+            + '×<input type="text" class="ftt-input-text single-text" name="equips[q]['  + type + '][' + last + ']" value="1" /></li>';
+
+        $(this).parent().last().before(item).prev().find('input[name="equips[t][' + type + '][' + last + ']"]').focus();
+    });
+	
+	$(".int-text").hover(function(){
+		$(this).addClass("int-text-hover");
+	},function(){
+		$(this).removeClass("int-text-hover");
+	});
+	
+	$(".int-text").focus(function(){
+		$(this).addClass("int-text-focus");
+	}).blur(function(){
+		$(this).removeClass("int-text-focus");
+	});
+});
+</script>

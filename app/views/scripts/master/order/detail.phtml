@@ -1,0 +1,542 @@
+<? $this->view('head') ?>
+<title>订单详情 - 编号: <?= $this->order['o_id'] ?></title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/order.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.order.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'ddgl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">订单详情 - 编号: <?= $this->order['o_id'] ?></h2>
+        <input type="button" onclick="window.print();" value="打印订单" class="column-right button white" id="print-button">
+    </div>
+    <table id="order-detail">
+        <tr>
+            <td id="order-detail-main">
+                <? if (!empty($this->handle)): ?>
+                <? if ($this->handle === ORDER_ACTION_BLTF): ?>
+                <div id="handle-form-bltf" class="order-tip">
+                    <form class="form-order-handle" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLTF ?>" method="post">
+                        <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                        <? if ($this->bill['b_cost'] - $this->bill['b_paid'] != 0): ?>
+                        <p>该订单所在的账单挂账 <span style="color:red"><?= ($this->bill['b_cost'] - $this->bill['b_paid'])/100 ?></span> 元。<a href="/master/bill/detail?bid=<?= $this->order['o_bid'] ?>">[ 处理账单 ]</a></p>
+                        <? endif ?>
+                        <p>您现在就要办理退房结帐吗？<input type="submit" value="确认退房" class="button white" style="margin-left:12px;" /></p>
+                    </form>
+                </div>
+
+                <? elseif ($this->handle === ORDER_ACTION_BLRZ): ?>
+                <div id="fhandle-orm-blrz" class="order-tip">
+                    <form class="form-order-handle" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLRZ ?>" method="post">
+                        <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                        <p>您现在就要办理入住吗？<input type="submit" value="办理入住" class="button white" style="margin-left:12px;" /></p>
+                    </form>
+                </div>
+
+                <? elseif ($this->handle === ORDER_ACTION_BLDD): ?>
+                <div id="handle-form-bldd" class="order-tip">
+                    <form class="form-order-handle" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLDD ?>" method="post">
+                        <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                        <p>您现在就要保留此订单吗？<input type="submit" value="保留订单" class="button white" style="margin-left:22px;" /></p>
+                    </form>
+                </div>
+
+                <? elseif ($this->handle === ORDER_ACTION_QXDD): ?>
+                <div id="form-qxdd" class="order-tip">
+                    <form class="form-order-handle" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_QXDD ?>" method="post">
+                        <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                        <p>订单取消原因：</p>
+                        <p><textarea name="memo"><?= empty($this->order['rtsta']) ? '' : $this->escape(implode(',', $this->order['rtsta'])) ?></textarea></p>
+                        <p style="color:#999;">取消订单后该订单的应收房费将自动变为0元 <a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#25" target="_blank">?</a></p>
+                        <p><input type="submit" value="取消订单" class="button white" /></p>
+                    </form>
+                </div>
+
+                <? elseif ($this->handle === ORDER_ACTION_BLHF): ?>
+                <div id="handle-form-bldd" class="order-tip">
+                    <form class="form-order-handle" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLHF ?>" method="post">
+                        <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                        <p>
+                            房间名：
+                            <input type="text" name="rnm" class="ftt-input-text required"  >
+                            <input type="submit" value="确定换房" class="button white" style="margin:0 12px;" />
+                        </p>
+                    </form>
+                </div>
+                <? endif; ?>
+                <? endif; ?>
+
+                <div class="wrapper">
+                    <ul class="tab-list clearfix">
+                        <li alt="jbxx" class="now">基本信息</li>
+                        <li alt="ffmx">房费明细</li>
+                        <li class="last" alt="krxx">客人信息</li>
+                    </ul>
+                    <div class="tab-block clearfix">
+                        <div id="block-jbxx" class="tab-content">
+                            <div class="tab-content-wrapper">
+                                <form id="form-update-order-jbxx" action="/master/order/do-update?tab=jbxx&oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>" method="post">
+                                    <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                                    <p>
+                                        <label for="o-rname">房间名</label>
+                                        <input id="o-rname" type="text" class="ftt-input-text" disabled="disabled" value="<?= $this->escape($this->order['o_room']) ?>" />
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <? if ($this->order['o_attr'] & ORDER_ATTR_YXHF): ?>
+                                        <a id="change-room-toggle" href="/master/order/do-update?tab=hfsx&oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&key=<?= $this->order['o_mtime'] ?>">[ 改为不可换房 ]</a>
+                                        <? else: ?>
+                                         <a id="change-room-toggle" href="/master/order/do-update?tab=hfsx&oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&key=<?= $this->order['o_mtime'] ?>">[ 改为允许换房 ]</a>
+                                        <? endif ?>
+                                        <? endif ?>
+                                    </p>
+
+                                    <p>
+                                        <label for="o-member">关联会员</label>
+                                        <input id="o-member" type="text" class="ftt-input-text" value="<?= $this->escape($this->order['o_mno']) ?>" disabled="disabled" />
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <a href="javascript:;" id="change-member">[ 修改关联会员 ]</a>
+                                        <? endif ?>
+                                    </p>
+
+                                    <p>
+                                        <label for="o-saleman">销售人员</label>
+                                        <input id="o-saleman" type="text" class="ftt-input-text" value="<?= $this->escape($this->order['o_snm']) ?>" disabled="disabled" />
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <a href="javascript:;" class="handle-option" alt="account">[ 修改销售人员 ]</a>
+                                        <? endif ?>
+                                    </p>
+
+                                    <p>
+                                        <label for="o-channel">预订渠道</label>
+                                        <input id="o-channel" type="text" class="ftt-input-text" value="<?= $this->escape($this->order['o_cnm']) ?>" disabled="disabled" />
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <a href="javascript:;" class="handle-option" alt="channel">[ 修改预订渠道 ]</a>
+                                        <? endif ?>
+                                    </p>
+
+                                    <p>
+                                        <label for="o-typedef">预订类型</label>
+                                        <input id="o-typedef" type="text" class="ftt-input-text" value="<?= $this->escape($this->order['o_tnm']) ?>" disabled="disabled" />
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <a href="javascript:;" class="handle-option" alt="typedef" >[ 修改预订类型 ]</a>
+                                        <? endif ?>
+                                    </p>
+
+                                    <p>
+                                        <label>预计入住</label>
+                                        <input type="text" class="ftt-input-text" value="<?= date('Y-m-d  H:i', $this->order['o_btime']) ?>" disabled="disabled" />
+                                    </p>
+
+                                    <p>
+                                        <label>预计离店</label>
+                                        <input type="text" class="ftt-input-text input-datepicker required dateISO" value="<?= date('Y-m-d  H:i', $this->order['o_etime']) ?>" disabled="disabled" />
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <a href="javascript:;" id="change-date-link">[ 修改订单时间 ]</a>
+                                        <? endif; ?>
+                                    </p>
+
+                                    <p>
+                                    <label for="o-remark">备注内容<br />特殊要求</label>
+                                        <textarea id="o-remark" name="memo"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>><?= $this->escape($this->order['o_memo']) ?></textarea>
+                                    </p>
+                                    <div class="order-button">
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <input type="submit" value="保存" class="button white" />
+                                        <input type="reset" value="取消" class="button white" />
+                                        <? endif ?>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="block-ffmx" class="tab-content hide">
+                            <div class="tab-content-wrapper" id="o-time">
+                                <form id="form-update-order-ffmx" action="/master/order/do-update?tab=ffmx&oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&key=<?= $this->order['o_mtime'] ?>" method="post">
+                                    <input type="hidden" name="bdate" value="" alt="<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>" />
+                                    <input type="hidden" name="edate" value="" alt="<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>" />
+
+                                    <p>
+                                    入住时间：<span id="o-bdate"><?= date('Y/m/d', $this->order['o_btime']) ?></span>
+                                    <input type="text" name="bhour" value="<?= date('H', $this->order['o_btime']) ?>" class="ftt-input-text single-text {required:true, range:[0,23]}" alt="<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled"' : '' ?> />
+                                    &nbsp;:&nbsp;
+                                    <input type="text" name="bminu" value="<?= date('i', $this->order['o_btime']) ?>" class="ftt-input-text single-text {required:true, range:[0,59]}" alt="<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled"' : '' ?> />
+                                    <span class="note">只能在 <span id="o-btime"></span> 之后</span>
+                                    </p>
+                                    <p>
+                                    离店时间：<span id="o-edate"><?= date('Y/m/d', $this->order['o_etime']) ?></span>
+                                    <input type="text" name="ehour" value="<?= date('H', $this->order['o_etime']) ?>" class="ftt-input-text single-text {required:true, range:[0,23]}" alt="<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled"' : '' ?> />
+                                    &nbsp;:&nbsp;
+                                    <input type="text" name="eminu" value="<?= date('i', $this->order['o_etime']) ?>" class="ftt-input-text single-text {required:true, range:[0,59]}" alt="<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled"' : '' ?> />
+                                    <span class="note">只能在 <span id="o-etime"></span> 之前</span>
+                                    </p>
+                                    <div id="order-price-list" class="order-price-list" alt="<?= $this->room['r_id'] ?>,<?= !in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? '1' : '0' ?>">
+                                        <p class="waitting">正在加载...</p>
+                                    </div>
+                                    <div class="order-button">
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <input type="submit" value="保存" class="button white" />
+                                        <input type="reset" onclick="location.reload();return false;" value="取消" class="button white" />
+                                        <? endif ?>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="block-krxx" class="tab-content hide">
+                            <div class="tab-content-wrapper clearfix">
+                                <form id="form-update-order-krxx" action="/master/order/do-update?tab=krxx&oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&key=<?= $this->order['o_mtime'] ?>" method="post">
+                                    <div class="order-guest">
+                                        <p class="title">入住客人信息</p>
+                                        <p>
+                                            <label for="o-lvname"><em>*</em>姓名</label>
+                                            <input id="o-lvname" type="text" maxlength="14" name="glver[name]" class="ftt-input-text required" value="<?= $this->escape($this->order['o_glver_name']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?> />
+                                        </p>
+                                        <p>
+                                            <label for="o-lvphone"><em>*</em>电话</label>
+                                            <input id="o-lvphone" type="text" name="glver[call]" class="ftt-input-text required digits" value="<?= $this->escape($this->order['o_glver_phone']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?> />
+                                        </p>
+                                        <p>
+                                            <label for="o-lvemail">邮箱</label>
+                                            <input id="o-lvemail" name="glver[mail]" type="text" class="ftt-input-text email" value="<?= $this->escape($this->order['o_glver_email']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>/>
+                                        </p>
+                                        <p>
+                                            <select id="o-lvidcard" name="glver[idtype]" class="ftt-select"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>>
+                                                <? foreach (getSysIdTypes() as $code => $name): ?>
+                                                <option value="<?= $code ?>"<?= $this->order['o_glver_idtype'] == $code ? ' selected="selected"' : '' ?>><?= $name ?></option>
+                                                <? endforeach; ?>
+                                            </select>
+                                            <input id="o-lvidnumber" type="text" name="glver[idno]" class="ftt-input-text" value="<?= $this->escape($this->order['o_glver_idno']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>/>
+                                        </p>
+                                    </div>
+
+                                    <div class="order-guest">
+                                        <p class="title">预订客人信息</p>
+                                        <p>
+                                            <label for="o-bkname"><em>*</em>姓名</label>
+                                            <input id="o-bkname" type="text" maxlength="14" name="gbker[name]" class="ftt-input-text required" value="<?= $this->escape($this->order['o_gbker_name']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?> />
+                                        </p>
+                                        <p>
+                                            <label for="o-bktelephone"><em>*</em>电话</label>
+                                            <input id="o-bktelephone" type="text" name="gbker[call]" class="ftt-input-text required digits" value="<?= $this->escape($this->order['o_gbker_phone']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?> />
+                                        </p>
+                                        <p>
+                                            <label for="o-bkemail">邮箱</label>
+                                            <input id="o-bkemail" name="gbker[mail]" type="text" class="ftt-input-text email" value="<?= $this->escape($this->order['o_gbker_email']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>/>
+                                        </p>
+                                        <p>
+                                            <select id="o-bkidcard" name="gbker[idtype]" class="ftt-select"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>>
+                                                <? foreach (getSysIdTypes() as $code => $name): ?>
+                                                <option value="<?= $code ?>"<?= $this->order['o_gbker_idtype'] == $code ? ' selected="selected"' : '' ?>><?= $name ?></option>
+                                                <? endforeach; ?>
+                                            </select>
+                                            <input id="o-bkidnumber" type="text" name="gbker[idno]" class="ftt-input-text" value="<?= $this->escape($this->order['o_gbker_idno']) ?>"<?= in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true) ? ' disabled="disabled" ' : '' ?>/>
+                                        </p>
+                                    </div>
+                                    <div class="order-button">
+                                        <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <input type="submit" value="保存" class="button white" />
+                                        <input type="reset" onclick="location.reload();return false;" value="取消" class="button white" />
+                                        <? endif ?>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="order-summary">
+                <p>账单编号: <?= $this->order['o_bid'] ?></p>
+                <p>订单房间: <?= $this->escape($this->order['o_room']) ?></p>
+                <p>最近修改: <?= date('Y-m-d H:i:s', $this->order['o_mtime']) ?></p>
+                <p>当前状态: <?= $this->escape($this->order['state']) ?><?= empty($this->order['rtsta']) ? '' : '(<span style="color:red">' . $this->escape(implode(',', $this->order['rtsta'])) . '</span>)' ?></p>
+                <p>挂账金额: <span style="color:red"><?= ($this->bill['b_cost'] - $this->bill['b_paid'])/100 ?></span> 元</p>
+                <p>预订客人: <?= $this->escape($this->order['o_gbker_name']) ?> (<?= $this->escape($this->order['o_gbker_phone']) ?>)</p>
+                <p>入住客人: <?= $this->escape($this->order['o_glver_name']) ?> (<?= $this->escape($this->order['o_glver_phone']) ?>)</p>
+                <h3>可用操作</h3>
+                <ul class="handles">
+                    <li><a href="/master/bill/detail?bid=<?= $this->order['o_bid'] ?>">处理账单</a></li>
+                    <? if (!empty($this->action)): ?>
+                    <? foreach ($this->action as $action): ?>
+                    <li><a href="javascript:;" alt="<?= $action['code'] ?>"><?= $action['name'] ?></a></li>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                    <li><a target="_blank" href="/master/log/order/?oid=<?= $this->order['o_id'] ?>">查看日志</a></li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="order-dialog-tmp-wrapper" style="display:none;">
+    <? if (!empty($this->action)): ?>
+    <? foreach ($this->action as $action): ?>
+    <? if ($action['code'] === ORDER_ACTION_BLTF): ?>
+    <div class="dialog-bltf" title="<?= $action['name'] ?>">
+        <div class="form-in-dialog">
+            <form class="form-handle-order" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLTF ?>" method="post">
+                <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                <? if ($this->bill['b_cost'] - $this->bill['b_paid'] != 0): ?>
+                <p>该订单所在的账单挂账 <span style="color:red"><?= ($this->bill['b_cost'] - $this->bill['b_paid'])/100 ?></span> 元。<a href="/master/bill/detail?bid=<?= $this->order['o_bid'] ?>">[ 处理账单 ]</a></p>
+                <? endif ?>
+                <p class="text">您现在就要办理退房结帐吗？</p>
+                <p class="submit"><input type="submit" value="确认退房" class="button white" /></p>
+            </form>
+        </div>
+    </div>
+
+    <? elseif ($action['code'] === ORDER_ACTION_BLRZ): ?>
+    <div class="dialog-blrz" title="<?= $action['name'] ?>">
+        <div class="form-in-dialog">
+            <form class="form-handle-order" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLRZ ?>" method="post">
+                <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                <p class="text">您现在就要办理入住吗？</p>
+                <p class="submit"><input type="submit" value="办理入住" class="button white" /></p> 
+            </form>
+        </div>
+    </div>
+
+    <? elseif ($action['code'] === ORDER_ACTION_BLDD): ?>
+    <div class="dialog-bldd" title="<?= $action['name'] ?>">
+        <div class="form-in-dialog">
+            <form class="form-handle-order" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLDD ?>" method="post">
+                <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                <p class="text">您现在就要保留此订单吗？</p>
+                <p class="submit"><input type="submit" value="保留订单" class="button white" /></p>
+            </form>
+        </div>
+    </div>
+
+    <? elseif ($action['code'] === ORDER_ACTION_QXDD): ?>
+    <div class="dialog-qxdd" title="<?= $action['name'] ?>">
+        <div class="form-in-dialog">
+            <form class="form-handle-order" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_QXDD ?>" method="post">
+                <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                <p>订单取消原因：</p>
+                <p><textarea class="ftt-textarea" name="memo"><?= empty($this->order['rtsta']) ? '' : $this->escape(implode(',', $this->order['rtsta'])) ?></textarea></p>
+                <p style="color:#999;">取消订单后该订单的应收房费将自动变为0元 <a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#25" target="_blank">?</a></p>
+                <p class="submit"><input type="submit" value="取消订单" class="button white" /></p>
+            </form>
+        </div>
+    </div>
+
+    <? elseif ($action['code'] === ORDER_ACTION_BLHF): ?>
+    <div class="dialog-blhf" title="<?= $action['name'] ?>">
+        <div class="form-in-dialog">
+            <form class="form-handle-order" action="/master/order/do-action?oid=<?= $this->order['o_id'] ?>&sta=<?= $this->order['o_status'] ?>&act=<?= ORDER_ACTION_BLHF ?>" method="post">
+                <input type="hidden" name="key" value="<?= $this->order['o_mtime'] ?>" />
+                <p>
+                    房间名：
+                    <input type="text" name="rnm" class="ftt-input-text required" />
+                    <input type="submit" value="确定换房" class="button white" style="margin-left:14px;" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? endforeach; ?>
+    <? endif; ?>
+
+    <? if (!in_array($this->order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+    <div class="dialog-account" title="销售人员修改">
+        <div class="form-in-dialog">
+            <form class="form-handle-option" action="/master/order/do-update-info-xsry?oid=<?= $this->order['o_id'] ?>" method="post">
+                <p>
+                    选择销售人员：
+                    <select name="sid" class="account-select ftt-select" style="width:110px;"></select>
+                    <input type="submit" value="确认修改" class="button white" style="margin-left:14px;" />
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="dialog-channel" title="预订渠道修改">
+        <div class="form-in-dialog">
+            <form class="form-handle-option" action="/master/order/do-update-info-ydqd?oid=<?= $this->order['o_id'] ?>" method="post">
+                <p>
+                    选择预订渠道：
+                    <select name="cid" class="channel-select ftt-select" style="width:110px;"></select>
+                    <input type="submit" value="确认修改" class="button white" style="margin-left:14px;" />
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="dialog-typedef" title="预订类型修改">
+        <div class="form-in-dialog">
+            <form class="form-handle-option" action="/master/order/do-update-info-ydlx?oid=<?= $this->order['o_id'] ?>" method="post">
+                <p>
+                    选择预订类型：
+                    <select name="tid" class="typedef-select ftt-select" style="width:110px;"></select>
+                    <input type="submit" value="确认修改" class="button white" style="margin-left:14px;" />
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="dialog-member" title="关联会员修改">
+        <div class="form-in-dialog">
+            <form class="form-handle-member" action="/master/order/do-update-info-glhy?oid=<?= $this->order['o_id'] ?>" method="post">
+                <p>
+                    输入会员编号：
+                </p>
+                <p>
+                    <input style="width:200px;" type="text" name="mno" class="ftt-input-text" value="<?= $this->escape($this->order['o_mno']) ?>" />
+                </p>
+                <p>
+                    <span class="note">留空可取消关联，或者点击这里 <a href="/master/mber/" target="_blank">查找会员</a></span>
+                </p>
+                <p>
+                    <label class="checkbox"><input type="checkbox" name="gbk" /> 更新会员信息至预定客人信息</label>
+                </p>
+                <p>
+                    <label class="checkbox"><input type="checkbox" name="glv" /> 更新会员信息至入住客人信息</label>
+                </p>
+                <p class="submit">
+                    <input type="submit" value="确认修改" class="button white" style="margin-left:14px;" />
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <? endif; ?>
+
+</div>
+
+<div class="order-date-tmp-wrapper" style="display:none;">
+    <div class="order-date-tmp">
+        <p>
+            <label>入住时间</label>
+            <input type="text" class="o-bdate ftt-input-text short-text input-datepicker" <?= in_array($this->order['o_status'], array(ORDER_STATUS_YD, ORDER_STATUS_BL), true) ? '' : 'disabled="disabled "' ?>/>
+        </p>
+        <p>
+            <label>离店时间</label>
+            <input type="text" class="o-edate ftt-input-text short-text input-datepicker" <?= in_array($this->order['o_status'], array(ORDER_STATUS_YD, ORDER_STATUS_BL, ORDER_STATUS_ZZ), true) ? '' : 'disabled="disabled "' ?>/>
+        </p>
+        <p style="text-align:center;">
+            <input type="button" class="button white get-price" value="刷新房费" />
+        </p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+
+<div class="print-wrapper">
+    <table class="print-order">
+        <tbody>
+            <tr>
+                <td>订单编号：</td>
+                <td><?= $this->order['o_id'] ?></td>
+                <td>账单编号：</td>
+                <td><?= $this->order['o_bid'] ?></td>
+            </tr>
+            <tr>
+                <td>房间名称：</td>
+                <td><?= $this->order['o_room'] ?> [<?= $this->order['state'] ?>]</td>
+                <td>销售人员</td>
+                <td><?= $this->escape($this->order['o_snm']) ?></td>
+            </tr>
+            <tr>
+                <td>预订渠道：</td>
+                <td><?= $this->escape($this->order['o_cnm']) ?></td>
+                <td>预订类型：</td>
+                <td><?= $this->escape($this->order['o_tnm']) ?></td>
+            </tr>
+            <tr>
+                <td>预计入住：</td>
+                <td><?= date('Y-m-d H:i', $this->order['o_btime']) ?></td>
+                <td>预计离店：</td>
+                <td><?= date('Y-m-d H:i', $this->order['o_etime']) ?></td>
+            </tr>
+            <tr>
+                <td>订单备注：</td>
+                <td colspan="3"><?= $this->escape($this->order['o_memo']) ?></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="rprice print-price">
+        <caption>
+            房费明细：
+        </caption>
+        <thead>
+            <tr>
+                <th style="width:50%;">日期</th>
+                <th style="width:25%;">成交房费(元)</th>
+                <th style="width:25%;">账单房费(元)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <? $psum = $bsum = 0 ?>
+            <? foreach ($this->order['price'] as $time => $price): ?>
+            <? $brice = $this->order['brice'][$time] ?>
+            <tr>
+                <td><?= date('Y-m-d', $time) ?></td>
+                <td><?= $price/100 ?></td>
+                <td><?= $brice/100 ?></td>
+            </tr>
+            <? $psum += $price ?>
+            <? $bsum += $brice ?>
+            <? endforeach ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>房费合计：</td>
+                <td><?= $psum/100 ?></td>
+                <td><?= $bsum/100 ?></td>
+            </tr>
+        </tfoot>
+    </table>
+    <table class="rprice print-guests">
+        <caption>
+            客人信息：
+        </caption>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>邮箱</th>
+                <th>证件</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><?= $this->escape($this->order['o_gbker_name']) ?> (预订客人)</td>
+                <td><?= $this->escape($this->order['o_gbker_phone']) ?></td>
+                <td><?= $this->escape($this->order['o_gbker_email']) ?></td>
+                <td><?= $this->escape(getSysIdTypeNameByCode($this->order['o_gbker_idtype']) . ' ' . $this->order['o_gbker_idno']) ?></td>
+            </tr>
+            <tr>
+                <td><?= $this->escape($this->order['o_glver_name']) ?> (入住客人)</td>
+                <td><?= $this->escape($this->order['o_glver_phone']) ?></td>
+                <td><?= $this->escape($this->order['o_glver_email']) ?></td>
+                <td><?= $this->escape(getSysIdTypeNameByCode($this->order['o_glver_idtype']) . ' ' . $this->order['o_glver_idno']) ?></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="print-hostel">
+        <tbody>
+            <tr>
+                <td>旅店名称：</td>
+                <td><?= $this->escape($this->hostel['h_name']) ?></td>
+            </tr>
+            <tr>
+                <td>联系电话：</td>
+                <td><?= $this->escape($this->hostel['h_phone']) ?></td>
+            </tr>
+            <tr>
+                <td>详细地址：</td>
+                <td><?= $this->escape($this->hostel['h_province']) ?> <?= $this->escape($this->hostel['h_city']) ?> <?= $this->escape($this->hostel['h_address']) ?></td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="print-copyright">&mdash;&mdash;由房态通提供</p>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    Z.Module.master.order.detail.init(
+        <?= $this->order['o_id'] ?>,
+        <?= json_encode($this->order['price']) ?>,
+        <?= json_encode($this->order['brice']) ?>
+    );
+});
+</script>
+<? $this->view('foot') ?>

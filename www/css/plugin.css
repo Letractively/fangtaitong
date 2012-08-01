@@ -1,0 +1,153 @@
+/*!
+ * dateinput.css
+ * easydialog.css
+ */
+/* Some resets for compatibility with existing CSS */
+.date_selector, .date_selector * {
+    width: 180px;
+    height: auto;
+    border: none;
+    background: none;
+    text-align: center;
+	vertical-align: middle;
+    text-decoration: none;
+}
+.date_selector {
+    background: #F2F2F2;
+    border: 1px solid #bbb;
+    padding: 5px;
+    margin: -1px 0 0 0;
+    position: absolute;
+    z-index: 100000;
+    display: none;
+}
+.date_selector_ieframe {
+    position: absolute;
+    z-index: 99999;
+    display: none;
+}
+.date_selector .nav {
+	width: 180px;
+    height: 20px;
+	margin-bottom:5px;
+}
+.date_selector .month_nav, .date_selector .year_nav {
+	width: 85px;
+	height: 18px;
+	border: 1px solid #ccc;
+	background:#fff;
+	padding: 0;
+}
+.date_selector .month_nav {
+	float: right;
+}
+.date_selector .year_nav {
+	float: left;
+}
+.date_selector .nav span{
+	font-weight: bold;
+	float: left;
+	display: block;
+	height: 18px;
+	line-height:18px;
+	vertical-align: baseline;
+}
+.date_selector .month_name, .date_selector .year_name {
+	width: 45px;
+}
+.date_selector .arrow {
+    width: 18px;
+    color: #0B8262;
+    font-size: 150%;
+    
+}
+.date_selector .arrow:hover, .date_selector .arrow.hover {
+    background: none;
+    color: #0B8262;
+    cursor: pointer;
+    border-color: #ccc;
+}
+.date_selector table {
+	width:180px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    clear: both;
+}
+.date_selector td , .date_selector th{
+    width: 25px;
+    height: 25px;
+	line-height: 17px;
+    padding: 0;
+    color: black;
+}
+
+.date_selector td {
+    border: 1px solid #ccc;
+    line-height: 17px;
+    white-space: nowrap;
+    color: #0B8262;
+    background: #fff;
+}
+.date_selector td.today {
+    background: #89CAE0;
+	color:#fff;
+}
+.date_selector td.unselected_month {
+    color: #ccc;
+}
+.date_selector td.selectable_day {
+    cursor: pointer;
+}
+.date_selector td.selected {
+    background: #bed7d1;
+	color:#fff;
+    font-weight: bold;
+}
+.date_selector td.selectable_day:hover, .date_selector td.selectable_day.hover {
+    background: #0B8262;
+    color: #fff;
+}
+
+button::-moz-focus-inner{ border:0; padding:0; margin:0; }
+
+.easyDialog_wrapper{ overflow:hidden; width:444px; color:#444; border:3px solid rgba(0,0,0,0); -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; -webkit-box-shadow:0 0 10px rgba(0,0,0,0.4); -moz-box-shadow:0 0 10px rgba(0,0,0,0.4); box-shadow:0 0 10px rgba(0,0,0,0.4); display:none; }
+
+.easyDialog_wrapper .easyDialog_content{ -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; background:#fff; border:1px solid #e5e5e5; }
+
+.easyDialog_wrapper .easyDialog_title{ height:30px; line-height:30px; overflow:hidden; color:#666; padding:0 10px; font-size:14px; border-bottom:1px solid #e5e5e5; background:#f7f7f7; border-radius:4px 4px 0 0; }
+
+.easyDialog_wrapper .close_btn{ font-size:18px; _font-size:12px; font-weight:700; color:#999; text-decoration:none; float:right; }
+
+.easyDialog_wrapper .close_btn:hover{ color:#333; }
+
+.easyDialog_wrapper .easyDialog_text{ padding:25px; font-size:13px; line-height:22px; overflow:hidden;}
+
+.easyDialog_wrapper .easyDialog_footer{ padding:0 25px; *zoom:1; }
+
+.easyDialog_wrapper .easyDialog_footer:after{ content:''; display:block; height:0; overflow:hidden; visibility:hidden; clear:both; }
+/*
+.easyDialog_wrapper .btn_highlight,
+.easyDialog_wrapper .btn_normal{ border:1px solid; border-radius:2px; cursor:pointer;  float:right; font-size:12px; padding:0 12px; height:24px; line-height:24px; margin-bottom:10px; }
+
+.easyDialog_wrapper .btn_highlight{ background:#4787ed; background:-webkit-gradient(linear,center bottom,center top,from(#4787ed),to(#4d90fe)); background:-moz-linear-gradient(90deg, #4787ed, #4d90fe); border-color:#3079ed; color:#fff; }
+
+.easyDialog_wrapper .btn_normal{ margin-left:10px; border-color:#c3c3c3; background:#ececec; color:#333; background:-webkit-gradient(linear,center bottom,center top,from(#ececec),to(#f4f4f4)); background:-moz-linear-gradient(90deg,#ececec,#f4f4f4); }
+*/
+.easyDialog_wrapper .btn_highlight,
+.easyDialog_wrapper .btn_normal{ margin-bottom:20px; float:right; }
+
+.easyDialog_wrapper .btn_normal{ margin-left:10px }
+
+/* jquery.validate.js */
+
+form label.error
+{
+    background-image:url(../img/icons/exclamation.gif);
+    background-position:5px 4px;
+    background-repeat:no-repeat;
+}
+
+form input.error
+{
+    border:1px solid #f00!important;
+}

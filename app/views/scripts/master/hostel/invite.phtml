@@ -1,0 +1,33 @@
+<? $this->view('head') ?>
+<title>旅店注册邀请</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.hostel.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'zcyq', 'set' => 'zhsz')) ?>
+    <div class="cpanel-content">
+        <table class="layout" style="margin-bottom:100px;">
+            <tr>
+                <td><label for="form-invite-state">邀请状态</label></td>
+                <td>
+                    <span class="annotation">总数：<?= $this->state[0] ?>，已生效：<?= $this->state[1] ?></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="form-invite-refer">邀请链接</label></td>
+                <td>
+                    <input id="form-invite-refer" type="text" class="ftt-input-text long-text" value="<?= $this->refer ?>" />
+                    <span class="annotation"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.hostel.invite.init);</script>
+<? $this->view('foot') ?>

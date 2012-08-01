@@ -1,0 +1,162 @@
+<? $this->view('head') ?>
+<title>账单管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/bill.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.bill.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'zdgl')) ?>
+<div class="ftt-container" style="border-bottom:none;">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">账单管理</h2>
+    </div>
+    <div class="ftt-list-query">
+        <div class="wrapper">
+            <form id="form-index-query" action="/master/bill/" method="get">
+                <span>查询账单</span><input type="text" name="name" value="<?= isset($this->query['name']) ? $this->escape($this->query['name']) : '' ?>" class="ftt-input-text short-text"/>
+                <select class="ftt-select bill-select" name="type">
+                    <option value="bill"<?= isset($this->query['type']) && $this->query['type'] == 'bill' ? ' selected="selected"' : '' ?>>按编号查询</option>
+                    <option value="name"<?= isset($this->query['type']) && $this->query['type'] == 'name' ? ' selected="selected"' : '' ?>>按名称查询</option>
+                </select>
+                <span>创建日期</span>
+                <input type="text" name="bdate" value="<?= isset($this->query['bdate']) ? $this->escape($this->query['bdate']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+                -
+                <input type="text" name="edate" value="<?= isset($this->query['bdate']) ? $this->escape($this->query['edate']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+                <input type="submit" value="查询账单" class="button white" id="bill-query-button" />
+            </form>
+        </div>
+    </div>
+    <div class="ftt-list-filter">
+        <table class="rm-layout">
+            <tr>
+                <td class="left-col">
+                    <span>结算方式</span>
+                    <? $query = $this->query; unset($query['setms']); ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>" class="all<?= empty($this->query['setms']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? if (!empty($this->setms)): ?>
+                    <? foreach ($this->setms as $setm): ?>
+                    <?
+                    $query = $this->query;
+                    $code = $setm['hs_id'];
+                    $name = $setm['hs_name'];
+                    if (in_array($code, $query['setms'], true)):
+                        unset($query['setms'][array_search($code, $query['setms'], true)]);
+                    else:
+                        $query['setms'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>"<?= in_array($code, $this->query['setms'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->query['setms'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="left-col">
+                    <span>收款情况</span>
+                    <? $query = $this->query; unset($query['money']); ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>" class="all<?= empty($this->query['money']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? foreach (array('未收款'=>'0', '部分收款'=>'>', '结清'=>'=', '结余'=>'<') as $name => $code): ?>
+                    <?
+                    $query = $this->query;
+                    if (in_array($code, $query['money'], true)):
+                        unset($query['money'][array_search($code, $query['money'], true)]);
+                    else:
+                        $query['money'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>"<?= in_array($code, $this->query['money'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->query['money'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="left-col">
+                    <span>实时状态</span>
+                    <? $query = $this->query; unset($query['rtsta']); ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>" class="all<?= empty($this->query['rtsta']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? if (!empty($this->rtsta)): ?>
+                    <? foreach ($this->rtsta as $name => $code): ?>
+                    <?
+                    $query = $this->query;
+                    if (in_array($code, $query['rtsta'], true)):
+                        unset($query['rtsta'][array_search($code, $query['rtsta'], true)]);
+                    else:
+                        $query['rtsta'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>"<?= in_array($code, $this->query['rtsta'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->query['rtsta'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="left-col">
+                    <span>账单状态</span>
+                    <? $query = $this->query; unset($query['state']); ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>" class="all<?= empty($this->query['state']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? if (!empty($this->state)): ?>
+                    <? foreach ($this->state as $name => $code): ?>
+                    <?
+                    $query = $this->query;
+                    if (in_array($code, $query['state'], true)):
+                        unset($query['state'][array_search($code, $query['state'], true)]);
+                    else:
+                        $query['state'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($query, '/master/bill/') ?>"<?= in_array($code, $this->query['state'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->query['state'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table class="ftt-list-table data">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th style="width:200px">名称</th>
+                <th>总应收（元）</th>
+                <th>总已收（元）</th>
+                <th>挂帐金额（元）</th>
+                <th>结算方式</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>详情</th>
+                <th>日志</th>
+            </tr>
+        </thead>
+        <tbody>
+            <? if (empty($this->bills)): ?>
+            <tr><td colspan="10">没有任何账单</td></tr>
+            <? else: ?>
+            <? foreach ($this->bills as $bill): ?>
+            <tr>
+                <td><?= $bill['b_id'] ?></td>
+                <td><?= $this->escape($bill['b_name']) ?></td>
+                <td><?= $bill['b_cost']/100 ?></td>
+                <td><?= $bill['b_paid']/100 ?></td>
+                <td><? $diff = ($bill['b_cost']-$bill['b_paid'])/100 ?><?= $diff ? '<span style="color:' . ($diff > 0 ? 'red' : 'green') . '">' . $diff . '</span>' : $diff ?></td>
+                <td><?= $this->escape($bill['b_snm']) ?></td>
+                <td><?= date('Y-m-d H:i', $bill['b_ctime']) ?></td>
+                <td><?= $this->escape($bill['state']) ?><?= empty($bill['rtsta']) ? '' : '<span style="color:red">(' . $this->escape(implode(',', $bill['rtsta'])) . ')</span>' ?></td>
+                <td><a target="_blank" href="/master/bill/detail?bid=<?= $bill['b_id'] ?>">详情</a></td>
+                <td><a target="_blank" href="/master/log/bill/?bid=<?= $bill['b_id'] ?>">日志</a></td>
+            </tr>
+            <? endforeach; ?>
+            <? endif; ?>
+        </tbody>
+    </table>
+    <? $this->view('master/pager', array('pager' => $this->pager)) ?>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.bill.index.init);</script>
+<? $this->view('foot') ?>

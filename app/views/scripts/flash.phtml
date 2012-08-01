@@ -1,0 +1,70 @@
+<? $this->view('head') ?>
+<title>房态通提醒您</title>
+
+<? if ($this->forward && $this->timeout > 0): ?>
+<script type="text/javascript">
+function timeout(o) {
+    if ($(o).parent().hasClass('remove'))
+    {
+        clearInterval(o.timeout);
+        return;
+    }
+
+    var s = $(o);
+    var t = parseInt(s.text());
+    s.text(--t);
+
+    if (parseInt(t) <= 0)
+    {
+        location.href = $(o).parent().parent().find('.forward a').attr('href');
+        clearInterval(o.timeout);
+    }
+};
+
+$(function(){
+    $('.timeout').each(function(){
+        var that = this;
+        that.timeout = setInterval(function(){timeout(that);}, 1000);
+    });
+
+    $('.stopRedirect').show();
+});
+</script>
+<? endif; ?>
+
+<? $this->view('body') ?>
+
+<div class="flash-message-wrapper">
+    <div class="flash-message-<?= $this->success ? 'success' : 'failure' ?>-box">
+        <h2 class="title">操作<?= $this->success ? '成功' : '失败' ?></h2>
+        <div class="message">
+            <?= $this->success ? '<span class="face">^_^</span>' : '<span class="face">T_T</span>' ?>
+        </div>
+        <div class="content">
+            <? if ($this->forward && $this->timeout > 0): ?>
+            <p> <span class="timeout"><?= $this->timeout ?></span> 秒后将自动跳转<a class="stopRedirect" href="javascript:;" onclick="$(this).parent().addClass('remove');$(this).remove()" style="display:none;"> ( 停止跳转 ) </a></p>
+            <p class="forward">如果您的浏览器没有自动跳转，请点击<a href="<?= $this->forward ?>" class="underline">这里</a></p>
+            <? else: ?>
+            <p class="forward" style="margin-bottom:15px;">点击<a href="javascript:history.go(-1)" class="underline">这里返回上一页</a></p>
+            <? endif; ?>
+
+            <p><strong><?= $this->message ?></strong></p>
+
+            <? if (is_array($this->content)): ?>
+            <p>
+            <? foreach ($this->content as $key => $val): ?>
+            <?= $val ?><br />
+            <? endforeach; ?>
+            </p>
+            <? else : ?>
+            <p><?= $this->content ?></p>
+            <? endif; ?>
+        </div>
+    </div>
+    <div class="footer-nav">
+        <a href="/master/">返回首页</a> |
+        <a href="http://blog.fangtaitong.com/?page_id=7" target="_blank">意见反馈</a>
+    </div>
+</div>
+
+<? $this->view('foot') ?>

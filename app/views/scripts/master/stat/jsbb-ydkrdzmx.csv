@@ -1,0 +1,33 @@
+"当前列表数据更新时间：<?= date('Y-m-d H:i:s', $this->time) ?>"
+
+<?= $this->quote("预订客人：" . $this->bknm) ?>
+
+"账单编号","订单编号","房间名","入住客人","入住日期","离店日期","间夜数","成交房费(元)","账单房费(元)","佣金(房费差价)"
+
+<? $btime = 0 ?>
+<? $etime = 0 ?>
+<? $night = 0 ?>
+<? $night_sum = 0 ?>
+<? $price = 0 ?>
+<? $price_sum = 0 ?>
+<? $brice = 0 ?>
+<? $brice_sum = 0 ?>
+<? $bmnsp = 0 ?>
+<? $bmnsp_sum = 0 ?>
+<? if(!empty($this->ydkr)): ?>
+<? foreach ($this->ydkr as $data): ?>
+<?= $this->quote($data['o_id']) ?>,
+<?= $this->quote($data['o_bid']) ?>,
+<?= $this->quote($data['o_room']) ?>,
+<?= $this->quote($data['o_glver_name']) ?>,
+<? $btime = strtotime(date('Y-m-d', $data['o_btime'])) ?><?= $this->quote(date('Y-m-d', $btime)) ?>,
+<? $etime = strtotime(date('Y-m-d', $data['o_etime'])) ?><?= $this->quote(date('Y-m-d', $etime)) ?>,
+<?= $this->quote($night = ($etime - $btime)/86400) ?><? $night_sum += $night ?>,
+<?= $this->quote($data['o_price']/100) ?><? $price_sum += $data['o_price']/100 ?>,
+<?= $this->quote($data['o_brice']/100) ?><? $brice_sum += $data['o_brice']/100 ?>,
+<?= $this->quote($bmnsp = ($data['o_brice'] - $data['o_price'])/100) ?><? $bmnsp_sum += $bmnsp ?>
+
+<? endforeach; ?>
+<? endif; ?>
+
+"","","","","","共有 <?= count($this->ydkr) ?> 条记录，合计：","<?= $night_sum ?>","<?= $price_sum ?>","<?= $brice_sum ?>","<?= $bmnsp_sum ?>"

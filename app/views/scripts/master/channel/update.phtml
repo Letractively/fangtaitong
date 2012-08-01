@@ -1,0 +1,49 @@
+<? $this->view('head') ?>
+<title>更新预订渠道</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.channel.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'ydqd', 'set' => 'jbsz')) ?>
+
+    <div class="form-create">
+        <form id="form-update-channel" action="/master/channel/do-update?hcid=<?= $this->channel['hc_id'] ?>" method="post">
+            <div class="form-block">
+                <h2 class="title">基本信息</h2>
+                <p>
+                    预订渠道
+                    <input id="name" type="text" class="ftt-input-text medium-text" value="<?= $this->escape($this->channel['hc_name']) ?>" disabled="disabled" />
+                    <span class="annotation">名称不可修改</span>
+                </p>
+                <p>
+                    简要说明
+                    <textarea id="memo" class="intro" name="memo"><?= $this->escape($this->channel['hc_memo']) ?></textarea>
+                </p>
+            </div>
+            <div class="form-block">
+                <h2 class="title">使用状态</h2>
+                <p>
+                    启用状态
+                    <label><input id="stat" type="radio" name="stat" value="0"<?= $this->channel['hc_status'] ? '' : ' checked="checked"' ?> />停用</label>
+                    <label><input type="radio" name="stat" value="1"<?= $this->channel['hc_status'] ? ' checked="checked"' : '' ?> />启用</label>
+                </p>
+                <p>
+                    是否默认
+                    <label><?= $this->channel['hc_id'] == $this->hostel['h_order_default_channel'] ? '是' : '否' ?></label>
+                    
+                </p>
+            </div>
+            <div class="button-block">
+                <input type="submit" class="button white" value="保存">
+                <input type="reset" class="button white" value="取消">
+            </div>
+        </form>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.channel.update.init)</script>
+<? $this->view('foot') ?>

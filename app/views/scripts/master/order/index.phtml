@@ -1,0 +1,153 @@
+<? $this->view('head') ?>
+<title>订单管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/order.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.order.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'ddgl')) ?>
+<div class="ftt-container" style="border-bottom:none;">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">订单管理</h2>
+    </div>
+    <div class="ftt-list-query">
+        <div class="wrapper">
+            <form id="form-order-filter" action="/master/order/" method="get">
+                <span>预计入住</span>
+                <input type="text" name="bdate0" value="<?= isset($this->params['bdate0']) ? $this->escape($this->params['bdate0']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+                -&nbsp;
+                <input type="text" name="bdate1" value="<?= isset($this->params['bdate1']) ? $this->escape($this->params['bdate1']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                <span>预计离店</span>
+                <input type="text" name="edate0" value="<?= isset($this->params['edate0']) ? $this->escape($this->params['edate0']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+                -&nbsp;
+                <input type="text" name="edate1" value="<?= isset($this->params['edate1']) ? $this->escape($this->params['edate1']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+
+                <br />
+                <br />
+
+                <span>创建日期</span>
+                <input type="text" name="cdate0" value="<?= isset($this->params['cdate0']) ? $this->escape($this->params['cdate0']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+                -&nbsp;
+                <input type="text" name="cdate1" value="<?= isset($this->params['cdate1']) ? $this->escape($this->params['cdate1']) : '' ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                <span>信息匹配</span>
+                <select class="ftt-select" id="order-query-select" name="type">
+                    <option value="uqid"<?= isset($this->params['type']) && $this->params['type'] == 'uqid' ? ' selected="selected"' : '' ?>>编号</option>
+                    <option value="omno"<?= isset($this->params['type']) && $this->params['type'] == 'omno' ? ' selected="selected"' : '' ?>>关联会员</option>
+                    <option value="osnm"<?= isset($this->params['type']) && $this->params['type'] == 'osnm' ? ' selected="selected"' : '' ?>>销售人员</option>
+                    <option value="cnnm"<?= isset($this->params['type']) && $this->params['type'] == 'cnnm' ? ' selected="selected"' : '' ?>>预订渠道</option>
+                    <option value="type"<?= isset($this->params['type']) && $this->params['type'] == 'type' ? ' selected="selected"' : '' ?>>预订类型</option>
+                    <option value="room"<?= isset($this->params['type']) && $this->params['type'] == 'room' ? ' selected="selected"' : '' ?>>房间名</option>
+                    <option value="call"<?= isset($this->params['type']) && $this->params['type'] == 'call' ? ' selected="selected"' : '' ?>>手机号</option>
+                    <option value="book"<?= isset($this->params['type']) && $this->params['type'] == 'book' ? ' selected="selected"' : '' ?>>预订客人</option>
+                    <option value="live"<?= isset($this->params['type']) && $this->params['type'] == 'live' ? ' selected="selected"' : '' ?>>入住客人</option>
+                </select>
+                =
+                <input type="text" name="name" value="<?= isset($this->params['name']) ? $this->escape($this->params['name']) : '' ?>" class="ftt-input-text short-text" />
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit" value="查询订单" class="button white" />
+            </form>
+        </div>
+    </div>
+    <div class="ftt-list-filter">
+        <table>
+            <tr>
+                <td class="left-col">
+                    <span>实时状态</span>
+                    <? $params = $this->params; unset($params['rtsta']); ?>
+                    <a href="<?= $this->link($params, '/master/order/') ?>" class="all<?= empty($this->params['rtsta']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? if (!empty($this->rtstas)): ?>
+                    <? foreach ($this->rtstas as $name => $code): ?>
+                    <?
+                    $params = $this->params;
+                    if (in_array($code, $params['rtsta'], true)):
+                        unset($params['rtsta'][array_search($code, $params['rtsta'], true)]);
+                    else:
+                        $params['rtsta'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($params, '/master/order/') ?>"<?= in_array($code, $this->params['rtsta'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->params['rtsta'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="left-col">
+                    <span>订单状态</span>
+                    <? $params = $this->params; unset($params['state']); ?>
+                    <a href="<?= $this->link($params, '/master/order/') ?>" class="all<?= empty($this->params['state']) ? ' now' : '' ?>">显示全部</a>
+                </td>
+                <td class="right-col">
+                    <? if (!empty($this->states)): ?>
+                    <? foreach ($this->states as $name => $code): ?>
+                    <?
+                    $params = $this->params;
+                    if (in_array($code, $params['state'], true)):
+                        unset($params['state'][array_search($code, $params['state'], true)]);
+                    else:
+                        $params['state'][] = $code;
+                    endif;
+                    ?>
+                    <a href="<?= $this->link($params, '/master/order/') ?>"<?= in_array($code, $this->params['state'], true) ? ' class="now"' : '' ?>><?= $this->escape($name) . (in_array($code, $this->params['state'], true) ? ' x' : '' ) ?></a>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table class="ftt-list-table data">
+        <thead>
+            <tr>
+                <th style="width:80px;">编号</th>
+                <th style="width:80px;">房间名</th>
+                <th>预订客人</th>
+                <th>入住客人</th>
+                <th style="width:120px;">预计入住</th>
+                <th style="width:120px;">预计离店</th>
+                <th>间夜</th>
+                <th>成交房费（元）</th>
+                <th>账单房费（元）</th>
+                <th>状态</th>
+                <th style="width:50px;">详情</th>
+                <th style="width:50px;">日志</th>
+            </tr>
+        </thead>
+        <tbody>
+            <? if (empty($this->orders)): ?>
+            <tr><td colspan="12">没有任何订单</td></tr>
+            <? else: ?>
+            <? foreach ($this->orders as $order): ?>
+            <tr>
+                <td><?= $order['o_id'] ?></td>
+                <td><a target="_blank" href="/master/room/detail?rid=<?= $order['o_rid'] ?>" title="<?= $this->escape($order['o_room']) ?>"><?= $this->truncate($this->escape($order['o_room']), 8) ?></a></td>
+                <td><?= $this->escape($order['o_gbker_name']) ?></td>
+                <td><?= $this->escape($order['o_glver_name']) ?></td>
+                <td><?= date('Y-m-d H:i', $order['o_btime']) ?></td>
+                <td><?= date('Y-m-d H:i', $order['o_etime']) ?></td>
+                <td><?= ($order['o_edatm']-$order['o_bdatm'])/86400 ?></td>
+                <td><?= $order['o_price']/100 ?></td>
+                <td><?= $order['o_brice']/100 ?></td>
+                <td><?= $this->escape($order['state']) ?><?= empty($order['rtsta']) ? '' : '<span style="color:red">(' . $this->escape(implode(',', $order['rtsta'])) . ')</span>' ?></td>
+                <td><a target="_blank" href="/master/order/detail?oid=<?= $order['o_id'] ?>">详情</a></td>
+                <td><a target="_blank" href="/master/log/order/?oid=<?= $order['o_id'] ?>">日志</a></td>
+            </tr>
+            <? endforeach; ?>
+            <? endif; ?>
+        </tbody>
+    </table>
+    <? $this->view('master/pager', array('pager' => $this->pager)) ?>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">
+$(Z.Module.master.order.index.init);
+</script>
+<? $this->view('foot') ?>
