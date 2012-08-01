@@ -1,0 +1,97 @@
+<? $this->view('head') ?>
+<title>创建订单 - <?= $this->escape($this->hotel['h_name']) ?></title>
+<link rel="stylesheet" href="<?= $this->www('css/module/hostel.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/hostel/order.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/hostel.order.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('hostel/header', $this->hotel) ?>
+
+<div class="wrapper">
+    <!-- <h2>创建订单</h2> -->
+    <form id="form-create-order" method="post" action="/hostel/order/do-create?hid=<?= $this->hotel['h_id']; ?>&ctime=<?= $this->ctime; ?>">
+        <div id="main-guest">
+            <span class="title">预订客人</span>
+            <label>姓名<em>*</em></label><input type="text" name="cuser[name]" id="c-name" class="input-text required" maxlength="14" />
+            <label>手机<em>*</em></label><input type="text" name="cuser[call]" id="c-call" class="input-text required digits" maxlength="20" />
+            <label>邮箱<em>*</em></label><input type="text" name="cuser[mail]" id="c-mail" class="input-text required email" maxlength="100" />
+        </div>
+        <ul id="order-container">
+            <? $count = 1; ?>
+            <? foreach ($this->rooms as $rid => $room): ?>
+            <? $btime = $this->order[$rid]['datm'] + $this->otime[$rid][0]; ?>
+            <? $etime = $this->order[$rid]['datm'] + 86400 * $this->order[$rid]['lgth'] + $this->otime[$rid][1]; ?>
+
+            <li class="clearfix room<?= $this->order[$rid]['kept'] ? ' kept': '' ?>" id="room-<?= $rid ?>">
+            <div class="header">
+                <div class="close" title="点击删除"></div>
+                <h3 class="title" title="<?= $this->order[$rid]['kept'] ? $this->order[$rid]['info'] : '' ?>">房间 <span class="number"><?= $count ?></span></h3>
+            </div>
+            <div class="info">
+                <div class="main-info">
+                    <p>
+                    房间名称：<input type="text" disabled="disabled" class="input-text room-name" value="<?= $this->escape($room['r_name']) ?>" />
+                    </p>
+                    <p>
+                    入住时间：<span class="bdate" style="font-size:13px"><?= date('Y-m-d', $btime) ?>&nbsp;&nbsp;<span<?= $this->otime[$rid][0] == $this->hotel['h_checkin_time'] ? '' : ' style="color:#f1a038"' ?>><?= date('H:i', $btime) ?></span></span>
+                    离店时间：<span class="edate" style="font-size:13px"><?= date('Y-m-d', $etime) ?>&nbsp;&nbsp;<span<?= $this->otime[$rid][1] == $this->hotel['h_checkout_time'] ? '' : ' style="color:#f1a038"' ?>><?= date('H:i', $etime) ?></span></span>
+                    </p>
+                    <div class="price-table"></div>
+                    <input type="hidden" name="order[<?= $rid ?>][date]" value="<?= $this->order[$rid]['date'] ?>" />
+                    <input type="hidden" name="order[<?= $rid ?>][lgth]" value="<?= $this->order[$rid]['lgth'] ?>" />
+                    <input type="hidden" name="order[<?= $rid ?>][time][]" value="<?= $this->otime[$rid][0] ?>" />
+                    <input type="hidden" name="order[<?= $rid ?>][time][]" value="<?= $this->otime[$rid][1] ?>" />
+                </div>
+                <div class="guest-info">
+                    <p class="title">请填写该房间的入住客人信息</p>
+                    <p>
+                    <label class="copy-guest"><input type="checkbox"<?= $count == 1 ? ' checked="checked"' : ''?> alt="<?= $rid ?>" />入住客人信息跟预订客人信息相同</label>
+                    </p>
+                    <p>
+                    <label>姓名<em>*</em></label><input type="text" name="guest[<?= $rid ?>][name]" class="input-text g-name required" maxlength="14" />
+                    </p>
+                    <p>
+                    <label>手机<em>*</em></label><input type="text" name="guest[<?= $rid ?>][call]" class="input-text g-call required digits" maxlength="20" />
+                    </p>
+                    <p>
+                    <label>邮箱<em>*</em></label><input type="text" name="guest[<?= $rid ?>][mail]" class="input-text g-mail required email" maxlength="100" />
+                    </p>
+                    <p>
+                    <label>备注</label><textarea></textarea>
+                    </p>
+                </div>
+            </div>
+            </li>
+            <? $count++ ?>
+            <? endforeach ?>
+        </ul>
+        <div id="form-footer" class="clearfix">
+            <div class="note">
+                <?= nl2br($this->escape($this->hotel['h_note'])) ?>
+            </div>
+            <div class="submit">
+                <p>
+                总金额 <span id="total-fee">0</span> 元
+                </p>
+                <p>
+                <span class="captcha">验证码</span>
+                <a title="点击换一张" class="reload-captcha" href="javascript:;"><img class="captcha" src="/com/captcha/image?a=/hostel/order/do-create&o=<?= time() ?>" /></a><input type="text" name="captcha" id="form-create-order-captcha" class="input-text tulin required" />
+                <input type="submit" class="button white" value="提交订单" />
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    Z.Module.hostel.order.index.init(
+        <?= json_encode($this->order); ?>,
+        <?= json_encode($this->price); ?>,
+        <?= json_encode($this->saved); ?>
+    );
+});
+</script>
+
+<? $this->view('hostel/footer') ?>
+<? $this->view('foot') ?>

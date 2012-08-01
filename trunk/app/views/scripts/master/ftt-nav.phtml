@@ -1,0 +1,16 @@
+        <ul class="cpanel-navi clearfix">
+            <? if (!isset($set) || $set == 'jbsz'): ?>
+            <li><a href="/master/hostel/"<?if (!isset($tab) || $tab == 'ldxx'): ?> class="now"<? endif; ?>>旅店信息</a></li>
+            <li><a href="/master/typedef/"<?if (!isset($tab) || $tab == 'ydlx'): ?> class="now"<? endif; ?>>预订类型</a></li>
+            <li><a href="/master/channel/"<?if (!isset($tab) || $tab == 'ydqd'): ?> class="now"<? endif; ?>>预订渠道</a></li>
+            <li><a href="/master/payment/"<?if (!isset($tab) || $tab == 'skqd'): ?> class="now"<? endif; ?>>收款渠道</a></li>
+            <li><a href="/master/settlem/"<?if (!isset($tab) || $tab == 'jsfs'): ?> class="now"<? endif; ?>>结算方式</a></li>
+            <? elseif ($set == 'gzsz'): ?>
+            <li><a href="/master/hostel/update-rule"<?if (!isset($tab) || $tab == 'ftgz'): ?> class="now"<? endif; ?>>房态规则</a></li>
+            <li><a href="/master/room/update-rule"<?if (!isset($tab) || $tab == 'jggz'): ?> class="now"<? endif; ?>>价格规则</a></li>
+            <? elseif ($set == 'zhsz'): ?>
+            <li><a href="/master/profile/"<?if (!isset($tab) || $tab == 'grzx'): ?> class="now"<? endif; ?>>个人中心</a></li>
+            <li><a href="/master/account/"<?if (!isset($tab) || $tab == 'ygzh'): ?> class="now"<? endif; ?>>员工帐号</a></li>
+            <? endif; ?>
+        </ul>
+

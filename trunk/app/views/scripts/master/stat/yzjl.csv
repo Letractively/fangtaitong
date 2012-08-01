@@ -1,0 +1,29 @@
+"当前列表数据更新时间：<?= date('Y-m-d H:i:s', $this->time) ?>"
+
+"订单编号","房间","入住客人姓名","入住客人手机","预计入住","预计退房","间夜","成交房费（元）","账单房费（元）","账单编号","备注"
+
+<? $live_sum = $pval_sum = $bval_sum = 0 ?>
+<? if(!empty($this->yzjl)): ?>
+<? foreach ($this->yzjl as $data): ?>
+<?= $this->quote($data['o_id']) ?>,
+<?= $this->quote($data['o_room']) ?>,
+<?= $this->quote($data['o_glver_name']) ?>,
+<?= $this->quote($data['o_glver_phone']) ?>,
+<?= $this->quote(date("Y-m-d H:i", $data['o_btime'])) ?>,
+<?= $this->quote(date("Y-m-d H:i", $data['o_etime'])) ?>,
+<?= $this->quote(($live = ($data['o_edatm']-$data['o_bdatm'])/86400)) ?><? $live_sum += $live ?>,
+<?= $this->quote($data['o_price']/100) ?><? $pval_sum += $data['o_price'] ?>,
+<?= $this->quote($data['o_brice']/100) ?><? $bval_sum += $data['o_brice'] ?>,
+<?= $this->quote($data['o_bid']) ?>,
+<?= $this->quote($data['o_memo']) ?>
+
+<? endforeach; ?>
+<? endif; ?>
+
+"","","","","","共有 <?= count($this->yzjl) ?> 条记录，合计：",
+<?= $this->quote($live_sum) ?>,
+<?= $this->quote($pval_sum/100) ?>,
+<?= $this->quote($bval_sum/100) ?>
+
+""
+"注：本报表仅统计保留订单"

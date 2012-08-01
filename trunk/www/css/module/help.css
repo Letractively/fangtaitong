@@ -1,0 +1,518 @@
+/*---------- index2 page begin-----------*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+html {
+    font-size: 100%;
+    height: 100%;
+    margin-bottom: 1px; 
+	/* Always show  a scrollbar to avoid jumping when the scrollbar appears  */
+}
+
+html,* html body /* 修正IE6振动bug */
+{
+	background-image:url(about:blank);
+	background-attachment:fixed;
+}
+
+body {
+    font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+    color: #555;
+    font-size: 12px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Microsoft Yahei", Helvetica, Arial, sans-serif;
+    color: #222;
+    font-weight: bold;
+}
+
+
+.clearfix:after
+{
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+}
+
+.clearfix
+{
+	zoom:1;
+}
+
+.column-left {
+    float: left;
+}
+
+.column-right {
+    float: right;
+}
+
+
+.help-topbar
+{
+	height:35px;
+	width:100%;
+	min-width:960px;
+	background:#ffffff;
+	text-align:center;
+	overflow:hidden;
+}
+
+.help-topbar-wraper
+{
+	width:960px;
+	margin:0 auto;
+	text-align:right;
+}
+
+.help-topbar-wraper a
+{
+	color:#6b6b6b;
+	font-size:14px;
+	font-family:"Microsoft Yahei","黑体";
+	line-height:15px;
+	height:15px;
+	padding:10px 20px;
+	display:block;
+	float:right;
+	text-decoration:none;
+}
+
+.help-topbar-wraper a:hover
+{
+	color:#000;
+}
+
+.help-header
+{
+	height:60px;
+	width:960px;
+	margin:0 auto 10px;
+	overflow:hidden;
+}
+
+.help-header h2
+{
+	line-height:80px;
+	font-size:20px;
+}
+
+.help-logo
+{
+	width:200px;
+	float:left;
+	line-height:55px;
+	margin-left:10px;
+}
+
+.help-logo h1 a
+{
+	color:#2b9476;
+	font-size:50px;
+	font-family:"Microsoft Yahei","黑体";
+	text-decoration:none;
+}
+
+.help-title h2
+{
+	color:#ff9600;
+}
+
+.advantage
+{
+	width:958px;
+	height:27px;
+	background:#fff9ed;
+	padding:20px 10px;
+	text-align:center;
+}
+
+.advantage span
+{
+	margin:auto 20px;
+	font-size:14px;
+	color:#666666;
+}
+
+.advantage .co
+{
+	font-size:20px;
+	color:#b10404;
+	margin:auto -5px auto 0;
+}
+
+.help
+{
+	background:#f2f2f2;
+}
+
+span.line
+{
+	font-size:24px;
+	color:#bebebe;
+}
+
+.help-content
+{
+	padding:20px 0;
+	background:#ffffff;
+	width:960px;
+	margin:0 auto;
+	position:relative;
+}
+
+.help-top-qanda
+{
+	padding-bottom:20px;
+}
+
+.help-top-qanda .title
+{
+	font-size:18px;
+	margin-left:20px;
+	_margin-left:40px;
+}
+
+.footer
+{
+	width:100%;
+	min-width:960px;
+	background:#363636;
+	text-align:center;
+}
+
+.footer-warper
+{
+	width:960px;
+	margin:0 auto;
+	text-align:right;
+}
+
+.footer-link
+{
+	height:16px;
+	padding:15px 0;
+	color:#fff;
+}
+
+.footer-link a
+{
+	color:#fff;
+	margin:0 5px;
+	height:16px;
+	line-height:16px;
+	font-size:14px;
+	text-decoration:none;
+}
+
+.footer-copyright
+{
+	color:#fff;
+	height:16px;
+	padding:15px 0;
+	line-height:16px;
+	font-size:14px;
+	display:block;
+}
+
+
+.function
+{
+	/*border-top:1px #ffab33 solid;*/
+	width:960px;
+}
+
+.function .block
+{
+	width:350px;
+	margin-left:20px;
+	min-height:180px;
+	height:auto !important;
+	height:180px;
+}
+
+.block-s
+{
+	margin-right:20px;
+	padding-right:40px;
+	border-right:1px #ccc solid;
+}
+
+.block-o
+{
+	padding-bottom:20px;
+	border-bottom:1px #ccc solid;
+}
+
+.block-r
+{
+	border-top:1px #ccc solid;
+	margin-right:20px;
+}
+
+.block-a
+{
+	padding-left:40px;
+	border-left:1px #ccc solid;
+	margin-top:20px;
+}
+
+.function .title
+{
+	line-height:30px;
+	margin:0 10px 0 0;
+	padding-top:20px;
+}
+
+.block-a .title
+{
+	padding-top:0;
+}
+
+.function h4
+{
+	margin-left:40px;
+	font-weight:100;
+}
+
+.icon-status
+{
+	background:url(../../img/help-icon.gif) no-repeat -30px -30px;
+	width:30px;
+	height:30px;
+	margin-right:10px;
+}
+
+.icon-order
+{
+	background:url(../../img/help-icon.gif) no-repeat -60px -30px;
+	width:30px;
+	height:30px;
+	margin-right:10px;
+}
+
+.icon-room
+{
+	background:url(../../img/help-icon.gif) no-repeat -30px -60px;
+	width:30px;
+	height:30px;
+	margin-right:10px;
+}
+
+.icon-account
+{
+	background:url(../../img/help-icon.gif) no-repeat -60px -60px;
+	width:30px;
+	height:30px;
+	margin-right:10px;
+}
+
+.function .intro
+{
+	color:#999999;
+	margin-left:10px;
+	font-size:12px;
+}
+
+.function-a
+{
+	margin:20px 0 0 20px;
+}
+
+.function li
+{
+	color:#0B8262;
+	text-decoration:none;
+	margin-top:10px;
+}
+
+.function a
+{
+	color:#0B8262;
+	text-decoration:none;
+}
+
+.function a:hover
+{
+	color:#000;
+	text-decoration:underline;
+}
+
+.advantage2
+{
+	padding:20px 0;
+	text-align:center;
+	height:30px;
+	background:#8BCCBA;
+	width:960px;
+	margin:0 auto;
+}
+
+.advantage2-cot
+{
+	width:960px;
+	margin:0 auto;
+}
+
+.advantage2-block
+{
+	margin-right:30px;
+	_margin-right:20px;
+	margin-left:20px;
+	float:left;
+}
+
+.advantage2 span
+{
+	margin-right:10px;
+	font-size:14px;
+	color:#ffffff;
+}
+
+.advantage2 .co
+{
+	font-size:20px;
+}
+
+.advantage-icon1
+{
+	width:36px;
+	height:30px;
+	display:inline-block;
+	background:url(../../img/help/advantage-icon.gif) 0 0;
+}
+
+.advantage-icon2
+{
+	width:36px;
+	height:30px;
+	display:inline-block;
+	background:url(../../img/help/advantage-icon.gif) -36px 0;
+}
+
+.advantage-icon3
+{
+	width:36px;
+	height:30px;
+	display:inline-block;
+	background:url(../../img/help/advantage-icon.gif) -72px 0;
+}
+
+.bottom-qanda
+{
+	width:768px;
+	margin:10px 20px;
+}
+
+.bottom-qanda h3
+{
+	font-size:16px;
+}
+
+.bottom-qanda ul
+{
+	margin:10px 0 30px 0;
+	line-height:18px;
+	font-size:16px;
+	list-style-type:none;
+}
+
+.bottom-qanda li
+{
+	line-height:18px;
+	font-size:14px;
+	padding-top:5px;
+}
+
+.bottom-qanda span
+{
+	float:left;
+}
+
+.bottom-qanda a
+{
+	display:block;
+	float:right;
+	font-size:12px;
+	color:#89CAE0;
+	text-decoration:none;
+	line-height:28px;
+	vertical-align:bottom;
+	background:url(../../img/help/top-lblue.gif) no-repeat;
+	padding-left:28px;
+}
+
+.bottom-qanda a:hover
+{
+	color:#4192e3;
+	background:url(../../img/help/top-blue.gif) no-repeat;
+	padding-left:28px;
+}
+
+.bottom-qanda li.odd
+{
+	border-bottom:1px #ccc solid;
+	font-weight:bold;
+	margin-top:15px;
+}
+
+.scrollfeedback
+{
+	display: block;
+	position:fixed;
+	top:200px;
+	margin-left:930px;
+	*margin-left:121px;
+	_margin-left:97px;
+	color:#ffffff;
+	text-align:center;
+	font-size:14px;
+	padding:10px;
+	background:#bdbdbd;
+	cursor:pointer;
+	width:10px;
+	z-index:1; 
+}
+
+* html .scrollfeedback
+{
+	position:absolute;
+	bottom:auto;
+	top:expression(eval(document.documentElement.scrollTop+200));
+}
+
+.scrollfeedback a
+{
+	color:#fff;
+	text-decoration:none;
+}
+
+.scrollfeedback a:hover
+{
+	color:#000;
+}
+/*---------- index2 page end-----------*/
+

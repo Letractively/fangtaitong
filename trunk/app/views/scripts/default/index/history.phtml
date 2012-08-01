@@ -1,0 +1,23 @@
+<? $this->view('head') ?>
+<title>更新历史 - 房态通</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/index.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/index.index.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('default/header') ?>
+    <div class="content-wrapper">
+        <h2 class="history-title">房态通的更新历史</h2>
+        <div class="history-content">
+            <ul class="history-content-list">
+                <li class="history-content-item">
+                    <p class="date">2012-07-16</p>
+                    <ul class="list">
+                        <li>1、OSV开发版</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+<? $this->view('default/footer') ?>
+<script type="text/javascript">$(Z.Module.index.index.history.init)</script>
+<? $this->view('foot') ?>

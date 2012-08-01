@@ -1,0 +1,37 @@
+"当前列表数据更新时间：<?= date('Y-m-d H:i:s', $this->time) ?>"
+
+"房间","房型","已住销量（间夜）","未住销量（间夜）","总销量（间夜）","成交房费（元）","平均房价（元/间夜）","入住率","占总销量","占总房量"
+
+<? $live_past_sum = $live_fore_sum = $rent_sum = 0 ?>
+<? $time_line_len = ($this->tmln[1]+1 - $this->tmln[0])/86400 ?>
+<? if(!empty($this->syfj)): ?>
+<? foreach ($this->syfj as $data): ?>
+<?= $this->quote($data['name']) ?>,
+<?= $this->quote($data['type']) ?>,
+<? $live_past_sum+=$data['live']['past'] ?><?= $this->quote($data['live']['past']) ?>,
+<? $live_fore_sum+=$data['live']['fore'] ?><?= $this->quote($data['live']['fore']) ?>,
+<?= $this->quote($data['live']['past']+$data['live']['fore']) ?>,
+<? $rent_sum+=$data['rent'] ?><?= $this->quote($data['rent']/100) ?>,
+<?= $this->quote(($data['live']['past']+$data['live']['fore']) ? round($data['rent']/($data['live']['past']+$data['live']['fore'])/100, 2) : '0') ?>,
+<?= $this->quote(round(($data['live']['past']+$data['live']['fore'])/$time_line_len, '4')*100 . '%') ?>,
+<?= $this->quote($this->xszl ? round(($data['live']['past']+$data['live']['fore'])/$this->xszl, '4')*100 . '%' : '0%') ?>,
+<?= $this->quote($this->fjzl ? round(($data['live']['past']+$data['live']['fore'])/$this->fjzl, '4')*100 . '%' : '0%') ?>
+
+<? endforeach; ?>
+<? endif; ?>
+
+"","合计",
+<?= $this->quote($live_past_sum) ?>,
+<?= $this->quote($live_fore_sum) ?>,
+<?= $this->quote($live_past_sum + $live_fore_sum) ?>,
+<?= $this->quote($rent_sum/100) ?>,
+<?= $this->quote(($live_past_sum+$live_fore_sum) ? round($rent_sum/($live_past_sum+$live_fore_sum)/100, 2) : '0') ?>,
+"-",
+"100%",
+<?= $this->quote($this->fjzl ? round(($live_past_sum+$live_fore_sum)/$this->fjzl, '4')*100 . '%' : '0%') ?>
+
+""
+"注：本报表不统计预订、已取消订单"
+"房间销量 ÷ 总天数 = 入住率"
+"各房间销量 ÷ 总销量 = 占总销量"
+"各房间销量 ÷ ( 总房数 × 总天数 ) = 占总房量"

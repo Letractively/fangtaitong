@@ -1,0 +1,63 @@
+<? $this->view('head') ?>
+<title>预订渠道</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.channel.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'ydqd', 'set' => 'jbsz')) ?>
+    <div class="other-id">
+        <div class="other-id-block" id="block1">
+            <div class="other-id-title clearfix">
+                <div class="title-left"><strong>预订渠道</strong></div>
+                <div class="title-right">
+                    <input type="button" value="添加预订渠道" class="button white" onclick="location.href='/master/channel/create'" />
+                </div>
+            </div>
+            <div class="other-id-content">
+                <table class="data">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>是否默认</th>
+                            <th>当前状态</th>
+                            <th>可用操作</th>
+                            <th>最后更新</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <? if (empty($this->channel)): ?>
+                        <tr>
+                            <td colspan="6" class="align-center">没有预订渠道，现在<a href="/master/channel/create">新建一个</a></td>
+                        </tr>
+                        <? else: ?>
+                        <? foreach ($this->channel as $val): ?>
+                        <tr>
+                            <td><?= $this->escape($val['hc_name']) ?></td>
+                            <td><?= $this->hostel['h_order_default_channel'] == $val['hc_id'] ? '默认' : '否' ?></td>
+                            <td><?= $val['hc_status'] ? '启用' : '停用' ?></td>
+                            <td>
+                                <a href="/master/channel/update?hcid=<?= $val['hc_id'] ?>">修改</a>
+                                <? if ($val['hc_status'] && $this->hostel['h_order_default_channel'] != $val['hc_id']): ?>
+                                <a class="oper" href="/master/channel/do-locate?hcid=<?= $val['hc_id'] ?>">设为默认</a>
+                                <? endif; ?>
+                                <? if (!$val['hc_status'] || $this->hostel['h_order_default_channel'] != $val['hc_id']): ?>
+                                <a class="oper" href="/master/channel/do-update-status?hcid=<?= $val['hc_id'] ?>&stat=<?= $val['hc_status'] ? '0' : '1' ?>"><?= $val['hc_status'] ? '停用' : '启用' ?></a>
+                                <? endif; ?>
+                            </td>
+                            <td><?= date('Y-m-d H:i:s', $val['hc_mtime']) ?></td>
+                        </tr>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.channel.index.init)</script>
+<? $this->view('foot') ?>

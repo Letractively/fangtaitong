@@ -1,0 +1,94 @@
+<? $this->view('head') ?>
+<title>房间价格规则</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.room.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.tablesorter.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'jggz', 'set' => 'gzsz')) ?>
+    <div id="room-price-setting">
+		<div class="action-block">
+			<input type="button" class="price-button white button" value="设置牌价" />
+			<input type="button" class="plan-button white button" value="设置价格计划" />
+		</div>
+        <table class="data" id="rooms-list-all">
+			<thead>
+				<tr>
+					<th style="width:35px;"><input type="checkbox" id="chk-all" /></th>
+					<th>房间名</th>
+					<th>房型</th>
+					<th>牌价（元）</th>
+					<th>区域</th>
+					<th>户型</th>
+					<!-- <th>景观</th> -->
+					<th>小区</th>
+					<th>详情</th>
+				</tr>
+			</thead>
+			<tbody>
+				<? if ($this->rooms): ?>
+				<? foreach ($this->rooms as $room): ?>
+				<tr alt="<?= $room['r_id'] ?>">
+					<td class="room-checkbox"><input type="checkbox" name="rids[]" value="<?= $room['r_id'] ?>" /></td>
+					<td><a href="/master/room/detail?rid=<?= $room['r_id'] ?>" title="房间编号：<?= $room['r_id'] ?>, 房间名称：<?= $this->escape($room['r_name']) ?>"><?= $this->truncate($this->escape($room['r_name']), 8) ?></a></td>
+					<td alt="<?= $this->escape($room['r_type']) ?>"><?= $this->escape($room['r_type']) ?></td>
+					<td alt="<?= $this->escape($room['r_price']/100) ?>"><?= $this->escape($room['r_price']/100) ?></td>
+					<td alt="<?= $this->escape($room['r_zone']) ?>"><?= $this->escape($room['r_zone']) ?></td>
+					<td alt="<?= $this->escape($room['r_layout']) ?>"><?= $this->escape($room['r_layout']) ?></td>
+					<!-- <td alt="<?= $this->escape($room['r_view']) ?>"><?= $this->escape($room['r_view']) ?></td> -->
+					<td><?= $this->escape($room['r_area']) ?></td>
+					<td>
+						<a href="/master/room/update?rid=<?= $room['r_id'] ?>#price">查看</a>
+					</td>
+				</tr>
+				<? endforeach; ?>
+				<? else: ?>
+				<tr><td colspan="8">还没有房间！<a href="/master/room/create">点击这里添加房间</a></td></tr>
+				<? endif; ?>
+			</tbody>
+		</table>
+		<div class="action-block">
+			<input type="button" class="price-button white button" value="设置牌价" />
+			<input type="button" class="plan-button white button" value="设置价格计划" />
+		</div>
+		
+		<form action="/master/room/do-create-price-plans" method="post">
+		</form>
+    </div>
+</div>
+
+<div style="display:none;">
+	<div id="div-update-basic-prices">
+		<form id="form-update-basic-prices" action="/master/room/do-update-basic-prices" method="post">
+			<p>
+				<label for="basic-price">房间牌价</label><input type="text" id="basic-price" name="price" class="ftt-input-text" />元
+			</p>
+			<div class="submit">
+				<input type="submit" class="white button" value="更新牌价" />
+			</div>
+		</form>
+	</div>
+	<div id="div-create-price-plans">
+		<form id="form-create-price-plans" action="/master/room/do-create-price-plans" method="post">
+			<p>
+				<label for="price-plan-bdate">开始时间</label><input type="text" id="price-plan-bdate" name="bdate" class="ftt-input-text input-datepicker" />
+			</p>
+			<p>
+				<label for="price-plan-edate">结束时间</label><input type="text" id="price-plan-edate" name="edate" class="ftt-input-text input-datepicker" />
+			</p>
+			<p>
+				<label for="price-plan">计划价格</label><input type="text" id="price-plan" name="price" class="ftt-input-text" />元
+			</p>
+			<div class="submit">
+				<input type="submit" class="white button" value="添加计划" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.room.updateRule.init)</script>
+<? $this->view('foot') ?>

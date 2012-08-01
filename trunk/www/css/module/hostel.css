@@ -1,0 +1,134 @@
+@charset "utf-8";
+
+#body-wrapper
+{
+	color:#222;
+	width:100%;
+	min-width:980px;
+}
+
+a
+{
+	color:#189271;
+	text-decoration:none;
+} 
+
+a:hover
+{
+	color:#000;
+	text-decoration:underline;
+}
+
+a:active
+{
+	color:#777;
+}
+
+input.input-text
+{
+	border:1px solid #aaa;
+}
+
+textarea
+{
+	border:1px solid #aaa;
+}
+
+.focal
+{
+	color:#F1A038;
+	font-weight:bold;
+}
+
+.warnning
+{
+	color:#F00;
+}
+
+#header,
+#container,
+#footer
+{
+	width:980px;
+	margin:0 auto;
+}
+
+#header .wrapper
+{
+	position:relative;
+	padding:22px 0 11px;
+}
+
+#header #hostel-logo
+{
+	position:absolute;
+	top:23px;
+	left:0;
+	font-size:32px;
+	line-height:34px;
+	color:#669999;
+}
+
+#hostel-logo a.title
+{
+	color:#669999;
+}
+
+#hostel-logo a.title:hover
+{
+	color:#669999;
+	text-decoration:none;
+}
+
+#hostel-logo .describe
+{
+	font-size:12px;
+	color:#ccc;
+	display:block;
+}
+
+#header div.info
+{
+	margin-left:660px;
+	width:320px;
+}
+
+#header div.info .focal
+{
+	color:#555;
+}
+
+#header p.address,
+#header p.phone,
+#header p.website
+{
+	font-size:12px;
+	line-height:14px;
+	padding:2px 0 3px;
+	color:#999;
+}
+
+#header p.website a
+{
+	color:#222;
+	text-decoration:underline;
+}
+
+#footer .wrapper
+{
+	padding:14px 0;
+	line-height:16px;
+	text-align:right;
+}
+
+#container
+{
+	min-height:520px;
+	height:auto !important;
+	height:520px;
+	overflow:visible;
+	border-top:1px solid #8BCCBA;
+	border-bottom:1px solid #8BCCBA;
+	padding:20px 0;
+	position:relative;
+}

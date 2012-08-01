@@ -1,0 +1,133 @@
+<div class="add-room-content">
+    <table style="font-size:14px;width:600px;margin:0 auto;">
+        <? $size = count($this->equips) ?>
+        <? foreach ($this->equips as $type => $list): ?>
+        <? $type = $this->escape($type); $size--; ?>
+        <tr>
+            <td style="padding-top:15px;width:60px;"><?= $this->escape($type) ?>：</td><td style="width:280px;"></td><td></td>
+        </tr>
+        <? foreach ($list as $equip): ?>
+        <? $name = $this->escape($equip['re_name']);$hash = md5($name);$qnty = $this->escape($equip['re_qnty']) ?>
+        <tr>
+            <td></td>
+            <td>
+                <input type="hidden" name="equip[t][<?= $this->escape($type) ?>][@<?= $hash ?>]" value="<?= $this->escape($name) ?>" /><?= $this->escape($name) ?> ×
+                <input type="text" name="equip[q][<?= $this->escape($type) ?>][@<?= $hash ?>]" class="ftt-input-text int-text single-text" value="<?= $this->escape($qnty) ?>" />
+            </td>
+            <td style="padding:10px;text-align:center">
+                <input type="button" value="修改" class="button white updator" alt="<?= $equip['re_id'] ?>" style="visibility:hidden"/>
+            </td>
+        </tr>
+        <? endforeach; ?>
+        <tr<? if ($size): ?> class="add-button"<? endif; ?>>
+            <td colspan="2"></td>
+            <td style="padding:10px;text-align:center">
+                <input type="button" value="新增" class="button white creator" alt="<?= $this->escape($type) ?>"/>
+            </td>
+        </tr>
+        <? endforeach; ?>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+    var last = '_-';
+
+    $('input[name^="equip["]').live('focus', function(){
+        $(this).select();
+        $(this).parent().next().find('input.updator').css('visibility', 'visible');
+    });
+
+    $('input.creator').click(function(){
+        last = last + '-';
+
+        var type = $(this).attr('alt');
+        var item='<tr><td></td><td>'
+            + '<input type="text" class="ftt-input-text short-text" name="equip[t][' + type + '][' + last + ']" value="" />'
+            + '×<input type="text" class="ftt-input-text single-text" name="equip[q]['  + type + '][' + last + ']" value="1" /></td>'
+            + '<td style="padding:10px;text-align:center"><input type="button" value="保存" class="button white updator" alt="0"/></td></tr>'
+
+            $(this).parent().parent().before(item).prev().find('input[name="equip[t][' + type + '][' + last + ']"]').focus();
+    });
+	
+	$(".int-text").hover(function(){
+		$(this).addClass("int-text-hover");
+	},function(){
+		$(this).removeClass("int-text-hover");
+	});
+	
+	$(".int-text").focus(function(){
+		$(this).addClass("int-text-focus");
+	}).blur(function(){
+		$(this).removeClass("int-text-focus");
+	});
+
+    $('input.updator').live('click', function(){
+        var btn = $(this);
+        var err = 0;
+
+        btn.parent().prev().find('input[name^=equip]').each(function(){
+            if ($(this).val() == '') {
+                err = 1;
+                $(this).focus();
+                Z.Global.method.notice(0, '必填项不能为空', 1);
+
+                return;
+            }
+        });
+
+        if (err) {
+            return false;
+        }
+
+        var eid = btn.attr('alt');
+        var img = btn.hide().before($('<img src="<?= $this->www('img/loading-small.gif') ?>"/>')).prev();
+        var qty = btn.parent().prev().find('input[name^="equip[q]"]');
+
+        if (eid == '0') {
+            var url = '/master/room/do-create-equip?rid=<?= $this->room['r_id'] ?>';
+            var dat = btn.parent().parent().find('input').serialize();
+            qty.attr('disabled', 'disabled');
+            qty.prev().attr('disabled', 'disabled');
+
+            $.post(url, dat, function(ret){
+                Z.Global.method.notice(ret.success, ret.message || (ret.success ? Z.Global.string.SUCCESS : Z.Global.string.FAILURE), 2);
+
+                if (ret.success)
+                {
+                    img.attr('src', '<?= $this->www('img/icons/tick_circle.gif') ?>');
+                }
+                else
+                {
+                    qty.removeAttr('disabled');
+                    qty.prev().removeAttr('disabled');
+                    img.remove();
+                    btn.val('重试').show();
+                }
+            }, 'json');
+        } else {
+            qty.attr('disabled', 'disabled');
+
+            var url = '/master/room/do-update-equip-qnty?rid=<?= $this->room['r_id'] ?>&eid=' + eid
+                + '&qty=' + btn.parent().prev().find('input[name^="equip[q]"]').val();
+
+            $.getJSON(url, null, function(ret){
+                Z.Global.method.notice(ret.success, ret.message || (ret.success ? Z.Global.string.SUCCESS : Z.Global.string.FAILURE), 2);
+
+                if (ret.success)
+                {
+                    img.attr('src', '<?= $this->www('img/icons/tick_circle.gif') ?>');
+                }
+                else
+                {
+                    qty.removeAttr('disabled');
+                    img.remove();
+                    btn.val('重试').show();
+                }
+            });
+        }
+    });
+});
+</script>
+

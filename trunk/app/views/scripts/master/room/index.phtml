@@ -1,0 +1,124 @@
+<? $this->view('head') ?>
+<title>房间管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/room.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.room.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'fjgl')) ?>
+<div class="ftt-container" style="border-bottom:none;">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">房间管理</h2>
+        <input type="button" value="添加房间" class="button white column-right" onclick="location.href='/master/room/create'" />
+    </div>
+    <div class="ftt-list-filter" id="room-filter">
+        <table>
+            <tbody>
+                <tr id="room-type">
+                    <td class="left-col">
+                        <span>房型</span>
+                        <a href="javascript:;" class="all now" alt="全部房型">全部房型</a>
+                    </td>
+                    <td class="right-col">
+                        <? if (!empty($this->index['type'])): ?>
+                        <? foreach ($this->index['type'] as $key => $num): ?>
+                        <a href="javascript:;" alt="<?= $this->escape($key)?>"><?= $this->escape($key) ?>(<?= $num ?>)</a>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </td>
+                </tr>
+                <tr id="room-layout">
+                    <td class="left-col">
+                        <span>户型</span>
+                        <a href="javascript:;" class="all now" alt="全部房型">全部户型</a>
+                    </td>
+                    <td class="right-col">
+                        <? if (!empty($this->index['layout'])): ?>
+                        <? foreach ($this->index['layout'] as $key => $num): ?>
+                        <a href="javascript:;" alt="<?= $this->escape($key)?>"><?= $this->escape($key) ?>(<?= $num ?>)</a>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </td>
+                </tr>
+                <tr id="room-view">
+                    <td class="left-col">
+                        <span>景观</span>
+                        <a href="javascript:;" class="all now" alt="全部景观">全部景观</a>
+                    </td>
+                    <td class="right-col">
+                        <? if (!empty($this->index['view'])): ?>
+                        <? foreach ($this->index['view'] as $key => $num): ?>
+                        <a href="javascript:;" alt="<?= $this->escape($key)?>"><?= $this->escape($key) ?>(<?= $num ?>)</a>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </td>
+                </tr>
+                <tr id="room-status">
+                    <td class="left-col">
+                        <span>状态</span>
+                        <a href="javascript:;" class="all now" alt="全部状态">全部状态</a>
+                    </td>
+                    <td class="right-col">
+                        <? if (!empty($this->index['status'])): ?>
+                        <? foreach ($this->index['status'] as $key => $num): ?>
+                        <a href="javascript:;" alt="<?= $this->escape($key)?>"><?= $this->escape($key) ?>(<?= $num ?>)</a>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                        <? if (!empty($this->index['rtstat'])): ?>
+                        <? foreach ($this->index['rtstat'] as $key => $num): ?>
+                        <a href="javascript:;" alt="<?= $this->escape($key)?>"><?= $this->escape($key) ?>(<?= $num ?>)</a>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <table class="ftt-list-table data" id="rooms-list">
+        <thead>
+            <tr>
+                <th>房间名</th>
+                <th>牌价（元）</th>
+                <th>房型</th>
+                <th>户型</th>
+                <th>区域</th>
+                <th>小区</th>
+                <th>景观</th>
+                <th>状态</th>
+                <th>操作</th>
+                <th>详情</th>
+                <th>日志</th>
+            </tr>
+        </thead>
+        <tbody>
+            <? if ($this->rooms): ?>
+            <? foreach ($this->rooms as $room): ?>
+            <tr>
+                <td title="房间编号：<?= $room['r_id'] ?>, 房间名称：<?= $this->escape($room['r_name']) ?>"><?= $this->truncate($this->escape($room['r_name']), 8) ?></td>
+                <td><?= $this->escape($room['r_price'])/100 ?></td>
+                <td class="room-type" alt="<?= $this->escape($room['r_type']) ?>"><?= $this->escape($room['r_type']) ?></td>
+                <td class="room-layout" alt="<?= $this->escape($room['r_layout']) ?>"><?= $this->escape($room['r_layout']) ?></td>
+                <td><?= $this->escape($room['r_zone']) ?></td>
+                <td><?= $this->escape($room['r_area']) ?></td>
+                <td class="room-view" alt="<?= $this->escape($room['r_view']) ?>"><?= $this->escape($room['r_view']) ?></td>
+                <td class="room-status" alt="<?= $this->escape($room['r_stat']) ?>,<?= empty($room['r_rsta']) ? '' : $this->escape(implode(',', $room['r_rsta'])) ?>"><?= $this->escape($room['r_stat']) ?><?= empty($room['r_rsta']) ? '' : '<span style="color:red">(' . $this->escape(implode(',', $room['r_rsta'])) . ')</span>' ?></td>
+                <td>
+                    <? foreach ($room['r_oper'] as $oper): ?>
+                    <a href="/master/room/handle?rid=<?= $room['r_id'] ?>&sta=<?= $room['r_status'] ?>&act=<?= $oper['code'] ?>"><?= $this->escape($oper['name']) ?></a>
+                    <? endforeach; ?>
+                </td>
+                <td><a href="/master/room/detail?rid=<?= $room['r_id'] ?>">详情</a></td>
+                <td><a href="/master/log/room?rid=<?= $room['r_id'] ?>">日志</a></td>
+            </tr>
+            <? endforeach; ?>
+            <? else: ?>
+            <tr><td colspan="11">还没有房间！<a href="/master/room/create">点击这里添加房间</a></td></tr>
+            <? endif; ?>
+        </tbody>
+    </table>       
+</div>
+
+<? $this->view('master/footer') ?>
+
+<script type="text/javascript">$(Z.Module.master.room.index.init);</script>
+<? $this->view('foot') ?>

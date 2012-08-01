@@ -1,0 +1,63 @@
+<? $this->view('head') ?>
+<title>预订类型</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.typedef.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'ydlx', 'set' => 'jbsz')) ?>
+    <div class="other-id">
+        <div class="other-id-block" id="block1">
+            <div class="other-id-title clearfix">
+                <div class="title-left"><strong>预订类型</strong></div>
+                <div class="title-right">
+                    <input type="button" value="添加预订类型" class="button white" onclick="location.href='/master/typedef/create'" />
+                </div>
+            </div>
+            <div class="other-id-content">
+                <table class="data">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>是否默认</th>
+                            <th>当前状态</th>
+                            <th>可用操作</th>
+                            <th>最后更新</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <? if (empty($this->typedef)): ?>
+                        <tr>
+                            <td colspan="6" class="align-center">没有预订类型，现在<a href="/master/typedef/create">新建一个</a></td>
+                        </tr>
+                        <? else: ?>
+                        <? foreach ($this->typedef as $val): ?>
+                        <tr>
+                            <td><?= $this->escape($val['ht_name']) ?></td>
+                            <td><?= $this->hostel['h_order_default_typedef'] == $val['ht_id'] ? '默认' : '否' ?></td>
+                            <td><?= $val['ht_status'] ? '启用' : '停用' ?></td>
+                            <td>
+                                <a href="/master/typedef/update?hsid=<?= $val['ht_id'] ?>">修改</a>
+                                <? if ($val['ht_status'] && $this->hostel['h_order_default_typedef'] != $val['ht_id']): ?>
+                                <a class="oper" href="/master/typedef/do-locate?hsid=<?= $val['ht_id'] ?>">设为默认</a>
+                                <? endif; ?>
+                                <? if (!$val['ht_status'] || $this->hostel['h_order_default_typedef'] != $val['ht_id']): ?>
+                                <a class="oper" href="/master/typedef/do-update-status?hsid=<?= $val['ht_id'] ?>&stat=<?= $val['ht_status'] ? '0' : '1' ?>"><?= $val['ht_status'] ? '停用' : '启用' ?></a>
+                                <? endif; ?>
+                            </td>
+                            <td><?= date('Y-m-d H:i:s', $val['ht_mtime']) ?></td>
+                        </tr>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.typedef.index.init)</script>
+<? $this->view('foot') ?>

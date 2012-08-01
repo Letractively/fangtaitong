@@ -1,0 +1,388 @@
+<? $this->view('head') ?>
+<title>账单详情 - 编号: <?= $this->bill['b_id'] ?></title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/bill.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.bill.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'zdgl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">账单详情 - 编号: <?= $this->bill['b_id'] ?></h2>
+        <input type="button" onclick="window.print();" value="打印账单" class="column-right button white" id="print-button">
+    </div>
+    <table style="width:100%;">
+        <tr>
+            <td>
+                <div id="bill-name">
+                    <div style="width:40%;float:right">
+                        旅店名称：<?= $this->escape($this->hostel['h_name']) ?>
+                        <br />
+                        联系电话：<?= $this->escape($this->hostel['h_phone']) ?>
+                        <br />
+                        详细地址：<?= $this->escape($this->hostel['h_province']) ?> <?= $this->escape($this->hostel['h_city']) ?> <?= $this->escape($this->hostel['h_address']) ?>
+                    </div>
+                    <div>
+                        账单编号：<?= $this->bill['b_id'] ?>
+                        <br />
+                        账单名称：<?= $this->escape($this->bill['b_name']) ?>
+                        <br />
+                        结算方式：<?= $this->escape($this->bill['b_snm']) ?>
+                    </div>
+                </div>
+
+                <div id="bill-detail" style="clear:right">
+                    <div class="detail-block">
+                        <table class="bill">
+                            <caption>
+                                <span>房费明细</span>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>订单编号</th>
+                                    <th>房间名</th>
+                                    <th>入住客人</th>
+                                    <th>预计入住</th>
+                                    <th>预计离店</th>
+                                    <th>间夜</th>
+                                    <th>状态</th>
+                                    <th style="width:72px;">成交房费(元)</th>
+                                    <th style="width:72px;">账单房费(元)</th>
+                                    <th class="action">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <? if (empty($this->orders)): ?>
+                                <tr><td colspan="9">无任何相关订单</td></tr>
+                                <? else: ?>
+                                <? $price_sum = $brice_sum = 0 ?>
+                                <? foreach ($this->orders as $order): ?>
+                                <tr>
+                                    <td><?= $order['o_id'] ?></td>
+                                    <td><?= $this->escape($order['o_room']) ?></td>
+                                    <td title="<?= $this->escape($order['o_glver_phone']) ?>"><?= $this->escape($order['o_glver_name']) ?></td>
+                                    <td><?= date('Y-m-d', $order['o_btime']) ?></td>
+                                    <td><?= date('Y-m-d', $order['o_etime']) ?></td>
+                                    <td>
+                                        <?= (strtotime(date('Y-m-d', $order['o_etime']))-strtotime(date('Y-m-d', $order['o_btime'])))/86400 ?>
+                                    </td>
+                                    <td><?= getOrderStatusNameByCode($order['o_status']) ?></td>
+                                    <td><? $price_sum+=$order['o_price'] ?><?= $order['o_price']/100 ?></td>
+                                    <td><? $brice_sum+=$order['o_brice'] ?><?= $order['o_brice']/100 ?></td>
+                                    <td class="action">
+                                        <? if (in_array($order['o_status'], array(ORDER_STATUS_YJS, ORDER_STATUS_YQX), true)): ?>
+                                        <a href="/master/order/detail?oid=<?= $order['o_id'] ?>">查看</a>
+                                        <? else: ?>
+                                        <a href="/master/order/detail?oid=<?= $order['o_id'] ?>">修改</a>
+                                        <? endif ?>
+                                    </td>
+                                </tr>
+                                <? endforeach ?>
+                                <tfoot>
+                                    <tr>
+                                        <td style="text-align:right;" colspan="7">合计：</td>
+                                        <td><?= $price_sum/100 ?></td>
+                                        <td><?= $brice_sum/100 ?></td>
+                                        <td class="action"> </td>
+                                    </tr>
+                                </tfoot>
+                                <? endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="detail-block">
+                        <table class="bill">
+                            <caption>
+                                <span>其它费用</span>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>操作类型</th>
+                                    <th>内容</th>
+                                    <th>操作人</th>
+                                    <th>日期</th>
+                                    <th style="width:72px;">金额(元)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <? if (empty($this->expense)): ?>
+                                <tr><td colspan="5">无其它费用</td></tr>
+                                <? else: ?>
+                                <? $rent_sum = 0 ?>
+                                <? foreach ($this->expense as $val): ?>
+                                <tr>
+                                    <td><?= $val['be_sum']>0?'增加':'减免' ?></td>
+                                    <td><?= $this->escape($val['be_memo']) ?></td>
+                                    <td><?= $this->escape($val['be_user']) ?></td>
+                                    <td><?= date('Y-m-d', $val['be_time']) ?></td>
+                                    <td <?= $val['be_sum'] < 0 ? 'style="color:red;"' : '' ?>><? $rent_sum+=$val['be_sum'] ?><?= abs($val['be_sum'])/100 ?></td>
+                                </tr>
+                                <? endforeach ?>
+                                <tfoot>
+                                    <tr>
+                                        <td style="text-align:right;" colspan="4">合计：</td>
+                                        <td><?= $rent_sum/100 ?></td>
+                                    </tr>
+                                </tfoot>
+                                <? endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="detail-block">
+                        <table class="bill">
+                            <caption>
+                                <span>收款退款</span>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>操作类型</th>
+                                    <th>收款渠道</th>
+                                    <th>内容</th>
+                                    <th>操作人</th>
+                                    <th>日期</th>
+                                    <th style="width:72px;">金额(元)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <? if (empty($this->journal)): ?>
+                                <tr><td colspan="6">无操作记录</td></tr>
+                                <? else: ?>
+                                <? $rent_sum = 0 ?>
+                                <? foreach ($this->journal as $val): ?>
+                                <tr>
+                                    <td><?= $val['bj_sum']>0?'收款':'退款' ?></td>
+                                    <td><?= $this->escape($val['bj_pynm']) ?></td>
+                                    <td><?= $this->escape($val['bj_memo']) ?></td>
+                                    <td><?= $this->escape($val['bj_user']) ?></td>
+                                    <td><?= date('Y-m-d', $val['bj_time']) ?></td>
+                                    <td <?= $val['bj_sum'] < 0 ? 'style="color:red;"' : '' ?>><? $rent_sum+=$val['bj_sum'] ?><?= abs($val['bj_sum'])/100 ?></td>
+                                </tr>
+                                <? endforeach ?>
+                                <tfoot>
+                                    <tr>
+                                        <td style="text-align:right;" colspan="5">合计：</td>
+                                        <td><?= $rent_sum/100 ?></td>
+                                    </tr>
+                                </tfoot>
+                                <? endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="detail-block">
+                        <p class="memo">账单备注</p>
+                        <p><?= nl2br($this->escape($this->bill['b_memo'])) ?></p>
+                    </div>
+                    <div class="detail-block">
+                        <p class="clearfix">
+                        <span class="total">总应收款： <?= $this->bill['b_cost']/100 ?> 元</span>
+                        <span class="total">总已收款： <?= $this->bill['b_paid']/100 ?> 元 </span>
+                        <span class="note">最近修改： <?= date('Y-m-d H:i:s', $this->bill['b_mtime']) ?> </span>
+                        </p>
+                    </div>
+                </div>
+                <p id="copyright">&mdash;&mdash;由房态通提供</p>
+            </td>
+            <td class="sta-right">
+                <!-- <h3>账单概要</h3> -->
+                <p>账单名称: <?= $this->escape($this->bill['b_name']) ?></p>
+                <p>账单状态: <?= $this->escape($this->bill['state']) ?><?= empty($this->bill['rtsta']) ? '' : '<span style="color:red">(' . $this->escape(implode(',', $this->bill['rtsta'])) . ')</span>' ?></p>
+                <p>总应收款: <?= $this->bill['b_cost']/100 ?> 元</p>
+                <p>总已收款: <?= $this->bill['b_paid']/100 ?> 元</p>
+                <p>挂帐金额: <span style="color:red"><?= ($this->bill['b_cost'] - $this->bill['b_paid'])/100 ?></span> 元</p>
+                <p>结算方式: <?= $this->escape($this->bill['b_snm']) ?></p>
+                <? if ($this->bill['b_attr'] & (int)BILL_ATTR_GQTX): ?>
+                <p>过期时间: <?= date('Y-m-d H:i', $this->bill['b_ltime']) ?></p>
+                <? endif; ?>
+                <p>最近修改: <?= date('Y-m-d H:i:s', $this->bill['b_mtime']) ?></p>
+                <h3>可用操作</h3>
+                <ul class="handles">
+                    <? if (!empty($this->action)): ?>
+                    <? foreach ($this->action as $action): ?>
+                    <li><a href="javascript:;" alt="<?= $action['code'] ?>"><?= $action['name'] ?></a></li>
+                    <? endforeach; ?>
+                    <? endif; ?>
+                    <li><a href="/master/log/bill/?bid=<?= $this->bill['b_id'] ?>" target="_blank">查看日志</a></li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="order-dialog-tmp-wrapper" style="display:none;">
+
+    <? if (isset($this->action[BILL_ACTION_SKTK])): ?>
+    <div class="dialog-sktk" title="收款退款">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_SKTK ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    <label>本次</label>
+                    <select name="paid[0][oper]" class="ftt-select paid-action">
+                        <option value="0">收款</option>
+                        <option value="1">退款</option>
+                    </select>
+                </p>
+                <p>
+                    <label>金额（元）</label>
+                    <input type="text" name="paid[0][qnty]" value="" class="ftt-input-text required" />
+                </p>
+                <p>
+                    <label>收款方式</label>
+                    <select name="paid[0][from]" class="ftt-select b-payment">
+                        <? foreach ($this->cnns as $cnn): ?>
+                        <option value="<?= $cnn['hp_id'] ?>"><?= $this->escape($cnn['hp_name']) ?></option>
+                        <? endforeach; ?>
+                    </select>
+                    <a target="_blank" href="/master/payment/create" class="handle-option" title="收款渠道" alt="payment">[+]</a>
+                </p>
+                <p>
+                    <label>收款时间</label>
+                    <input type="text" name="paid[0][date]" value="" class="ftt-input-text input-datepicker dateISO required" />
+                </p>
+                <p>
+                    <label>内容</label>
+                    <input type="text" name="paid[0][memo]" value="" class="ftt-input-text" />
+                </p>
+                <p class="submit">
+                    <input type="submit" value="提交修改" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? if (isset($this->action[BILL_ACTION_QTFY])): ?>
+    <div class="dialog-qtfy" title="其它费用">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_QTFY ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    <label>本次</label>
+                    <select name="cost[0][oper]" class="ftt-select cost-action">
+                        <option value="0">增加</option>
+                        <option value="1">减免</option>
+                    </select>
+                </p>
+                <p>
+                    <label>金额（元）</label>
+                    <input type="text" name="cost[0][qnty]" value="" class="ftt-input-text required" />
+                </p>
+                <p>
+                    <label>内容</label>
+                    <input type="text" name="cost[0][memo]" value="" class="ftt-input-text" />
+                </p>
+                <p class="submit">
+                    <input type="submit" value="提交修改" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? if (isset($this->action[BILL_ACTION_XGBZ])): ?>
+    <div class="dialog-xgbz" title="修改备注">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_XGBZ ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    备注
+                </p>
+                <p>
+                    <textarea name="memo" class="ftt-textarea"><?= $this->escape($this->bill['b_memo']) ?></textarea>
+                </p>
+                <p class="submit">
+                    <input type="submit" value="提交修改" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? if (isset($this->action[BILL_ACTION_GBZD])): ?>
+    <div class="dialog-gbzd" title="关闭账单">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_GBZD ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    确认关闭账单之后，账单信息不再允许修改，除非重新开放账单
+                </p>
+                <p class="submit">
+                    <input type="submit" value="确认关闭" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? if (isset($this->action[BILL_ACTION_KFZD])): ?>
+    <div class="dialog-kfzd" title="开放账单">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_KFZD ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    确认开放账单之后，账单信息即允许修改，除非主动关闭账单
+                </p>
+                <p class="submit">
+                    <input type="submit" value="确认开放" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? if (isset($this->action[BILL_ACTION_JSFS])): ?>
+    <div class="dialog-jsfs" title="结算方式">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_JSFS ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    <label>结算方式</label>
+                    <select name="sid" class="ftt-select b-settlem">
+                        <? foreach ($this->stms as $stm): ?>
+                        <option value="<?= $stm['hs_id'] ?>"><?= $this->escape($stm['hs_name']) ?></option>
+                        <? endforeach; ?>
+                    </select>
+                    <a target="_blank" href="/master/settlem/create" class="handle-option" title="结算方式" alt="settlem">[+]</a>
+                </p>
+                <p class="submit">
+                    <input type="submit" value="提交修改" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+    <? if (isset($this->action[BILL_ACTION_GQSJ])): ?>
+    <div class="dialog-gqsj" title="过期时间">
+        <div class="form-in-dialog">
+            <form class="form-bill-handle" action="/master/bill/do-action?act=<?= BILL_ACTION_GQSJ ?>&bid=<?= $this->bill['b_id'] ?>&sta=<?= $this->bill['b_status'] ?>&key=<?= $this->bill['b_mtime'] ?>" method="post">
+                <p>
+                    <label class="expdate-toggle"><input type="radio" name="gqsj" value="0"<?= $this->bill['b_attr'] & (int)BILL_ATTR_GQTX ? '' : ' checked="checked"' ?> />关闭</label>
+                </p>
+                <p>
+                    <label class="expdate-toggle"><input type="radio" name="gqsj" value="1"<?= $this->bill['b_attr'] & (int)BILL_ATTR_GQTX ? '  checked="checked"' : '' ?> />开启</label>
+                    <input type="text" name="date" value="<?= $this->bill['b_ltime'] == '' ? '' : date('Y-m-d', $this->bill['b_ltime']) ?>" class="ftt-input-text short-text input-datepicker required dateISO"<?= $this->bill['b_attr'] & (int)BILL_ATTR_GQTX ? '' : ' disabled="disabled"' ?> />
+                    <input type="text" name="hour" value="<?= $this->bill['b_ltime'] == '' ? '' : date('H', $this->bill['b_ltime']) ?>" class="ftt-input-text single-text {required:true, range:[0,23]}"<?= $this->bill['b_attr'] & (int)BILL_ATTR_GQTX ? '' : ' disabled="disabled"' ?> />
+                    ：
+                    <input type="text" name="minu" value="<?= $this->bill['b_ltime'] == '' ? '' : date('i', $this->bill['b_ltime']) ?>" class="ftt-input-text single-text {required:true, range:[0,59]}"<?= $this->bill['b_attr'] & (int)BILL_ATTR_GQTX ? '' : ' disabled="disabled"' ?> />
+                </p>
+                <p class="submit">
+                    <input type="submit" value="提交修改" class="button white" />
+                </p>
+            </form>
+        </div>
+    </div>
+    <? endif; ?>
+
+
+    <div style="display:none" id="dialog-form-handle-option">
+        <form class="form-handler-option" action="" method="post">
+            <p>
+                <label class="ho-name">-</label>
+                &nbsp;&nbsp;
+                <input type="text" class="ftt-input-text short-text {required:true, maxlength:30}" name="name">
+                &nbsp;&nbsp;
+                <input type="submit" class="button white" value="确认提交" />
+            </p>
+        </form>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+
+<script type="text/javascript">$(Z.Module.master.bill.detail.init);</script>
+<? $this->view('foot') ?>

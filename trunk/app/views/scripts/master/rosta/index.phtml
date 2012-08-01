@@ -1,0 +1,108 @@
+<? $this->view('head') ?>
+<title>房态管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/rosta.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.rosta.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.rostacalendar.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'ftgl')) ?>
+
+<div class="ftt-container clearfix">
+    <div id="rosta" class="column-left">
+        <div class="title status clearfix">
+            <h2 class="column-left">房间状态</h2>
+            <div class="column-right">
+                <span>更新时间:</span>
+                <span class="current"></span>
+                <input type="button" class="button medium white button-refresh" value="刷新" />
+                <input type="button" class="button medium white button-today" value="今天" />
+                <input type="button" class="button medium white button-calendar" value="日历" />
+            </div>
+        </div>
+        <div class="option clearfix">
+            <div class="filter column-left">
+                <input type="button" class="button medium white button-back" value="&#8629; 返回" />
+                <select alt='房型' id="rtp" class="gantt-filter ftt-select"></select>
+                <select alt='户型' id="rlo" class="gantt-filter ftt-select"></select>
+                <select alt='区域' id="rze" class="gantt-filter ftt-select"></select>
+                <select alt='景观' id="rvw" class="gantt-filter ftt-select"></select>
+            </div>
+            <div class="navi column-right">
+                <select alt='' id="gantt-view" class="ftt-select">
+                    <option value="4">4天</option>
+                    <option value="8" selected="selected">8天</option>
+                    <option value="12">12天</option>
+                    <option value="16">16天</option>
+                </select>
+                <a href="javascript:;" title="跳至上一个有订单的时段" class="pre-s"></a>
+                <a href="javascript:;" title="跳至上一个时段" class="pre"></a>
+                <a href="javascript:;" title="跳至下一个时段" class="next"></a>
+                <a href="javascript:;" title="跳至下一个有订单的时段" class="next-s"></a>
+            </div>
+        </div>
+        <div class="gantt-wrapper">
+            <div class="g-notice"></div>
+            <div class="g-cover"></div>
+            <div class="g-axis clearfix">
+                <div class="room"></div>
+                <div class="time-line"></div>
+            </div>
+            <div class="g-chart"></div>
+        </div>
+        <div class="footer clearfix">
+            <div class="range column-left">
+                当前日期范围：<span class="bdate">-</span>至<span class="edate">-</span>
+            </div>
+            <div class="example column-right">
+                <div class="booked"></div><span>预订</span>
+                <div class="kept"></div><span>保留</span>
+                <div class="living"></div><span>在住</span>
+                <div class="completed"></div><span>结束</span>
+                <div class="limited-e"></div><span>停用</span>
+            </div>
+        </div>
+        <div id="rosta-calendar" alt=""></div>
+    </div>
+    <div id="widget" class="column-right">
+        <div id="cart">
+            <form action="/master/order/create" method="post" id="form-cart" target="_blank">
+            <div class="title clearfix">
+                <h2 class="column-left">创建订单</h2>
+                <div class="column-right">
+                    <input type="submit" id="submit-orders" class="button white medium" value="创建" />
+                    <input type="button" id="empty-orders" class="button white medium" value="清空" />
+                </div>
+            </div>
+            <ul class="items"></ul>
+            <div class="footer clearfix">
+                <div class="column-right"><span>订单总数： </span><span class="total-order">0</span></div>
+            </div>
+            </form>
+        </div>
+        <div id="tasks">
+            <div class="title clearfix">
+                <h2 class="column-left">重要提醒</h2>
+            </div>
+            <ul class="items"></ul>
+            <div class="footer clearfix">
+                <div class="column-right"><span>更新时间:</span><span class="current">0000/00/00 00:00</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+
+<script type="text/javascript">
+$(function(){
+    var hotel = {
+        'h_order_enabled': <?= $this->hotel['h_order_enabled'] ?>,
+        'h_order_minlens': <?= $this->hotel['h_order_minlens'] ?>,
+        'h_order_maxlens': <?= $this->hotel['h_order_maxlens'] ?>,
+        'h_order_enddays': <?= $this->hotel['h_order_enddays'] ?>
+    };
+    Z.Module.master.rosta.index.init(hotel, <?= json_encode($this->rosta); ?>);
+});
+</script>
+<? $this->view('foot') ?>

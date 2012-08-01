@@ -1,0 +1,37 @@
+"当前列表数据更新时间：<?= date('Y-m-d H:i:s', $this->time) ?>"
+
+"当前日期范围收款渠道汇总"
+
+"名称","金额(元)"
+
+<? $total_sum = 0 ?>
+<? if (!empty($this->qdhz)): ?>
+<? foreach ($this->qdhz as $data): ?>
+<? $total_sum += $data['sum'] ?>
+<?= $this->quote($data['name']) ?>,
+<?= $this->quote($data['sum']/100) ?>
+
+<? endforeach; ?>
+<? endif; ?>
+"合计",<?= $this->quote($total_sum/100) ?>
+
+""
+
+"流水编号","账单编号","时间","金额(元)","收款渠道","备注","操作人"
+
+<? $total_sum = 0 ?>
+<? if (!empty($this->skls)): ?>
+<? foreach ($this->skls as $data): ?>
+<? $total_sum += $data['bj_sum'] ?>
+<?= $this->quote($data['bj_id']) ?>,
+<?= $this->quote($data['bj_bid']) ?>,
+<?= $this->quote(date("Y-m-d", $data['bj_time'])) ?>,
+<?= $this->quote($data['bj_sum']/100) ?>,
+<?= $this->quote($data['bj_pynm']) ?>,
+<?= $this->quote($data['bj_memo']) ?>,
+<?= $this->quote($data['bj_user']) ?>
+
+<? endforeach; ?>
+<? endif; ?>
+
+"","","共有 <?= count($this->skls) ?> 条记录，合计：","<?= $total_sum/100 ?>"

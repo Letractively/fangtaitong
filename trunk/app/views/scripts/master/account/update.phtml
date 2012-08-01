@@ -1,0 +1,86 @@
+<? $this->view('head') ?>
+<title>修改帐号信息</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.account.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'ygzh', 'set' => 'zhsz')) ?>
+    <div class="cpanel-content">
+        <form id="form-update-account" class="add-id-info" action="/master/account/do-update?uid=<?= $this->account['u_id'] ?>" method="post">
+            <div class="add-info-block">
+				<div class="add-info-title"><strong>登录邮箱</strong></div>
+				<p>
+					<label for="f-email" class="important"><em>*</em>邮箱：</label>
+					<input id="f-email" type="text" name="email" value="<?= $this->escape($this->account['u_email']) ?>" disabled="disabled" class="ftt-input-text long-text required" />
+                    <span class="annotation">初始密码为<strong><?= STAFFS_PASSWORD ?></strong></span>
+				</p>
+			</div>
+            <div class="add-info-block">
+				<div class="add-info-title"><strong>帐号信息</strong></div>
+                <p>
+                    <label for="f-name" class="important"><em>*</em>姓名：</label>
+                    <input id="f-name" type="text" name="rname" value="<?= $this->escape($this->account['u_realname']) ?>" disabled="disabled" class="ftt-input-text long-text" />
+				</p>
+				<p>
+					<label for="f-rolename">角色名：</label>
+					<input type="text" id="f-rolename" name="rolename" value="<?= $this->escape($this->account['u_rolename']) ?>" class="ftt-input-text long-text" />
+                </p>
+				<p>
+					<label for="f-cellphone">手机号码：</label>
+					<input id="f-cellphone" type="text" name="mobile" value="<?= $this->escape($this->account['u_phone']) ?>" class="ftt-input-text long-text digits" />
+                </p>
+				<p>
+					<label for="f-certificate" class="column-left">证件号码：</label>
+					<select class="ftt-select" name="idtype">
+						<? foreach (getSysIdTypes() as $code => $name): ?>
+						<option value="<?= $code ?>"<? if ($this->account['u_idtype'] == $code): ?> selected="selected"<? endif; ?>><?= $name ?></option>
+						<? endforeach; ?>
+					</select>
+					<input id="f-certificate" type="text" name="idno" value="<?= $this->escape($this->account['u_idno']) ?>" class="ftt-input-text medium-text alphanumeric" />
+                </p>
+			</div>
+            <div class="add-info-block authority">
+				<div class="add-info-title"><strong>特殊权限</strong></div>
+                <p class="annotation">以下是该账户的特殊权限，你可以单击勾选或取消相应权限。</p>
+
+				<div>
+					<label>控制面板</label>
+					<p><input type="checkbox" name="permit[b1]" value="1"<?if ((int)$this->account['u_permit'] & 1): ?> checked="checked"<?endif;?> />设置旅店信息、房态规则</p>
+					<p><input type="checkbox" name="permit[b10]" value="1"<?if ((int)$this->account['u_permit'] & 2): ?> checked="checked"<?endif;?> />设置预订类型、预订渠道、收款渠道、结算方式</p>
+				</div>
+				<div>
+					<label>房间管理</label>
+					<p><input type="checkbox" name="permit[b100]" value="1"<?if ((int)$this->account['u_permit'] & 4): ?> checked="checked"<?endif;?> />创建房间、设置房间信息、属性、价格</p>
+					<p><input type="checkbox" name="permit[b1000]" value="1"<?if ((int)$this->account['u_permit'] & 8): ?> checked="checked"<?endif;?> />停用及启用房间</p>
+				</div>
+				<div>
+					<label>订单管理</label>
+					<p><input type="checkbox" name="permit[b1000000000]" value="1"<?if ((int)$this->account['u_permit'] & 512): ?> checked="checked"<?endif;?> />创建订单</p>
+					<p><input type="checkbox" name="permit[b10000]" value="1"<?if ((int)$this->account['u_permit'] & 16): ?> checked="checked"<?endif;?> />修改订单房费、可否换房、销售人员、预订类型、预订渠道、绑定会员</p>
+				</div>
+				<div>
+					<label>账单管理</label>
+					<p><input type="checkbox" name="permit[b100000]" value="1"<?if ((int)$this->account['u_permit'] & 32): ?> checked="checked"<?endif;?> />减免其它费用</p>
+					<p><input type="checkbox" name="permit[b10000000000]" value="1"<?if ((int)$this->account['u_permit'] & 1024): ?> checked="checked"<?endif;?> />关闭及开放账单</p>
+				</div>
+				<div>
+					<label>报表管理</label>
+					<p><input type="checkbox" name="permit[b1000000]" value="1"<?if ((int)$this->account['u_permit'] & 64): ?> checked="checked"<?endif;?> />查看入住类报表</p>
+					<p><input type="checkbox" name="permit[b10000000]" value="1"<?if ((int)$this->account['u_permit'] & 128): ?> checked="checked"<?endif;?> />查看结算类报表</p>
+					<p><input type="checkbox" name="permit[b100000000]" value="1"<?if ((int)$this->account['u_permit'] & 256): ?> checked="checked"<?endif;?> />查看销售类报表</p>
+				</div>
+            </div>
+            <div class="submit">
+                <input type="submit" value="保存" class="button white" />
+                <input type="reset" value="取消" class="button white" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.account.update.init)</script>
+<? $this->view('foot') ?>

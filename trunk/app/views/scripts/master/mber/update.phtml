@@ -1,0 +1,65 @@
+<? $this->view('head') ?>
+<title>会员详情</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/mber.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/plugin/jquery.powerfloat.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.mber.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.powerfloat.js') ?>"></script>
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'hygl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">会员详情</h2>
+    </div>
+    <div class="ftt-mber-basic">
+        <form id="form-update-mber" action="/master/mber/do-update?mid=<?= $this->mber['m_id']?>" method="post">
+            <div class="main">
+                <p>
+                    <label for="m-name"><em>*</em>姓名</label><input name="name" type="text" id="m-name" class="ftt-input-text {required:true, maxlength:15}" value="<?= $this->escape($this->mber['m_name']) ?>" />
+                </p>
+                <p>
+                    <label for="m-email"><em>*</em>邮箱</label><input name="email" type="text" id="m-email" class="ftt-input-text required email" value="<?= $this->escape($this->mber['m_email']) ?>" />
+                </p>
+                <p>
+                    <label for="m-phone"><em>*</em>电话</label><input name="phone" type="text" id="m-phone" class="ftt-input-text required digits" value="<?= $this->escape($this->mber['m_phone']) ?>" />
+                </p>
+                <p class="id">
+                    <label for="m-idno">证件</label><select name="idtype" id="m-idtype" class="ftt-select">
+                        <? foreach (getSysIdTypes() as $code => $name): ?>
+                        <option value="<?= $code ?>"<?= $code == $this->mber['m_idtype'] ? ' selected="selected"' : '' ?>><?= $name ?></option>
+                        <? endforeach; ?></select><input name="idno" type="text" id="m-idno" class="ftt-input-text" value="<?= $this->escape($this->mber['m_idno']) ?>" />
+                </p>
+                <p class="note">注意！姓名、邮箱、电话、证件是会员的重要识别信息，请认真填写</p>
+            </div>
+            <div class="sub">
+                <p>
+                    <label for="m-uqno"><em>*</em>编号</label><input name="uqno" type="text" id="m-uqno" class="ftt-input-text" value="<?= $this->escape($this->mber['m_no']) ?>" disabled="disabled" /><span class="note">由店家自定，不可重复，创建后不可修改</span>
+                </p>
+                <p>
+                    <label for="m-type"><em>*</em>类型</label><input name="type" type="text" id="m-type" class="ftt-input-text {required:true, maxlength:15}" value="<?= $this->escape($this->mber['m_type']) ?>" /><span class="note">会员的类型、等级，例如：白金卡会员</span>
+                </p>
+                <p class="memo">
+                    <label for="m-memo">备注</label><textarea id="m-memo" name="memo"><?= $this->escape($this->mber['m_memo']) ?></textarea>
+                </p>
+                <p class="status">
+                    <label for="m-status">状态</label><label><input type="radio" id="m-status" name="status" value="1"<?= $this->mber['m_status'] ? ' checked="checked"' : '' ?>>启用</label><label><input type="radio" name="status" value="0"<?= $this->mber['m_status'] ? '' : ' checked="checked"' ?>>停用</label>
+                </p>
+            </div>
+            <div class="submit">
+                <input type="submit" value="提交更改" class="button white" /><input type="reset" value="放弃更改" class="button white" />
+            </div>
+        </form>
+    </div>
+</div>
+<div id="index-types" class="shadow target_box dn">
+    <? if (!empty($this->types)): ?>
+    <? foreach (array_slice($this->types, 0, 10, true) as $k => $v): ?>
+    <div class="target_list">
+        <a href="javascript:;" onclick="$('#m-type').val($(this).html())"><?= $this->escape($v) ?></a>
+    </div>
+    <? endforeach; ?>
+    <? endif; ?>
+</div>
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.mber.update.init);</script>
+<? $this->view('foot') ?>

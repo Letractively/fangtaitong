@@ -1,0 +1,88 @@
+<? $this->view('head') ?>
+<title>结算报表 - 收款渠道对账明细</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.tablesorter.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">结算报表 - 收款渠道对账明细 [ <?= date('Y-m-d', $this->tmln[0]) ?> 至 <?= date('Y-m-d', $this->tmln[1]) ?> ]</h2>
+        <input id="print-button" class="column-right button white" type="button" value="打印报表" onclick="window.print();" />
+        <input id="force-button" class="column-right button white" type="button" value="导出报表" title="将当前报表导出为CSV格式下载" onclick="location.href=location.pathname+'.csv'+location.search;" />
+    </div>
+    <div class="reports-query">
+        <form id="form-reports-realtime" action="/master/stat/jsbb-skqddzmx" method="get">
+            <label for="reports-payment">收款渠道</label>
+            <select id="reports-payment" name="pyid" class="ftt-select" style="width:99px;">
+                <? foreach ($this->pyls as $val): ?>
+                <option value="<?= $val['hp_id'] ?>"<?= $val['hp_id'] == $this->pyid ? ' selected="selected"' : '' ?>><?= $this->escape($val['hp_name']) ?></option>
+                <? endforeach; ?>
+            </select>
+            <label for="reports-date">起始日期</label>
+            <input type="text" name="date[0]" id="reports-bdate" class="ftt-input-text short-text input-datepicker" value="<?= date('Y-m-d', $this->tmln[0]) ?>" />
+            <label for="reports-date">结束日期</label>
+            <input type="text" name="date[1]" id="reports-edate" class="ftt-input-text short-text input-datepicker" value="<?= date('Y-m-d', $this->tmln[1]) ?>" />
+            <input type="submit" class="button white" value="查询" />
+        </form>
+    </div>
+    <div class="reports-wrapper">
+        <p class="utime">
+            当前列表数据更新时间：<span class="update-T"><?= date('Y-m-d H:i:s', $this->time) ?></span>
+        </p>
+        <table class="report">
+            <thead>
+                <tr>
+                    <th colspan="6">收款渠道：<?= $this->escape($this->pyls[$this->pyid]['hp_name']) ?></th>
+                </tr>
+                <tr>
+                    <th>账单编号</th>
+                    <th>账单名</th>
+                    <th>结算方式</th>
+                    <th>最后更新</th>
+                    <th>累计收款(元)</th>
+                    <th>当前状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <? $paid_sum = 0 ?>
+                <? if(empty($this->skqd)): ?>
+                <tr>
+                    <td colspan="6" class="none">无记录</td>
+                </tr>
+                <? else: ?>
+                <? foreach ($this->skqd as $data): ?>
+                <tr>
+                    <td><a target="_blank" title="账单详情" href="/master/bill/detail?bid=<?= $data['b_id'] ?>"><?= $data['b_id'] ?></a></td>
+                    <td><?= $this->escape($data['b_name']) ?></td>
+                    <td><?= $this->escape($data['b_snm']) ?></td>
+                    <td><?= date('Y-m-d H:i', $data['b_mtime']) ?></td>
+                    <td><? $paid_sum += $data['bj_sum'] ?><?= $data['bj_sum']/100 ?></td>
+                    <td><?= getBillStatusNameByCode($data['b_status']) ?></td>
+                </tr>
+                <? endforeach; ?>
+                <? endif; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align:right;">共有&nbsp;<?= count($this->skqd) ?>&nbsp;条记录，合计：</td>
+                    <td><?= $paid_sum/100 ?></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align:right;color:#686868;">注：查询时段以账单更新时间为准</td>
+                </tr>
+            </tfoot>
+        </table>
+        <p class="note">
+            此报表为实时报表
+        </p>
+        <p class="copyright">——由房态通提供的报表</p>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.jsbbSkqddzmx.init)</script>
+<? $this->view('foot') ?>

@@ -1,0 +1,68 @@
+<? $this->view('head') ?>
+<title>房间日志</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.log.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'fjgl')) ?>
+
+<div class="ftt-container">
+    <div class="ftt-title">
+        <h2 class="column-left">房间日志</h2>
+        <input type="button" value="返回" class="button white column-right" onclick="history.go(-1)" />
+    </div>
+    <div class="search">
+        <form id="form-log-room-index" method="get" action="/master/log/room">
+            <input type="hidden" name="rid" value="<?= $this->room['r_id'] ?>" />
+            <span>查找范围：</span>
+            <input type="text" name="bdate" value="<?= $this->query['bdate'] ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+            -
+            <input type="text" name="edate" value="<?= $this->query['edate'] ?>" class="ftt-input-text short-text input-datepicker dateISO" />
+            <span>每页显示：</span>
+            <input type="text" name="qnty" value="<?= $this->query['qnty'] ?>" class="ftt-input-text single-text {integer:true, range:[1, 30]}" />
+            <span>条</span>
+            <input type="submit" value="提交" class="button white" />
+        </form>
+    </div>
+    <div>
+        <table class="data" id="room-log">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>房间名</th>
+                    <th>事项</th>
+                    <th>操作人员</th>
+                    <th>操作时间</th>
+                    <th>操作IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <? if (empty($this->logs)): ?>
+                <tr>
+                    <td colspan="6">没有任何记录</td>
+                </tr>
+                <? else: ?>
+                <? foreach ($this->logs as $log): ?>
+                <tr>
+                    <td><?= $log['lr_id'] ?></td>
+                    <td><?= $this->escape($log['lr_xnm']) ?></td>
+                    <td>
+                        <?= $this->escape($log['lr_name'] . ($log['lr_memo'] == '' ? '' : '(' . $log['lr_memo'] . ')')) ?>
+                    </td>
+                    <td><?= $this->escape($log['lr_pnm']) ?></td>
+                    <td><?= $this->escape($log['lr_date']) ?></td>
+                    <td><?= $this->escape($log['lr_ip']) ?></td>
+                </tr>
+                <? endforeach; ?>
+                <? endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <? $this->view('master/pager', array('pager' => $this->pager)) ?>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">
+$(Z.Module.master.log.room.init);
+</script>
+<? $this->view('foot') ?>

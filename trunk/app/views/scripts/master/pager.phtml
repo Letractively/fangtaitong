@@ -1,0 +1,16 @@
+<?
+empty($pager['args']) AND $pager['args'] = array();
+empty($pager['page']) AND $pager['page'] = 1;
+empty($pager['qnty']) AND $pager['qnty'] = 10;
+isset($pager['list']) OR $pager['list'] = $pager['qnty'];
+$last = isset($pager['size']) ? ceil($pager['size']/$pager['qnty']) : ($pager['qnty'] == $pager['list'] ? ($pager['page'] > 3 ? $pager['page'] + 2 : 5) : $pager['page']);
+?>
+		<div class="page-navi">
+			<ul style="width:<?= 380 + 35*(min($last - 5, 0)) ?>px">
+                <li class="prev"><a href="<?= $pager['page'] > 1 ? $this->link(array_merge($pager['args'], array('page' => $pager['page']-1))) : 'javascript:;' ?>">上一页</a></li>
+                <? for ($page = max($last - 4, 1); $page <= $last; $page++): ?>
+                <li<?= $page === $pager['page'] ? ' class="here"' : '' ?>><a href="<?= $this->link(array_merge($pager['args'], array('page' => $page))) ?>"><?= $page ?></a></li>
+                <? endfor; ?>
+                <li class="next"><a href="<?= $pager['list'] >= $pager['qnty'] ? $this->link(array_merge($pager['args'], array('page' => $pager['page']+1))) : 'javascript:;' ?>">下一页</a></li>
+			</ul>
+		</div>

@@ -1,0 +1,463 @@
+@charset "utf-8";
+
+/*----------room manage page begin-----------*/
+
+
+
+/*----------room manage page end-----------*/
+
+/*----------create room page end-----------*/
+
+.ftt-room-create p
+{
+    padding:10px 0px;
+}
+
+.ftt-room-create label
+{
+   width:70px;
+}
+
+.ftt-room-create input.ftt-input-text
+{
+    width:340px;
+    margin-right:10px;
+}
+
+.ftt-room-create .note
+{
+    color:#999;
+}
+
+.ftt-room-create .name
+{
+    margin:0 70px;
+    padding:10px 30px;
+    border-bottom:1px solid #ccc;
+}
+
+.ftt-room-create .name p
+{
+    padding:8px 0px;
+}
+
+.ftt-room-create .name .note
+{
+    margin-left:84px;
+}
+
+.ftt-room-create .detail
+{
+    margin:0 70px;
+    padding:10px 30px;
+}
+
+.ftt-room-create .detail .view
+{
+    padding:10px 0px;
+}
+
+.ftt-room-create .detail .view ul
+{
+    width:410px;
+}
+
+.ftt-room-create .detail .view li
+{
+    float:left;
+    margin:5px 50px 10px 0;
+}
+
+.ftt-room-create .detail .view li label
+{
+    font-size:14px;
+    width:auto;
+    padding:0;
+}
+
+.ftt-room-create .detail .memo textarea
+{
+    width:334px;
+    height:100px;
+    margin:0 10px 0 0;
+}
+
+.ftt-room-create .submit
+{
+    height:40px;
+    margin-top:20px;
+    padding:10px 0;
+    background:#d0d4d3;
+    border-top:1px #ccc solid;
+    text-align:center;
+}
+
+.ftt-room-create .submit .button
+{
+    margin-left:20px;
+}
+
+/*----------create room page end-----------*/
+
+
+
+/*----------update room page begin-----------*/
+
+#room-detail
+{
+    width:978px;
+    margin-top:23px;
+}
+
+#room-detail .tab-list
+{
+    font-size:16px;
+}
+
+#room-detail .tab-list li
+{
+    float:left;
+    text-align:center;
+    cursor:pointer;
+    list-style:none;
+    padding:1px 6px;
+    margin-left:5px;
+    background:#f6f6f6;
+    border:1px solid #dedede;
+    top:1px;
+    width:100px;
+    line-height:39px;
+    position:relative;
+}
+
+#room-detail .tab-list li.hover
+{
+    background:#ffffff;
+}
+
+#room-detail .tab-list li.now
+{
+    color:#000000;
+    background:#ffffff;
+    border-bottom:1px #fff solid;
+    top:1px;
+}
+
+#room-detail .tab-block
+{
+    border-top:1px solid #dedede;
+    padding-top:20px;
+}
+
+/*#room-detail .tab-content
+{
+    min-height:444px;
+    height:auto !important;
+    height:444px;
+}*/
+
+#room-detail .hide
+{
+    display:none
+}
+
+#room-detail .tab-block .submit
+{
+    height:40px;
+    margin-top:20px;
+    padding:10px 0;
+    background:#d0d4d3;
+    border-top:1px #ccc solid;
+    text-align:center;
+}
+
+#room-detail .tab-block .submit .button
+{
+    margin-left:20px;
+}
+
+/*----------room-basic begin-----------*/
+
+#block-basic p
+{
+    padding:10px 0px;
+}
+
+#block-basic input.ftt-input-text
+{
+    width:340px;
+    margin-right:10px;
+}
+
+#block-basic .note
+{
+    color:#999;
+}
+
+#block-basic .detail
+{
+    margin:0 70px;
+    padding:10px 30px;
+}
+
+#block-basic .detail .view
+{
+    padding:10px 0px;
+}
+
+#block-basic .detail .view ul
+{
+    width:410px;
+}
+
+#block-basic .detail .view li
+{
+    float:left;
+    margin:5px 50px 10px 0;
+}
+
+#block-basic .detail .view li label
+{
+    font-size:14px;
+    width:auto;
+    padding:0;
+}
+
+#block-basic .detail .memo textarea
+{
+    width:334px;
+    height:100px;
+    margin:0 10px 0 0;
+}
+
+/*----------room-basic end-----------*/
+
+/*----------room-price begin-----------*/
+
+#block-price .wrapper
+{
+    padding:20px;
+}
+
+#block-price .wrapper label
+{
+    width:auto;
+}
+
+#room-price-query
+{
+    width:635px;
+}
+
+#price-calendar
+{
+    position:relative;
+    width:635px;
+    margin-bottom:22px;
+    min-height:336px;
+    height:auto !important;
+    height:336px;
+}
+
+#price-calendar-wrapper
+{
+    border:1px #fff solid;
+    background:#fff;
+}
+
+#price-loading-cover
+{
+    z-index:999999;
+    position:absolute;
+    height:336px;
+    width:100%;
+    top:0;
+    left:0;
+    background:#000 url(../../../img/loading-green-black.gif) no-repeat 50% 50%;
+    filter:alpha(opacity=70);
+    -moz-opacity:0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+}
+
+table.rprice
+{
+    background:#fff;
+    text-align:center;
+    vertical-align:middle;
+    width:100%
+}
+
+table.rprice th
+{
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:12px;
+    line-height:18px;
+    height:28px;
+    padding:0 5px;
+    border:1px #ccc solid;
+    color:#686868;
+    background:#EEEEEE;
+}
+
+table.rprice td
+{
+    vertical-align:middle;
+    border:1px #ccc solid;
+    background:#f8f8f8;
+    font-size:12px;
+    line-height:18px;
+    height:28px;
+}
+
+table.rprice td.chosen .date
+{
+    color:#fff;
+    background:#89CAE0;
+}
+
+table.rprice td.chosen .price
+{
+    color:#fff;
+    background:#89CAE0;
+}
+
+table.rprice td .date
+{
+    padding:3px 0;
+    border-bottom:1px #ccc solid;
+    background:#eee;
+}
+
+table.rprice td .price
+{
+    height:28px;
+    line-height:28px;
+    padding:0;
+    margin:0;
+    border:0;
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+    color:#0B8262;
+    background:#fff;
+}
+
+table.rprice td .price input.change
+{
+    color:#f00;
+}
+
+table.rprice tfoot td
+{
+    background:#EEEEEE;
+    color:#686868;
+    text-align:right;
+    padding:3px 10px;
+    width:auto;
+}
+
+table.rprice .even
+{
+    background:#f6f6f6;
+}
+
+table.rprice .odd
+{
+    background:#fff;
+}
+
+table.rprice .over
+{
+    background:#d2f1e8;
+}
+
+#more-plans
+{
+    text-align:right;
+    height:20px;
+    padding:7px 5px;
+    border:1px #ccc solid;
+    border-top:none;
+}
+
+#room-price-forms .block
+{
+    margin-bottom:22px;
+    border:1px #ccc solid;
+}
+
+#room-price-forms .title
+{
+    font-size:14px;
+    font-weight:bold;
+    line-height:33px;
+    height:33px;
+    width:234px;
+    padding:0 15px;
+    margin-bottom:20px;
+    background:#eee;
+    border-bottom:1px #ccc solid;
+}
+
+#room-price-forms .ftt-input-text
+{
+    width:90px;
+    margin:0 5px;
+}
+
+#room-price-forms p
+{
+    padding:3px 20px;
+}
+
+#room-price-forms .submit
+{
+    padding:5px 0px;
+    margin-top:20px;
+    text-align:center;
+    background:#D0D4D3;
+    border-top:1px #ccc solid;
+}
+
+/*----------room-price end-----------*/
+
+/*----------room-pause begin-----------*/
+
+table.stop
+{
+    margin-left:70px;
+}
+
+table.stop td
+{
+    padding:10px 0;
+}
+
+table.stop input
+{
+    margin:0 10px;
+}
+
+table.stop label
+{
+    width:auto;
+}
+
+table.stop textarea
+{
+    margin:0 0 0 10px;
+    width:380px;
+    height:120px;
+}
+
+.reason
+{
+    font-size:14px;
+    color:#999;
+    margin:10px;
+}
+/*----------room-pause end-----------*/
+
+/*----------update room page end-----------*/

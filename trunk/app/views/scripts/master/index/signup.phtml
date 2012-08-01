@@ -1,0 +1,71 @@
+<? $this->view('head') ?>
+<title>注册房态通</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/index.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.index.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.linkagesel.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/source/district.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('default/header') ?>
+        <div class="content-wrapper clearfix">
+            <div class="signup-main column-right">
+                <div class="form_block signup-form_block">
+                    <fieldset>
+                        <legend>注册房态通</legend>
+                        <form action="/master/index/do-signup" method="post" id="form-signup">
+                            <div class="block first">
+                                <p class="caption">旅店基本信息</p>
+                                <p><label for="form-signup-hotelnm">旅店名称</label><input type="text" name="hotelnm" id="form-signup-hotelnm" class="text required" /></p>
+                                <p><label for="form-signup-contact">旅店电话</label><input type="text" name="contact" id="form-signup-contact" class="text {required:true, number:true, minlength:6}" /></p>
+                                <p><label for="form-signup-sel-country">旅店地址</label><select class="country" name="country" id="form-signup-sel-country"><option selected="selected">中国</option></select><select name="province" id="form-signup-sel-province"></select><select name="city" id="form-signup-sel-city"></select></p>
+                                <p><label>&#32;</label><input type="text" name="address" id="form-signup-address" class="text required" /></p>
+                            </div>
+                            <div class="block"> 
+                                <p class="caption">旅店管理信息</p>
+                                <p><label for="form-signup-username">登录邮箱</label><input type="text" name="username" id="form-signup-username" value="" class="text required" /></p>
+                                <p><label for="form-signup-password">登录密码</label><input type="password" name="password" maxlength="16" id="form-signup-password" class="text required {required:true,minlength:6}" /></p>
+                                <p><label for="form-signup-password-repeat">确认密码</label><input type="password" name="password-repeat" maxlength="16" id="form-signup-password-repeat" class="text required {required:true,minlength:6,equalTo:'#form-signup-password'}" /></p>
+                                <p><label for="form-signup-realname">真实姓名</label><input type="text" name="realname" id="form-signup-realname" class="text required" /></p>
+                            </div>
+                            <div class="block folding"> 
+                                <p class="caption">旅店默认设置<span class="note">点击展开</span></p>
+                                <p><label for="form-signup-typedef">预订类型</label><input type="text" name="typedef" id="form-signup-typedef" value="直客" class="text {required:true, maxlength:30}" /></p>
+                                <p><label for="form-signup-channel">预订渠道</label><input type="text" name="channel" id="form-signup-channel" value="前台" class="text {required:true, maxlength:30}" /></p>
+                                <p><label for="form-signup-payment">收款渠道</label><input type="text" name="payment" id="form-signup-payment" value="现金" class="text {required:true, maxlength:30}" /></p>
+                                <p><label for="form-signup-settlem">结算方式</label><input type="text" name="settlem" id="form-signup-settlem" value="预付定金" class="text {required:true, maxlength:30}" /></p>
+                            </div>
+                            <div class="block last"> 
+                                <p><label>验证码</label><img class="captcha" src="/com/captcha/image?a=/master/index/do-signup&o=<?= time() ?>" alt="点击刷新" /><input type="text" name="captcha" id="form-signup-captcha" class="text tulin required" /><a class="reload-captcha" href="javascript:;">换一张</a></p>
+                                <!-- <p><label class="indent"><input type="checkbox" name="agreement" value="1" id="form-signup-agreement" class="checkbox required" />已阅读并接受</label> <a href="<?= $this->www('serviceagreement.html') ?>" target="_blank">用户协议</a></p>    -->
+                                <p><input type="submit" value="注册" class="button green" /></p>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="signup-sub column-left">
+                <div class="feature">
+                    <p class="caption">支持多人协作，减少沟通成本</p>
+                    <p class="description"><span class="icon drxz"></span>支持预订员（销售）、前台、财务、经理等角色多人协同操作，数据同步及时，提高工作效率，减少沟通成本</p>
+                </div>
+                <div class="feature">
+                    <p class="caption">统计高效，报告及时</p>
+                    <p class="description"><span class="icon bgtj"></span>对每日入住、退房、收款记录等信息自动汇总，一目了然，翻查便捷，提高交班和结算效率：随时随地均可查阅各个渠道和各类房间的销售表现</p>
+                </div>
+                <div class="feature eol">
+                    <p class="caption">信息记录完整，权责分明</p>
+                    <p class="description"><span class="icon jlwz"></span>用户对一张订单每次修改均有日志，记录操作人和操作时间；支持自定义每个帐号的权限，各司其职，避免操作混乱，方便管理</p>
+                </div>
+                <div class="feature">
+                    <p class="caption">系统开源免费，自由定制</p>
+                    <p class="description"><span class="icon wxxz"></span>房态通系统代码开源免费，用户可以自由定制和扩展</p>
+                </div>
+                <div class="feature eol">
+                    <p class="caption">更多的特性……</p>
+                    <p class="description"><span class="icon sjaq"></span>更多系统特性挖掘中……</p>
+                </div>
+            </div>
+        </div>
+<? $this->view('default/footer') ?>
+<script type="text/javascript">$(Z.Module.master.index.signup.init)</script>
+<? $this->view('foot') ?>

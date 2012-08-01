@@ -1,0 +1,123 @@
+<? $this->view('head') ?>
+<title>报表统计</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?= $this->www('css/module/master/report.css') ?>" type="text/css" />
+<script type="text/javascript" src="<?= $this->www('script/module/master.stat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'bbtj')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">报表统计</h2>
+    </div>
+    <div class="reports-index">
+        <div class="reports-sort clearfix">
+            <div class="reports-item clearfix">
+                <div class="reports-icon">入住</div>
+                <div class="reports-blocks clearfix">
+                    <div class="reports-block-float">
+                        <h2 class="reports-title"><a href="/master/stat/rzjl?date=<?= date('Y-m-d', strtotime(date('Y-m-d')) - 86400) ?>">入住记录</a></h2>
+                        <p class="reports-description">
+                            某天入住的订单概要，默认为昨天。</a>
+                        </p>
+                    </div>
+                    <div class="reports-block-float">
+                        <h2 class="reports-title"><a href="/master/stat/yzjl">应入住</a></h2>
+                        <p class="reports-description">
+                            某天预计入住的订单概要，默认为今天。
+                        </p>
+                    </div>
+                    <div class="reports-block-float">
+                        <h2 class="reports-title"><a href="/master/stat/tfjl?date=<?= date('Y-m-d', strtotime(date('Y-m-d')) - 86400) ?>">退房记录</a></h2>
+                        <p class="reports-description">
+                            某天退房的订单概要，默认为昨天。
+                        </p>
+                    </div>
+                    <div class="reports-block-float">
+                        <h2 class="reports-title"><a href="/master/stat/ytjl">应退房</a></h2>
+                        <p class="reports-description">
+                            某天预计退房的订单概要，默认为今天。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="reports-item clearfix">
+                <div class="reports-icon">结算</div>
+                <div class="reports-blocks">
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/skls?date=<?= date('Y-m-d', strtotime(date('Y-m-d')) - 86400) ?>">收款流水</a></h2>
+                        <p class="reports-description">
+                            某天收款的账单概要，默认为昨天。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/jsbb-skqddzmx-form">收款渠道对账明细</a></h2>
+                        <p class="reports-description">
+                            某个收款渠道对应的账单更新日期在指定日期内的累计收款明细。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/jsbb-ydkrdzmx-form">预订客人对账明细</a></h2>
+                        <p class="reports-description">
+                            某个预订客人对应的已结束的订单的离店日期在指定日期内的累计收款明细。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/jsbb-xsrydzmx-form">销售人员对账明细</a></h2>
+                        <p class="reports-description">
+                            某个销售人员对应的已结束的订单的离店日期在指定日期内的累计收款明细。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/jsbb-ydqddzmx-form">预订渠道对账明细</a></h2>
+                        <p class="reports-description">
+                            某个预订渠道对应的已结束的订单的离店日期在指定日期内的累计收款明细。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="reports-item clearfix">
+                <div class="reports-icon">销售</div>
+                <div class="reports-blocks">
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/xsbb-syfj-form">房间汇总</a></h2>
+                        <p class="reports-description">
+                            对一定周期（日、周、月等）内累计销售的房量和房费按房间汇总统计。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/xsbb-xsry-form">销售人员汇总</a></h2>
+                        <p class="reports-description">
+                            对一定周期（日、周、月等）内累计销售的房量和房费按销售人员汇总统计。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/xsbb-ydlx-form">预订类型汇总</a></h2>
+                        <p class="reports-description">
+                            对一定周期（日、周、月等）内累计销售的房量和房费按预订类型汇总统计。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/xsbb-ydqd-form">预订渠道汇总</a></h2>
+                        <p class="reports-description">
+                            对一定周期（日、周、月等）内累计销售的房量和房费按预订渠道汇总统计。
+                        </p>
+                    </div>
+                    <div class="reports-block">
+                        <h2 class="reports-title"><a href="/master/stat/xsbb-qtfy-form">其它费用汇总</a></h2>
+                        <p class="reports-description">
+                            对一定周期（日、周、月等）内累计销售的其它费用按其内容汇总统计。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="reports-more">
+        <a target="_blank" href="http://blog.fangtaitong.com/?page_id=7">说说你想要的报表</a>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.stat.index.init)</script>
+<? $this->view('foot') ?>

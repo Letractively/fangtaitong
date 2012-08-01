@@ -1,0 +1,65 @@
+<? $this->view('head') ?>
+<title>添加会员</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/mber.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/plugin/jquery.powerfloat.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.mber.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.powerfloat.js') ?>"></script>
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'hygl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left">添加会员</h2>
+    </div>
+    <div class="ftt-mber-basic">
+        <form id="form-create-mber" action="/master/mber/do-create/" method="post">
+            <div class="main">
+                <p>
+                    <label for="m-name"><em>*</em>姓名</label><input name="name" type="text" id="m-name" class="ftt-input-text {required:true, maxlength:15}" />
+                </p>
+                <p>
+                    <label for="m-email"><em>*</em>邮箱</label><input name="email" type="text" id="m-email" class="ftt-input-text required email" />
+                </p>
+                <p>
+                    <label for="m-phone"><em>*</em>电话</label><input name="phone" type="text" id="m-phone" class="ftt-input-text required digits" />
+                </p>
+                <p class="id">
+                    <label for="m-idno">证件</label><select name="idtype" id="m-idtype" class="ftt-select">
+                        <? foreach (getSysIdTypes() as $code => $name): ?>
+                        <option value="<?= $code ?>"><?= $name ?></option>
+                        <? endforeach; ?></select><input name="idno" type="text" id="m-idno" class="ftt-input-text" />
+                </p>
+                <p class="note">注意！姓名、邮箱、电话、证件是会员的重要识别信息，请认真填写</p>
+            </div>
+            <div class="sub">
+                <p>
+                    <label for="m-uqno"><em>*</em>编号</label><input name="uqno" type="text" id="m-uqno" class="ftt-input-text {required:true, maxlength:15, remote:'/master/mber/valid-muqno.do'}" /><span class="note">由店家自定，不可重复，创建后不可修改</span>
+                </p>
+                <p>
+                    <label for="m-type"><em>*</em>类型</label><input name="type" type="text" id="m-type" class="ftt-input-text {required:true, maxlength:15}" /><span class="note">会员的类型、等级，例如：白金卡会员</span>
+                </p>
+                <p class="memo">
+                    <label for="m-memo">备注</label><textarea id="m-memo" name="memo"></textarea>
+                </p>
+                <p class="status">
+                    <label for="m-status">状态</label><label><input type="radio" name="status" value="1" checked="checked" id="m-status">启用</label><label><input type="radio" name="status" value="0">停用</label>
+                </p>
+            </div>
+            <div class="submit">
+                <input type="submit" value="确认添加" class="button white" /><input type="reset" value="重新填写" class="button white" />
+            </div>
+        </form>
+    </div>
+</div>
+<div id="index-types" class="shadow target_box dn">
+    <? if (!empty($this->types)): ?>
+    <? foreach (array_slice($this->types, 0, 10, true) as $k => $v): ?>
+    <div class="target_list">
+        <a href="javascript:;" onclick="$('#m-type').val($(this).html())"><?= $this->escape($v) ?></a>
+    </div>
+    <? endforeach; ?>
+    <? endif; ?>
+</div>
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.mber.create.init);</script>
+<? $this->view('foot') ?>

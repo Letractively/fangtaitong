@@ -1,0 +1,16 @@
+<phpunit bootstrap="./bootstrap.php">
+    <php><includePath>/www/php_lib</includePath></php>
+
+    <testsuite name="Model Test Suite">
+        <directory>./models</directory>
+    </testsuite>
+    
+    <!-- <filter> -->
+        <!-- If Zend Framework is inside your project's library, uncomment this filter -->
+        <!-- 
+        <whitelist>
+            <directory suffix=".php">../../lib/Zend</directory>
+        </whitelist>
+        -->
+    <!-- </filter> -->
+</phpunit>

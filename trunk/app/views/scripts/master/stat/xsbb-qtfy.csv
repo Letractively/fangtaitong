@@ -1,0 +1,13 @@
+"当前列表数据更新时间：<?= date('Y-m-d H:i:s', $this->time) ?>"
+
+"内容","金额（元）"
+
+<? $sum = 0 ?>
+<? if(!empty($this->qtfy)): ?>
+<? foreach ($this->qtfy as $data): ?>
+<?= $this->quote($data['name']) ?>,
+<? $sum+=$data['sum'] ?><?= $this->quote($data['sum']/100) ?>
+
+<? endforeach; ?>
+<? endif; ?>
+"合计","<?= $sum/100 ?>"

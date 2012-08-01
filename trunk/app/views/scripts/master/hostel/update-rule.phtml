@@ -1,0 +1,104 @@
+<? $this->view('head') ?>
+<title>旅店房态规则</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.hostel.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'ftgz', 'set' => 'gzsz')) ?>
+    <div class="cpanel-content">
+        <form id="form-update-rule" class="hotel-rules" action="/master/hostel/do-update-rule" method="post">
+            <div class="rule-block" id="rule1">
+                <div class="rule-title">订单</div>
+                <div class="rule-content">
+                    <p>
+                    每张订单最少
+                    <input type="text" name="order_minlens" class="ftt-input-text single-text {required:true, digits:true, min:1}" value="<?= $this->hostel['h_order_minlens'] ?>" />
+                    间夜，最多
+                    <input type="text" name="order_maxlens" class="ftt-input-text single-text {required:true, digits:true, min:1, max:31}" value="<?= $this->hostel['h_order_maxlens'] ?>" />
+                    间夜，
+                    （1-31范围内）超过31间夜的订单需要分成多张订单。
+                    </p>
+                    <p>
+                    允许建立最多
+                    <input type="text" name="order_enddays" class="ftt-input-text single-text {required:true, digits:true, min:1, max:450}" value="<?= $this->hostel['h_order_enddays'] ?>" />
+                    天内的订单（该值以退房时间为准，不能超过 450天）。
+                    </p>
+                    <p>
+                    <? $cit = array((int)($this->hostel['h_checkin_time']/3600), (int)($this->hostel['h_checkin_time']/60)%60) ?>
+                    <? $cot = array((int)($this->hostel['h_checkout_time']/3600), (int)($this->hostel['h_checkout_time']/60)%60) ?>
+                    默认入住时间
+                    <input type="text" name="checkin_time_hour" class="ftt-input-text single-text {required:true, digits:true, min:0, max:23}" value="<?= strlen($cit[0]) > 1 ? $cit[0] : '0'.$cit[0] ?>" />
+                    ：
+                    <input type="text" name="checkin_time_min" class="ftt-input-text single-text {required:true, digits:true, min:0, max:59}" value="<?= strlen($cit[1]) > 1 ? $cit[1] : '0'.$cit[1] ?>" />
+                    以后，退房时间为
+                    <input type="text" name="checkout_time_hour" class="ftt-input-text single-text {required:true, digits:true, min:0, max:23}" value="<?= strlen($cot[0]) > 1 ? $cot[0] : '0'.$cot[0] ?>" />
+                    ：
+                    <input type="text" name="checkout_time_min" class="ftt-input-text single-text {required:true, digits:true, min:0, max:59}" value="<?= strlen($cot[1]) > 1 ? $cot[1] : '0'.$cot[1] ?>" />
+                    以前。
+                    </p>
+                </div>
+            </div>
+
+            <div class="rule-block" id="rule2">
+                <div class="rule-title">账单</div>
+                <div class="rule-content">
+                    <? $lft = array((int)($this->hostel['h_obill_keptime']/3600), (int)($this->hostel['h_obill_keptime']/60)%60) ?>
+                    <p>
+                    <input type="checkbox" name="keptime" value="1" <?= HOTEL_ATTR_ZDGQ & (int)$this->hostel['h_attr'] ? 'checked="checked" ' : '' ?>/>
+                    预订保留
+                    <input type="text" name="keptime_hour" class="ftt-input-text single-text {required:true, digits:true, min:0, max:72}" value="<?= $lft[0] ?>" />
+                    小时后过期（0-72范围内，0为创建后立刻过期）。
+                    </p>
+                </div>
+            </div>
+
+            <div class="rule-block" id="rule3">
+                <div class="rule-title">提醒</div>
+                <div class="rule-content">
+                    <p>
+                    提前
+                    <input type="text" name="prompt_checkin" class="ftt-input-text single-text {required:true, digits:true, min:0}" value="<?= $this->hostel['h_prompt_checkin'] ?>" />
+                    分钟对应入住的订单进行提醒。
+                    </p>
+                    <p>
+                    提前
+                    <input type="text" name="prompt_checkout" class="ftt-input-text single-text {required:true, digits:true, min:0}" value="<?= $this->hostel['h_prompt_checkout'] ?>" />
+                    分钟对应退房的订单进行提醒。
+                    </p>
+                </div>
+            </div>
+
+            <div class="rule-block" id="rule4" style="margin-bottom:74px;">
+                <div class="rule-title">操作</div>
+                <div class="rule-content">
+                    <p>
+                    <input type="checkbox" name="rosta_visible" value="1" <?= SYSTEM_GROUPS_GSER & (int)$this->hostel['h_rosta_visible'] ? 'checked="checked" ' : '' ?>/>
+                    允许旅客<a href="/hostel/rosta?hid=<?= $this->hostel['h_id'] ?>" target="_blank">查看简单的房态页</a>。
+                    </p>
+                    <p>
+                    <input type="checkbox" name="order_enabled" value="1" <?= SYSTEM_GROUPS_GSER & (int)$this->hostel['h_order_enabled'] ? 'checked="checked" ' : '' ?>/>
+                    允许旅客在线自助下单，新订单默认为
+                    <select name="order_default_stacode" class="ftt-select">
+                        <? foreach (array(ORDER_STATUS_YD, ORDER_STATUS_BL) as $val): ?>
+                        <option value="<?= $val ?>"<?= $this->hostel['h_order_default_stacode'] == $val ? ' selected="selected"' : '' ?>><?= getOrderStatusNameByCode($val) ?></option>
+                        <? endforeach; ?>
+                    </select>
+                    状态。
+                    <a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#14" target="_blank">?</a>
+                    </p>
+                </div>
+            </div>
+            <div class="submit">		
+                <input class="button white" value="保存" type="submit"/> 
+                <input class="button white" value="放弃修改" type="reset"/>
+            </div>
+        </form>	
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.hostel.updateRule.init)</script>
+<? $this->view('foot') ?>

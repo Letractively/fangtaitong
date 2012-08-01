@@ -1,0 +1,77 @@
+<? $this->view('head') ?>
+<title><?= $this->room['r_id'] ? '克隆' : '添加' ?>房间</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/room.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/plugin/jquery.powerfloat.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.room.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.powerfloat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'fjgl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title clearfix">
+        <h2 class="column-left"><?= $this->room['r_id'] ? '克隆' : '添加' ?>房间</h2>
+    </div>
+    <form id="form-create-room" action="/master/room/do-create/" method="post">
+        <div class="ftt-room-create">
+            <div class="name">
+                <p>
+                    <label for="f-rn"><em>*</em>房间名</label><input name="names[]" type="text" id="f-rn" class="ftt-input-text {required:true, maxlength:15}" />
+                    <a href="javascript:;" class="handle-create">[增加]</a>
+                </p>
+                <p class="note">注意！房间名是房间的重要识别信息，不可重复，创建后不可修改</p>
+            </div>
+            <div class="detail">
+                <p>
+                    <label for="f-odate"><em>*</em>启用日</label><input id="f-odate" type="text" name="odate" value="<?= date('Y-m-d', $this->room['r_otime']) ?>" class="ftt-input-text input-datepicker required dateISO" /><span class="note">房间的实际开张日期<a class="question-link" title="查看帮助" href="<?= $this->www('help/') ?>#43" target="_blank">?</a></span>
+                </p>
+                <p>
+                    <label for="f-price"><em>*</em>牌价</label><input id="f-price" type="text" name="price" value="<?= $this->escape($this->room['r_price']) ?>" class="ftt-input-text {required:true, maxlength:10}" /><span class="note">房间基本价格，单位：元</span>
+                </p>
+                <p>
+                    <label for="f-type"><em>*</em>房型</label><input id="f-type" type="text" name="type" value="<?= $this->escape($this->room['r_type']) ?>" class="ftt-input-text {required:true, maxlength:10}" /><span class="note">例如：豪华型、标准型</span>
+                </p>
+                <p>
+                    <label for="f-layout">户型</label><input type="text" name="layout" value="<?= $this->escape($this->room['r_layout']) ?>" id="f-layout" class="ftt-input-text {maxlength:10}" /><span class="note">例如：单间，两室一厅</span>
+                </p>
+                <p>
+                    <label for="f-zone">区域</label><input id="f-zone" type="text" name="zone" value="<?= $this->escape($this->room['r_zone']) ?>" class="ftt-input-text {maxlength:20}" /><span class="note">您可以写您的房间所在地域/道路</span>
+                </p>
+                <p>
+                    <label for="f-area">小区</label><input id="f-area" type="text" name="area" value="<?= $this->escape($this->room['r_area']) ?>" class="ftt-input-text {maxlength:50}" /><span class="note">您可以写您的房间所在的大厦名或小区</span>
+                </p>
+                <div class="view clearfix">
+                    <label for="f-view" class="column-left">景观</label>
+                    <ul class="clearfix column-left">
+                        <? foreach ($this->room['views'] as $key => $num): ?>
+                        <li><label><input type="checkbox" name="view[]" value="<?= $this->escape($key) ?>"<? if ($num): ?>checked="checked"<? endif ?>/><?= $this->escape($key) ?></label></li>
+                        <? endforeach; ?>
+                    </ul>
+                </div>
+                <p class="memo">
+                    <label for="f-intro" style="vertical-align:top;">房间说明</label><textarea id="f-intro" name="desc"><?= $this->escape($this->room['r_desc']) ?></textarea>
+                </p>
+            </div>
+            <div class="submit">
+                <input type="submit" value="确认添加" class="button white" /><input type="reset" value="重新填写" class="button white" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<? foreach (array('type', 'area', 'zone', 'layout') as $key): ?>
+<div id="index-<?= $key ?>" class="shadow target_box dn">
+    <? if (!empty($this->index[$key])): ?>
+    <? foreach (array_slice($this->index[$key], 0, 10, true) as $k => $v): ?>
+    <div class="target_list">
+        <a href="javascript:;" onclick="$('#f-<?= $key ?>').val($(this).html())"><?= $this->escape($k) ?></a>
+    </div>
+    <? endforeach; ?>
+    <? endif; ?>
+</div>
+<!-- <a href="##" class="r mr5 target_more">显示更多 »</a> -->
+<? endforeach; ?>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.room.create.init)</script>
+<? $this->view('foot') ?>

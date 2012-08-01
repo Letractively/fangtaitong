@@ -1,0 +1,179 @@
+<? $this->view('head') ?>
+<title>房间详情</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/room.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/plugin/jquery.powerfloat.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.room.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.powerfloat.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('tab' => 'fjgl')) ?>
+<div class="ftt-container">
+    <div class="ftt-title room-info-title clearfix">
+        <h2 class="column-left">房间详情 ( <?= $this->escape($this->room['r_name']) ?> )</h2>
+    </div>
+    <div id="room-detail" class="tab">
+        <ul class="tab-list clearfix">
+            <li alt="basic" class="now">基本信息</li>
+            <li alt="price">房价设置</li>
+            <li alt="pause">停用设置</li>
+            <li alt="attrs">扩展属性</li>
+        </ul>
+        <div class="tab-block">
+            <div id="block-basic" class="tab-content">
+                <form id="form-update-room" method="post" action="/master/room/do-update?rid=<?= $this->room['r_id'] ?>">
+                    <div class="detail">
+                        <p>
+                            <label for="f-odate"><em>*</em>启用日</label><input id="f-odate" type="text" name="odate" value="<?= date('Y-m-d', $this->room['r_otime']) ?>" class="ftt-input-text input-datepicker required dateISO" /><span class="note">房间的实际开张日期</span>
+                        </p>
+                        <p>
+                            <label for="f-price"><em>*</em>牌价</label><input id="f-price" type="text" value="<?= $this->escape($this->room['r_price']/100) ?>" class="ftt-input-text" disabled="disabled" /><span class="note">房间基本价格，单位：元</span>
+                        </p>
+                        <p>
+                            <label for="f-type"><em>*</em>房型</label><input id="f-type" type="text" name="type" value="<?= $this->escape($this->room['r_type']) ?>" class="ftt-input-text {required:true, maxlength:10}" /><span class="note">例如：豪华型、标准型</span>
+                        </p>
+                        <p>
+                            <label for="f-layout">户型</label><input type="text" name="layout" value="<?= $this->escape($this->room['r_layout']) ?>" id="f-layout" class="ftt-input-text {maxlength:10}" /><span class="note">例如：单间，两室一厅</span>
+                        </p>
+                        <p>
+                            <label for="f-zone">区域</label><input id="f-zone" type="text" name="zone" value="<?= $this->escape($this->room['r_zone']) ?>" class="ftt-input-text {maxlength:20}" /><span class="note">您可以写您的房间所在地域/道路</span>
+                        </p>
+                        <p>
+                            <label for="f-area">小区</label><input id="f-area" type="text" name="area" value="<?= $this->escape($this->room['r_area']) ?>" class="ftt-input-text {maxlength:50}" /><span class="note">您可以写您的房间所在的大厦名或区域名</span>
+                        </p>
+                        <div class="clearfix view">
+                            <label for="f-view" class="column-left" >景观</label>
+                            <ul class="clearfix column-left">
+                                <? foreach ($this->room['views'] as $key => $num): ?>
+                                <li><label><input type="checkbox" name="view[]" value="<?= $this->escape($key) ?>" <? if ($num): ?>checked="checked"<? endif ?>/><?= $this->escape($key) ?></label></li>
+                                <? endforeach; ?>
+                            </ul>
+                        </div>
+                        <p class="memo">
+                            <label for="f-intro" style="vertical-align:top;">房间说明</label>
+                            <textarea id="f-intro" name="desc" cols="30" rows="5"><?= $this->escape($this->room['r_desc']) ?></textarea>
+                        </p>
+                    </div>
+                    <div class="submit">
+                        <input type="submit" value="提交更改" class="button white" /><input type="reset" value="放弃更改" class="button white" />
+                    </div>
+                </form>
+            </div>
+            <? if (false): ?>
+            <div id="block-equips" class="tab-content hide">
+                <?= $this->view('master/room/' . ($this->init ? '_update-equips-ary' : '_update-equips')) ?>
+            </div>
+            <? endif; ?>
+            <div id="block-price" class="tab-content hide">
+               <div class="wrapper clearfix">
+                    <div id="room-price-query" class="column-left">
+                        <p id="room-price-form">
+                            <label for="price-date">查询时间</label>
+                            <input type="text" id="price-date" class="ftt-input-text input-datepicker" value="<?= date('Y-m-d') ?>" />
+                            <input type="button" id="get-price" class="white button medium" value="查看价格" />
+                            <!--span>提示：最多可以查询31天的价格</span-->
+                        </p>
+                        <div id="price-calendar" >
+                            <div id="price-calendar-wrapper" alt="<?= $this->room['r_id'] ?>"></div>
+                            <div id="price-loading-cover"></div>
+                        </div>
+                        <div id="price-plans"></div>
+                    </div>
+                    <div id="room-price-forms" class="column-right">
+                        <div class="block">
+                            <div class="title">更新房间牌价</div>
+                            <form id="form-update-basic-price" action="/master/room/do-update-basic-price?rid=<?= $this->room['r_id'] ?>&hash=<?= $this->room['r_mtime'] ?>" method="post">
+                                <p>
+                                    <label for="basic-price">房间牌价</label><input type="text" id="basic-price" name="price" class="ftt-input-text required digt" value="<?= $this->room['r_price']/100 ?>" />元
+                                </p>
+                                <div class="submit">
+                                    <input type="submit" class="white button medium" value="更新牌价" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="block">
+                            <div class="title">创建价格计划</div>
+                            <form id="form-create-price-plan" action="/master/room/do-create-price-plan?rid=<?= $this->room['r_id'] ?>&hash=<?= $this->room['r_mtime'] ?>" method="post">
+                                <p>
+                                    <label for="price-plan-bdate">开始日期</label><input type="text" id="price-plan-bdate" name="bdate" class="ftt-input-text input-datepicker required dateISO" />
+                                </p>
+                                <p>
+                                    <label for="price-plan-edate">结束日期</label><input type="text" id="price-plan-edate" name="edate" class="ftt-input-text input-datepicker required dateISO" />
+                                </p>
+                                <p>
+                                    <label for="price-plan">计划价格</label><input type="text" id="price-plan" name="price" class="ftt-input-text required digits" />元
+                                </p>
+                                <div class="submit">
+                                    <input type="submit" class="white button medium" value="添加计划" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="block-pause" class="tab-content hide">
+                <form id="form-retain-room" method="post" action="/master/room/do-retain?rid=<?= $this->room['r_id'] ?>">
+                    <table class="stop">
+                        <tr>
+                            <td><label>当前设置</label></td>
+                            <td><input type="radio" name="pause" value="0"<?= $this->stop ? '' : ' checked="checked"' ?>/>正常使用<input type="radio" name="pause" value="1"<?= $this->stop ? ' checked="checked"' : '' ?>/>需要停用</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><label for="start-time">开始日期</label></td>
+                            <td><input id="start-time" type="text" class="ftt-input-text input-datepicker required dateISO" name="bdate"<? if ($this->stop): ?> value="<?= $this->escape(date('Y-m-d', $this->room['r_btime'])) ?>"<? else: ?> disabled="disabled"<? endif; ?>/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><label for="over-time">结束日期</label></td>
+                            <td><input id="over-time" type="text" class="ftt-input-text input-datepicker required dateISO" name="edate"<? if ($this->stop): ?> value="<?= $this->escape(date('Y-m-d', $this->room['r_etime'])) ?>"<? else: ?> disabled="disabled"<? endif; ?>/></td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align:top;"><label for="reason">附加说明</label></td>
+                            <td colspan="3">
+                                <textarea cols="55" rows="5" name="desc"></textarea>
+                                <div class="reason">可填写停用、启用原因！</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="submit">
+                        <input type="submit" value="提交更改" class="button white" /><input type="reset" value="放弃更改" class="button white" />
+                    </div>
+                </form>
+            </div>
+            <div id="block-attrs" class="tab-content hide">
+                <form id="form-update-attrs" method="post" action="/master/room/do-update-attrs?rid=<?= $this->room['r_id'] ?>">
+                    <table class="stop">
+                        <? foreach ($this->room['attrs'] as $key => $num): ?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="attr[]" value="<?= $this->escape($key) ?>" <? if ($num): ?>checked="checked"<? endif ?>/><label><?= $this->escape($key) ?></label>
+                            </td>
+                        </tr>
+                        <? endforeach; ?>
+                    </table>
+                    <div class="submit">
+                        <input type="submit" value="提交更改" class="button white" /><input type="reset" value="放弃更改" class="button white" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? foreach (array('type', 'area', 'zone', 'layout') as $key): ?>
+<div id="index-<?= $key ?>" class="shadow target_box dn">
+    <? if (!empty($this->index[$key])): ?>
+    <? foreach (array_slice($this->index[$key], 0, 10, true) as $k => $v): ?>
+    <div class="target_list">
+        <a href="javascript:;" onclick="$('#f-<?= $key ?>').val($(this).html())"><?= $this->escape($k) ?></a>
+    </div>
+    <? endforeach; ?>
+    <? endif; ?>
+</div>
+<!-- <a href="##" class="r mr5 target_more">显示更多 »</a> -->
+<? endforeach; ?>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.room.update.init);</script>
+<? $this->view('foot') ?>

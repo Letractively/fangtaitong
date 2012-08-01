@@ -1,0 +1,20 @@
+"当前列表数据更新时间：<?= date('Y-m-d H:i:s', $this->time) ?>"
+
+<?= $this->quote("收款渠道：" . $this->pyls[$this->pyid]['hp_name']) ?>
+
+"账单号","账单名","结算方式","最后更新","累计收款(元)","当前状态"
+
+<? $paid_sum = 0 ?>
+<? if(!empty($this->skqd)): ?>
+<? foreach ($this->skqd as $data): ?>
+<?= $this->quote($data['b_id']) ?>,
+<?= $this->quote($data['b_name']) ?>,
+<?= $this->quote($data['b_snm']) ?>,
+<?= $this->quote(date('Y-m-d H:i', $data['b_mtime'])) ?>,
+<? $paid_sum += $data['bj_sum'] ?><?= $this->quote($data['bj_sum']/100) ?>,
+<?= $this->quote(getBillStatusNameByCode($data['b_status'])) ?>
+
+<? endforeach; ?>
+<? endif; ?>
+
+"","","","共有 <?= count($this->skqd) ?> 条记录，合计：",<?= $this->quote($paid_sum/100) ?>

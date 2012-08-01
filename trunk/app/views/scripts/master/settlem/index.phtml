@@ -1,0 +1,63 @@
+<? $this->view('head') ?>
+<title>结算方式</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.settlem.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'jsfs', 'set' => 'jbsz')) ?>
+    <div class="other-id">
+        <div class="other-id-block" id="block1">
+            <div class="other-id-title clearfix">
+                <div class="title-left"><strong>结算方式</strong></div>
+                <div class="title-right">
+                    <input type="button" value="添加结算方式" class="button white" onclick="location.href='/master/settlem/create'" />
+                </div>
+            </div>
+            <div class="other-id-content">
+                <table class="data">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>是否默认</th>
+                            <th>当前状态</th>
+                            <th>可用操作</th>
+                            <th>最后更新</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <? if (empty($this->settlem)): ?>
+                        <tr>
+                            <td colspan="6" class="align-center">没有结算方式，现在<a href="/master/settlem/create">新建一个</a></td>
+                        </tr>
+                        <? else: ?>
+                        <? foreach ($this->settlem as $val): ?>
+                        <tr>
+                            <td><?= $this->escape($val['hs_name']) ?></td>
+                            <td><?= $this->hostel['h_obill_default_settlem'] == $val['hs_id'] ? '默认' : '否' ?></td>
+                            <td><?= $val['hs_status'] ? '启用' : '停用' ?></td>
+                            <td>
+                                <a href="/master/settlem/update?hsid=<?= $val['hs_id'] ?>">修改</a>
+                                <? if ($val['hs_status'] && $this->hostel['h_obill_default_settlem'] != $val['hs_id']): ?>
+                                <a class="oper" href="/master/settlem/do-locate?hsid=<?= $val['hs_id'] ?>">设为默认</a>
+                                <? endif; ?>
+                                <? if (!$val['hs_status'] || $this->hostel['h_obill_default_settlem'] != $val['hs_id']): ?>
+                                <a class="oper" href="/master/settlem/do-update-status?hsid=<?= $val['hs_id'] ?>&stat=<?= $val['hs_status'] ? '0' : '1' ?>"><?= $val['hs_status'] ? '停用' : '启用' ?></a>
+                                <? endif; ?>
+                            </td>
+                            <td><?= date('Y-m-d H:i:s', $val['hs_mtime']) ?></td>
+                        </tr>
+                        <? endforeach; ?>
+                        <? endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.settlem.index.init)</script>
+<? $this->view('foot') ?>

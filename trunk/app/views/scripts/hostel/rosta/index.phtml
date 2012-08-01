@@ -1,0 +1,105 @@
+<? $this->view('head') ?>
+<title><?= $this->escape($this->hotel['h_name']) ?>的房态页</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/hostel.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/hostel/rosta.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/hostel.rosta.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.rostacalendar.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('hostel/header', $this->hotel) ?>
+
+<div class="wrapper clearfix">
+    <div id="cart" class="column-right">
+        <form action="/hostel/order?hid=<?= $this->hotel['h_id'] ?>" method="post" id="form-cart" target="_blank">
+            <div class="title clearfix">
+                <h2 class="column-left">房间预订</h2>
+                <div class="column-right">
+                    <? if (SYSTEM_GROUPS_GSER & (int)$this->hotel['h_order_enabled']): ?>
+                    <input type="submit" id="submit-orders" class="button white medium" value="提交订单" />
+                    <? endif; ?>
+                </div>
+            </div>
+            <div class="content">
+                <p class="none">
+                <?= SYSTEM_GROUPS_GSER & (int)$this->hotel['h_order_enabled'] ? '还没有选择房间' : '<span style="color:red">旅店尚未开放该功能</span>' ?>
+                </p>
+            </div>
+            <table class="footer">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td class="action">合计：<span id="price-total">0</span>元</td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="rosta" class="column-left">
+        <div class="title status clearfix">
+            <h2 class="column-left">房间状态</h2>
+            <div class="stauts-example column-left">
+                <div class="alternative"></div><span>房源紧张</span>
+                <div class="unavailable"></div><span>店家保留</span>
+            </div>
+            <div class="chart-top column-right">
+                <span>更新时间:</span>
+                <span class="current"></span>
+                <input type="button" class="button medium white button-refresh" value="刷新房态" />
+            </div>
+        </div>
+        <div class="chart-header clearfix">
+            <div class="filter column-left">
+                <input type="button" class="button medium white button-back" value="&#8629; 返回" />
+                <select alt='房型' id="rtp" class="gantt-filter ftt-select"></select>
+                <select alt='户型' id="rlo" class="gantt-filter ftt-select"></select>
+                <select alt='区域' id="rze" class="gantt-filter ftt-select"></select>
+                <select alt='景观' id="rvw" class="gantt-filter ftt-select"></select>
+            </div>
+            <div class="navi column-right">
+                <select alt='' id="gantt-view" class="ftt-select">
+                    <option value="8" selected="selected">8天</option>
+                    <option value="12">12天</option>
+                </select>
+                <a href="javascript:;" title="跳转到选定日期" class="pick">选择日期</a>
+                <a href="javascript:;" title="跳转到今天" class="today">今天</a>
+                <a href="javascript:;" title="跳至上一个时段" class="pre"></a>
+                <a href="javascript:;" title="跳至下一个时段" class="next"></a>
+            </div>
+        </div>
+        <div class="gantt-wrapper">
+            <div class="notice"></div>
+            <div class="loading-cover"></div>
+            <div class="clearfix time-row">
+                <div class="room">房间</div>
+                <div class="timer-shaft"></div>
+            </div>
+            <div class="room-rows"></div>
+        </div>
+        <div class="chart-footer clearfix">
+            <div class="range column-left">
+                当前日期范围：<span class="data-bdate">-</span>至<span class="data-edate">-</span>
+            </div>
+            <div class="stauts-example column-right">
+                <div class="alternative"></div><span>房源紧张</span>
+                <div class="unavailable"></div><span>店家保留</span>
+            </div>
+        </div>
+        <div id="rosta-calendar" alt=""></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    var hotel = {
+        'h_id'            : <?= $this->hotel['h_id'] ?>,
+        'h_order_enabled' : <?= $this->hotel['h_order_enabled'] ?>,
+        'h_order_minlens' : <?= $this->hotel['h_order_minlens'] ?>,
+        'h_order_maxlens' : <?= $this->hotel['h_order_maxlens'] ?>,
+        'h_order_enddays' : <?= $this->hotel['h_order_enddays'] ?>
+    };
+    Z.Module.hostel.rosta.index.init(hotel, <?= json_encode($this->rosta) ?>);
+});
+</script>
+
+<? $this->view('hostel/footer') ?>
+<? $this->view('foot') ?>

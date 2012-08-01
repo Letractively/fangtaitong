@@ -1,0 +1,87 @@
+<? $this->view('head') ?>
+<title>个人信息管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/module/master.profile.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'grzx', 'set' => 'zhsz')) ?>
+    <div class="cpanel-content">
+        <form id="form-update-self-password" action="/master/profile/do-update-self-password" method="post" class="modifypassword" style="display:none">
+            <table class="layout" style="margin-bottom:204px;">
+				<tbody>
+					<tr>
+						<td><label for="form-update-self-password-originalpassword" class="important">原密码</label></td>
+						<td><input id="form-update-self-password-originalpassword" name="original" type="password" maxlength="16" class="ftt-input-text medium-text {required:true,minlength:6}" /></td>
+					</tr>
+					<tr>
+						<td><label for="form-update-self-password-newpassword" class="important">新的密码</label></td>
+						<td><input id="form-update-self-password-newpassword" name="password" type="password" maxlength="16" class="ftt-input-text medium-text {required:true,minlength:6,notEqualTo:'#form-update-self-password-originalpassword'}" /></td>
+					</tr>
+					<tr>
+						<td><label for="form-update-self-password-inputagain" class="important">确认密码</label></td>
+						<td><input id="form-update-self-password-inputagain" type="password" maxlength="16" class="ftt-input-text medium-text {required:true,minlength:6,equalTo:'#form-update-self-password-newpassword'}" /></td>
+					</tr>
+				</tbody>
+            </table>
+            <div class="submit">
+                <input type="submit" value="保存" class="button white" /></td>
+                <input type="reset" value="放弃更改" class="button white" onclick="$('#form-update-self-password').hide();$('#form-update-self').show()" />
+            </div>
+        </form>
+
+        <form id="form-update-self" class="pensonal-info" action="/master/profile/do-update-self" method="post">
+            <table class="layout" style="margin-bottom:100px;">
+				<tbody>
+					<tr>
+						<td><label for="form-email"><em>*</em>邮箱</label></td>
+						<td><input id="form-email" type="text" class="ftt-input-text long-text" value="<?= $this->escape($this->master['u_email']) ?>" disabled="disabled" /><span><a href="javascript:void(0)" onclick="$('#form-update-self').hide();$('#form-update-self-password').show()">修改密码</a></span></td>
+					</tr>
+					<tr>
+						<td><label for="form-name"><em>*</em>真实姓名</label></td>
+						<td><input id="form-name" type="text" class="ftt-input-text long-text" value="<?= $this->escape($this->master['u_realname']) ?>" disabled="disabled" /></td>
+					</tr>
+					<!-- <tr> -->
+						<!-- <td><label for="form-nickname" class="important">昵称</label></td> -->
+						<!-- <td><input id="form-nickname" type="text" name="nickname" value="<?= $this->escape($this->master['u_nickname']) ?>" class="ftt-input-text medium-text {required:true, rangelength:[2, 15]}" /></td> -->
+						<!-- </tr> -->
+					<!-- <tr> -->
+						<!-- <td><label for="form-birthday">生日</label></td> -->
+						<!-- <td> -->
+							<!-- <select class="ftt-select"><option>月</option></select> -->
+							<!-- <select class="ftt-select"><option>日</option></select> -->
+							<!-- </td> -->
+						<!-- </tr> -->
+					<tr>
+						<td><label for="form-certificate">证件类型</label></td>
+						<td>
+							<select name="idtype" class="ftt-select" style="width:120px;">
+								<? foreach (getSysIdTypes() as $code => $name): ?>
+								<option value="<?= $code ?>"<? if ($this->master['u_idtype'] == $code): ?> selected="selected"<? endif; ?>><?= $name ?></option>
+								<? endforeach; ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="form-certificateNO">证件号</label></td>
+						<td><input id="form-certificateNO" type="text" name="idno" value="<?= $this->escape($this->master['u_idno']) ?>" class="ftt-input-text long-text alphanumeric" /></td>
+					</tr>
+					<tr>
+						<td><label for="form-cellphone">手机号</label></td>
+						<td><input id="form-cellphone" type="text" name="mobile" value="<?= $this->escape($this->master['u_phone']) ?>" class="ftt-input-text long-text digits" /></td>
+					</tr>
+				</tbody>
+            </table>
+            <div class="submit">
+				<input type="submit" value="保存" class="button white" />
+				<input type="reset" value="放弃更改" class="button white" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">$(Z.Module.master.profile.updateSelf.init)</script>
+<? $this->view('foot') ?>

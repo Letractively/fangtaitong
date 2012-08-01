@@ -1,0 +1,409 @@
+@charset "utf-8";
+
+#main-guest
+{
+	color:#fff;
+	background:#669999;
+	height:31px;
+	line-height:31px;
+	padding:5px 23px;
+	margin-bottom:14px;
+	vertical-align:middle;
+}
+
+#main-guest .title
+{
+	font-size:14px;
+	margin-right:11px;
+}
+
+#main-guest label
+{
+	margin:0 0 0 11px;
+}
+
+#main-guest label em
+{
+	color:#f00;
+	margin:0 3px;
+}
+
+#main-guest input.input-text
+{
+	width:140px;
+	margin-left:7px;
+}
+
+#main-guest #c-mail
+{
+	width:200px;
+}
+
+#order-container .room
+{
+	position:relative;
+	margin-bottom:14px;
+	min-height:234px;
+	height:auto !important;
+	height:234px;
+	overflow:hidden;
+}
+
+#order-container .room .header
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100px;
+	height:555px;
+	background:#79B1A1 url(../../../img/bg-room-title.gif) repeat;
+}
+
+#order-container .room .header .close
+{
+	height:46px;
+	width:46px;
+	background:#000 url(../../../img/icon-room-close.gif) no-repeat 10px 10px;
+	opacity:0.6;
+	border-radius:0 0 46px 0;
+	cursor:pointer;
+	/*ie6,7,8 hack*/
+	height:24px\9;
+	width:24px\9;
+	background:#000 url(../../../img/icon-room-close.gif) no-repeat 50% 50%\9;
+	filter:alpha(opacity=60)\9;
+}
+
+/*ie9 cover ie6,7,8 hack*/
+:root #order-container .room .header .close 
+{
+	height:46px;
+	width:46px;
+	background:#000 url(../../../img/icon-room-close.gif) no-repeat 10px 10px;
+}
+
+#order-container .room .header .close:hover
+{
+	opacity:0.75;
+	filter:alpha(opacity=75);
+	border-radius:0 0 46px 0;
+}
+
+#order-container .room .header h3.title
+{
+	color:#fff;
+	border-bottom:1px #fff solid;
+	text-align:right;
+	margin:12px 11px 0 16px;
+}
+
+#order-container .kept .header h3.title
+{
+	color:#f00;
+	cursor:pointer;
+}
+
+#order-container .room .info
+{
+	position:relative;
+	margin-left:100px;
+	border:1px solid #bbb;
+	border-left:none;
+	min-height:232px;
+	height:auto !important;
+	height:232px;
+	overflow:hidden;
+}
+
+#order-container .room .main-info
+{
+	width:512px;
+	padding-top:10px;
+	padding-bottom:10px;
+	background:#F6F6F6;
+	min-height:212px;
+	height:auto !important;
+	height:212px;
+	overflow:visible;
+}
+
+#order-container .room .main-info input.room-name
+{
+	padding:5px;
+	width:318px;
+}
+
+#order-container .room .main-info span.name,
+#order-container .room .main-info span.bdate,
+#order-container .room .main-info span.edate
+{
+	color:#0B8262;
+	font-weight:bold;
+	margin:0 10px 0 0;
+}
+
+#order-container .room .main-info .price-table
+{
+	margin-left:54px;
+	padding-top:10px;
+	padding-bottom:20px;
+}
+
+#order-container .room .main-info p
+{
+	margin-left:54px;
+	padding:10px 0 0;
+	font-size:14px;
+}
+
+#order-container .room .guest-info
+{
+	position:absolute;
+	top:0;
+	left:512px;
+	width:367px;
+	height:555px;
+	background:#DAEDE9;
+}
+
+#order-container .room .guest-info p
+{
+	margin-left:64px;
+	padding:3px 0 4px;
+}
+
+#order-container .room .guest-info p.title
+{
+	font-weight:bold;
+	font-size:14px;
+	padding:11px 7px 7px 39px;
+	background:url(../../../img/icon-room-guest.gif) no-repeat left center;
+}
+
+#order-container .room .guest-info label
+{
+	display:inline-block;
+	width:40px;
+	vertical-align:top;
+}
+
+#order-container .room .guest-info label em
+{
+	color:#f00;
+	margin:0 3px;
+}
+
+#order-container .room .guest-info input.input-text
+{
+	width:180px;
+}
+
+#order-container .room .guest-info textarea
+{
+	width:180px;
+	height:54px;
+}
+
+#order-container .room .guest-info label.copy-guest
+{
+	width:auto;
+	margin-left:40px;
+	cursor:pointer;
+}
+
+#order-container .room .guest-info label.copy-guest input
+{
+	margin:0 5px 0 0;
+	vertical-align:middle;
+}
+
+#form-footer
+{
+	padding:10px 10px 0;
+}
+
+#form-footer .note
+{
+	float:left;
+	width:572px;
+	padding-right:30px;
+	line-height:20px;
+	color:#999;
+}
+
+#form-footer .submit
+{
+	float:right;
+	width:358px;
+	text-align:right;
+}
+
+#form-footer p
+{
+	padding:0 0 30px 0;
+}
+
+#form-footer #total-fee
+{
+	color:#189271;
+	font-size:22px;
+	margin:0 5px;
+}
+
+#form-footer span.captcha
+{
+	font-size:14px;
+	vertical-align:middle;
+}
+
+#form-footer img.captcha
+{
+	display:inline-block;
+	width:60px;
+	height:30px;
+	padding:0;
+	margin-left:11px;
+	border:1px solid #bbb;
+	border-right:none;
+	vertical-align:middle;
+}
+
+#form-footer #form-create-order-captcha
+{
+	display:inline-block;
+	width:80px;
+	height:20px;
+	line-height:20px;
+	padding:5px;
+	border:1px solid #bbb;
+	font-size:14px;
+	vertical-align:middle;
+}
+
+#form-footer .button
+{
+	margin-left:20px;
+	vertical-align:middle;
+}
+
+/*-------------room price--------------*/
+
+.rprice
+{
+    background:#fff;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.rprice caption
+{
+    text-align:left;
+    padding:7px 0;
+}
+
+.rprice th
+{
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:12px;
+    line-height:18px;
+    height:28px;
+    padding:0 5px;
+    border:1px #ccc solid;
+    color:#686868;
+    background:#EEEEEE;
+}
+
+.rprice td
+{
+    vertical-align:middle;
+    border:1px #ccc solid;
+    background:#f8f8f8;
+    font-size:12px;
+    line-height:18px;
+    height:28px;
+    background:#fff;
+}
+
+.rprice td .empty
+{
+    width:56px;
+    height:53px;
+    background:#F6F6F6;
+}
+
+.rprice td .date
+{
+    padding:3px 0;
+    border-bottom:1px #ccc solid;
+    background:#eee;
+}
+
+.rprice td .price, .rprice td .price input
+{
+    width:56px;
+    height:28px;
+    line-height:28px;
+    padding:0;
+    margin:0;
+    border:0;
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+    color:#0B8262;
+    background:#fff;
+    /* color:#F2A237; */
+}
+
+ .rprice td .price input
+{
+    cursor:pointer;
+}
+
+ .rprice td .price input:focus
+{
+    cursor: auto;
+    color:#000;
+}
+
+.rprice td .price input.changed
+{
+    color:#f00;
+}
+
+.rprice tfoot td
+{
+    background:#EEEEEE;
+    color:#686868;
+    text-align:right;
+    padding:3px 8px;
+    font-weight:bold;
+}
+
+.rprice tfoot td span
+{
+    color:#189271;
+}
+
+.rprice .even
+{
+    background:#f6f6f6;
+}
+
+.rprice .odd
+{
+    background:#fff;
+}
+
+.rprice .over
+{
+    background:#d2f1e8;
+}
+
+.rprice .saved
+{
+	color:red;
+	text-decoration:line-through;
+}
+
+/*-------------room price--------------*/

@@ -1,0 +1,69 @@
+<? $this->view('head') ?>
+<title>旅店信息管理</title>
+<link rel="stylesheet" href="<?= $this->www('css/module/master.css') ?>" type="text/css" media="screen"/>
+<link rel="stylesheet" href="<?= $this->www('css/module/master/cpanel.css') ?>" type="text/css" media="screen"/>
+<script type="text/javascript" src="<?= $this->www('script/plugin/jquery.linkagesel.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/source/district.js') ?>"></script>
+<script type="text/javascript" src="<?= $this->www('script/module/master.hostel.js') ?>"></script>
+
+<? $this->view('body') ?>
+<? $this->view('master/header', array('mgr' => 1)) ?>
+<div class="ftt-container">
+    <? $this->view('master/ftt-nav', array('tab' => 'ldxx', 'set' => 'jbsz')) ?>
+    <div class="cpanel-content">
+        <form id="form-update" class="hotel" action="/master/hostel/do-update" method="post">
+            <table class="layout" style="margin-bottom:100px;">
+                <tr>
+                    <td><label for="form-update-name"><em>*</em>店名</label></td>
+                    <td>
+						<input id="form-update-name" type="text" class="ftt-input-text long-text" value="<?= $this->escape($this->hostel['h_name']) ?>" disabled="disabled" />
+						<span class="annotation">如需修改店名，请联系我们</span>
+					</td>
+                </tr>
+                <tr>
+                    <td><label for="form-update-address"><em>*</em>地址</label></td>
+                    <td>
+                        <select class="ftt-select" name="country" style="width:90px;"><option selected="selected">中国</option></select>
+                        <select class="ftt-select" name="province" id="form-update-sel-province"></select>
+                        <select class="ftt-select" name="city" id="form-update-sel-city"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td><input id="form-update-address" type="text" name="address" value="<?= $this->escape($this->hostel['h_address']) ?>" class="ftt-input-text long-text {required:true, maxlength:250}" /></td>
+                </tr>
+                <tr>
+                    <td><label for="form-update-contact"><em>*</em>电话</label></td>
+                    <td>
+                        <input id="form-update-contact" type="text" name="contact" value="<?= $this->escape($this->hostel['h_phone']) ?>" class="ftt-input-text long-text {required:true, number:true, maxlength:20}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="form-update-website">网址</label></td>
+                    <td><input id="form-update-website" type="text" name="website" value="<?= $this->escape($this->hostel['h_website']) ?>" class="ftt-input-text long-text {url:true, maxlength:50}" /></td>
+                </tr>
+                <tr>
+                    <td><label for="form-update-title">签名</label></td>
+                    <td><input id="form-update-title" type="text" name="title" value="<?= $this->escape($this->hostel['h_title']) ?>" class="ftt-input-text long-text {maxlength:50}" /></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align:top;"><label for="form-update-note">说明</label></td>
+                    <td><textarea name="note" rows="5" cols="50" maxlength="500" class="intro {maxlength:500}"><?= $this->escape($this->hostel['h_note']) ?></textarea></td>
+                </tr>
+            </table>
+			<div class="submit">
+				<input type="submit" value="保存" class="button white" />
+				<input type="reset" value="放弃更改" class="button white" />
+			</div>
+        </form>
+    </div>
+</div>
+
+<? $this->view('master/footer') ?>
+<script type="text/javascript">
+$(function(){
+    Z.Global.config.area = <?= json_encode(array("{$this->hostel['h_province']}", "{$this->hostel['h_city']}")) ?>;
+    Z.Module.master.hostel.update.init();
+});
+</script>
+<? $this->view('foot') ?>

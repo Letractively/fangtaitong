@@ -1,0 +1,43 @@
+/*
+ * Translated default messages for the jQuery validation plugin.
+ * Locale: CN
+ */
+jQuery.extend(jQuery.validator.messages, {
+        alphanumeric: "请输入英文字符、数字和下划线",
+        required: "必选字段",
+		remote: "值不可用，请修改该字段",
+		email: "只能使用邮件地址",
+		url: "只能使用网址",
+		date: "只能使用日期",
+		dateISO: "只能使用日期 (ISO)",
+		number: "只能使用数字",
+		digits: "只能使用整数",
+		creditcard: "请输入合法的信用卡号",
+		equalTo: "请再次输入相同的值",
+		notEqualTo: "请输入一个不同的值",
+		accept: "请输入拥有合法后缀名的字符串",
+		maxlength: jQuery.validator.format("请输入一个长度最多是 {0} 的字符串"),
+		minlength: jQuery.validator.format("请输入一个长度最少是 {0} 的字符串"),
+		rangelength: jQuery.validator.format("请输入一个长度介于 {0} 和 {1} 之间的字符串"),
+		range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+		max: jQuery.validator.format("请输入一个最大为 {0} 的值"),
+		min: jQuery.validator.format("请输入一个最小为 {0} 的值"),
+		maxWords:jQuery.validator.format("请输入一个长度最多是 {0} 的单词"),
+		minWords:jQuery.validator.format("请输入一个长度最少是 {0} 的单词"),
+		rangeWords:jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的单词"),
+		letterswithbasicpunc:"只能输入字母或标点符号",
+		alphanumeric:"只能输入字母，数字，空格或下划线",
+		lettersonly:"只能输入字母",
+		nowhitespace:"请不要出现空白区域",
+		ziprange:"您的ZIP码必须在902xx-xxxx到905-xx-xxxx之间",
+		integer:"请输入一个非十进制的正整数或负整数",
+		dateITA:"请输入一个正确的日期",
+		time:"请输入一个介于 00:00-23:59之间的有效时间",
+		phoneUS:"请指定一个有效的美国电话号码",
+		phoneUK:"请指定一个有效的英国电话号码",
+		mobileUK:"请指定一个有效的英国手机号码",
+		strippedminlength:"请输入长度不少于{0}的字符",
+		creditcardtypes:"请输入一个有效的信用卡号码",
+		ipv4:"请输入一个有效的IPv4地址",
+		ipv6:"请输入一个有效的IPv6地址"
+});
